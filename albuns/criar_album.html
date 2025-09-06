@@ -1,5 +1,3 @@
-<!-- Ana cuida dessa -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +26,42 @@
             <div class="field flex">
                 <label for="capa-do-album">Capa do álbum</label>
                 <input required type="file" id="capa-do-album">
+            </div>
+            <div class="field flex">
+                <label for="data-lancamento">Data de lançamento</label>
+                <input required type="date" id="data-lancamento">
+            </div>
+            <div class="field flex">
+                <label for="genero-musical">Gênero musical</label>
+                <select required id="genero-musical">
+                    <option value="">--Please choose an option--</option>
+                    <option value="pop">Pop</option>
+                    <option value="rock">Rock</option>
+                    <option value="rap">Rap</option>
+                    <option value="hiphop">Hip-hop</option>
+                    <option value="indie">Indie</option>
+                    <option value="mpb">MPB</option>
+                </select>
+            </div>
+            <div class="field flex">
+                <fieldset required  id="tipo-album">
+                    <legend>Tipo de álbum</legend>
+
+                    <div>
+                        <input type="radio" id="ep-album" name="tipo-album" value="ep" />
+                        <label for="ep-album">EP Album</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="lp-album" name="tipo-album" value="lp" />
+                        <label for="lp-album">LP Album</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="single-album" name="tipo-album" value="single" />
+                        <label for="single-album">Single Album</label>
+                    </div>
+                </fieldset>
             </div>
             <button type="submit">Salvar</button>
         </form>
