@@ -1,0 +1,64 @@
+/* Container continua o mesmo */
+.playlists-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+main h1 {
+    text-align: center;
+}
+
+.box-playlist {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    margin-right: 5%;
+}
+
+.box-playlist:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.box-playlist img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.box-playlist p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.add-playlist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-add-playlist {
+    background-color: var(--orange);
+    color: #fff;
+    font-size: 40px;
+    width: 80%;
+    height: 150px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-add-playlist:hover {
+    background-color: var(--darker-orange);
+    color: #b9b9b9;
+}

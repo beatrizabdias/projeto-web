@@ -9,6 +9,7 @@
     --dark-grey: #282828;
     --light-grey: #b3b3b3;
     --orange: #ff6b00;
+    --darker-orange: #793301;
     --white: #ffffff;
     --card-bg: #404040;
 }
@@ -167,7 +168,7 @@ footer {
 .progresso {
     height: 100%;
     width: 30%;
-    background: linear-gradient(to right, #ff6b6b, #ff8e53);
+    background-color: var(--orange);
     border-radius: 2px;
     position: relative;
 }
@@ -181,7 +182,7 @@ footer {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #ff6b6b;
+    background-color: var(--orange);
     box-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
 }
 
@@ -214,7 +215,7 @@ footer {
 }
 
 .play-pause-btn {
-    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    background-color: var(--orange);
     color: #fff;
     box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
     font-size: 20px;
