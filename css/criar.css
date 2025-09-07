@@ -27,9 +27,6 @@ select {
     border-radius: 8px;
     font-size: 0.8em;
     /* border: 1px solid red; */
-}
-
-select {
     padding: 0.2em 0.5em;
 }
 

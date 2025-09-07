@@ -1,0 +1,98 @@
+/* essas borders tao aqui só pq eu sempre gosto de ver os limites de 
+*  cada elemento pra conseguir me guiar kkkk 
+*  quando for pra entregar eu apago */
+
+/* no final do dia 06/09 tava travando!! vou dormir!! ver o que foi amanhã!!!*/
+
+main {
+    grid-area: main;
+    padding-top: 2,9375em;
+    padding-left: 1.25em;
+    /* border: 1px solid orange; */
+}
+
+.flex {
+    display: flex;
+}
+
+h1, p {
+    margin: 0;
+}
+
+.lighter-text {
+    color: #B3B3B3;
+}
+
+.song-info, .album-info, .album-songs {
+    flex-direction: column;
+}
+
+.album-info,
+.album-details {
+    height: fit-content;
+}
+
+.song-detail, .album-songs {
+    gap: 1em;
+}
+
+.album-details, .song-detail, .song {
+    align-items: center;
+}
+
+.album-header {
+    gap: 2em;
+    padding: 2.5em 1.875em 1.875em;
+    /* border: 1px solid blue;  */
+}
+
+.artist-logo {
+    border-radius: 50%;
+}
+
+.album-title {
+    font-size: 3.125rem;
+}
+
+
+.album-info {
+    gap: 0.5em;
+    margin-top: auto;
+    /* border: 1px solid green; */
+}
+
+.album-details {
+    gap: 0.625em;
+    /* border: 1px solid red; */
+}
+
+img {
+    display: block;
+}
+
+
+.album-songs {
+    padding: 1.6em 0 12em;
+    /* border: 1px solid blueviolet; */
+}
+
+.song {
+    padding: 0 1.875em;
+    justify-content: space-between;
+    /* border: 1px solid yellow; */
+}
+
+.song:hover,
+.song:focus {
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.song-detail {
+    /* border: 1px solid purple; */
+}
+
+.play-icon:hover,
+.play-icon:focus {
+    transform: scale(1.01);
+}
