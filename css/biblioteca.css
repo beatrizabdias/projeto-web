@@ -1,0 +1,60 @@
+nav {
+    display: flex;
+    gap: 1em;
+}
+
+.nav-item {
+    /* border: 1px solid red; */
+    padding: 0.5em 1.3em;
+    border-radius: 50px;
+    background-color: rgb(59, 59, 59);
+}
+
+.selected {
+    background-color: #ff6b00;
+}
+
+
+.playlists-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 2em;
+    /* border: 1px solid blue; */
+    margin-top: 2em;
+    /* max-width: 1700px; 
+    overflow-y: auto;  */
+    margin-bottom: 200px;
+}
+
+.playlist {
+    /* border: 1px solid red; */
+    width: fit-content;
+}
+
+.playlist img {
+    display: block;
+}
+
+.playlist p {
+    margin: 10px 10px 0;
+    text-align: center;
+}
+
+/**/ 
+/* .scroll-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #ff6b00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-btn:hover {
+    background-color: #e65a00;
+} */
