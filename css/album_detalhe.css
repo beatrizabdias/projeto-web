@@ -32,7 +32,7 @@ h1, p {
     height: fit-content;
 }
 
-.song-detail, .album-songs {
+.song-detail {
     gap: 1em;
 }
 
@@ -80,19 +80,20 @@ img {
     padding: 0 1.875em;
     justify-content: space-between;
     /* border: 1px solid yellow; */
+    padding: 1em;
 }
 
 .song:hover,
 .song:focus {
-    transform: scale(1.01);
+    /* transform: scale(1.01); */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background-color: grey;
+}
+
+.play-icon:hover, .icon:hover {
+    transform: scale(1.3);
 }
 
 .song-detail {
     /* border: 1px solid purple; */
-}
-
-.play-icon:hover,
-.play-icon:focus {
-    transform: scale(1.01);
 }
