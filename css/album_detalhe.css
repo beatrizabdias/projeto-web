@@ -2,13 +2,10 @@
 *  cada elemento pra conseguir me guiar kkkk 
 *  quando for pra entregar eu apago */
 
-/* no final do dia 06/09 tava travando!! vou dormir!! ver o que foi amanhã!!!*/
-
 main {
     grid-area: main;
     padding-top: 2,9375em;
     padding-left: 1.25em;
-    /* border: 1px solid orange; */
 }
 
 .flex {
@@ -43,7 +40,6 @@ h1, p {
 .album-header {
     gap: 2em;
     padding: 2.5em 1.875em 1.875em;
-    /* border: 1px solid blue;  */
 }
 
 .artist-logo {
@@ -58,12 +54,10 @@ h1, p {
 .album-info {
     gap: 0.5em;
     margin-top: auto;
-    /* border: 1px solid green; */
 }
 
 .album-details {
     gap: 0.625em;
-    /* border: 1px solid red; */
 }
 
 img {
@@ -73,27 +67,20 @@ img {
 
 .album-songs {
     padding: 1.6em 0 12em;
-    /* border: 1px solid blueviolet; */
 }
 
 .song {
     padding: 0 1.875em;
     justify-content: space-between;
-    /* border: 1px solid yellow; */
     padding: 1em;
 }
 
 .song:hover,
 .song:focus {
-    /* transform: scale(1.01); */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     background-color: grey;
 }
 
 .play-icon:hover, .icon:hover {
     transform: scale(1.3);
-}
-
-.song-detail {
-    /* border: 1px solid purple; */
 }
