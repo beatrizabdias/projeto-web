@@ -1,0 +1,41 @@
+nav {
+    display: flex;
+    gap: 1em;
+}
+
+.nav-item {
+    padding: 0.5em 1.3em;
+    border-radius: 50px;
+    background-color: rgb(59, 59, 59);
+}
+
+.nav-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background-color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #ff6b00;
+}
+
+.container {
+    display: flex;
+    gap: 1em;
+    /* max-width: 1600px;
+    overflow-x: auto; */
+}
+
+.div {
+    display: flex;
+    gap: 1em;
+}
+
+.box {
+    flex-shrink: 0;
+    width: 253px;
+    height: 159px;
+    border-radius: 20px;
+    background-color: gray;
+}

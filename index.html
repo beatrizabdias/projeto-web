@@ -9,15 +9,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="assets/img/vaca-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/playlists.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
     <title>Moosica</title>
 </head>
 <body>
     <header>
         <nav class="menu-cima">
-            <img src="../assets/img/vaca-logo.png" alt="Logo Moosica">
+            <img src="assets/img/vaca-logo.png" alt="Logo Moosica">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="search">
@@ -28,14 +29,14 @@
             <a href="#fila">
                 <button><i class="fa-solid fa-list"></i></button>
             </a>
-            <a href="playlists.html">
+            <a href="playlists/playlists.html">
                 <button><i class="fas fa-th-large"></i></button>
             </a>
-            <a href="grupos.html">
+            <a href="playlists/grupos.html">
                 <button><i class="fa-solid fa-people-group"></i></button>
             </a>
 
-            <a href="profile.html">
+            <a href="perfil/perfil.html">
                 <button class="btn-profile"><i class="fa-solid fa-user"></i></button>
             </a>
         </nav>
@@ -43,7 +44,46 @@
     
 
     <main>
-        <h1>Página Inicial...</h1>
+        <h1>Página Inicial</h1>
+        <nav>
+            <div class="nav-item">Tudo</div>
+            <div class="nav-item selected">Playlists</div>
+            <div class="nav-item">Músicas</div>
+            <div class="nav-item">Álbuns</div>
+            <div class="nav-item">Artistas</div>
+        </nav>
+
+        <h2>Em alta</h2>
+        <div class="container">
+            <div class="div">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <!-- <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div> -->
+            </div>
+        </div>
+        <!-- <button id="scroll-btn" class="scroll-btn">▶</button> -->
+        
+        <h2>Para você</h2>
+        <div class="container">
+            <div class="div">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <!-- <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div> -->
+            </div>
+        </div>
+        <!-- <button id="scroll-right" class="scroll-btn">▶</button> -->
     </main>
 
     <footer>
@@ -66,4 +106,15 @@
         </div>
     </footer>
 </body>
+<!-- <script>
+    const scrollButton = document.getElementById('scroll-btn');
+    const playlistsContainer = document.querySelector('.container');
+
+    scrollButton.addEventListener('click', () => {
+        playlistsContainer.scrollBy({
+            left: 200, // Ajuste o valor para a quantidade de rolagem desejada
+            behavior: 'smooth' // Faz a rolagem ser suave
+        });
+    });
+</script> -->
 </html>
