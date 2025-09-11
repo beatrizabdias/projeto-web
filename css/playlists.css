@@ -1,4 +1,3 @@
-
 .playlists-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -9,14 +8,14 @@
 main h1 {
     text-align: left;
     margin-left: 5%;
-    color: #fff;
+    color: var(--text-color);
     font-size: 2.5rem;
     margin-bottom: 40px;
     letter-spacing: 1px;
 }
 
 .box-playlist {
-    background-color: #1a1a1a;
+    background-color: var(--card-bg);
     border-radius: 12px;
     padding: 15px;
     display: flex;
@@ -25,13 +24,13 @@ main h1 {
     text-align: center;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 12px var(--shadow-color-dark);
 }
 
 .box-playlist:hover {
-    background-color: #282828;
+    background-color: var(--sidebar-bg);
     transform: scale(1.05) translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 8px 20px var(--shadow-color-light);
 }
 
 .box-playlist img {
@@ -39,13 +38,13 @@ main h1 {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--shadow-color-dark);
 }
 
 .box-playlist p {
     font-size: 1rem;
     font-weight: 600;
-    color: #8f8f8f;
+    color: var(--secondary-text-color);
     margin-top: 10px;
     white-space: nowrap;
     overflow: hidden;
@@ -70,7 +69,7 @@ main h1 {
 
 .btn-add-playlist {
     background: linear-gradient(45deg, var(--orange), var(--darker-orange));
-    color: #fff;
+    color: var(--text-color);
     font-size: 40px;
     width: 80%;
     aspect-ratio: 1 / 1;
@@ -88,5 +87,5 @@ main h1 {
     margin-top: 10px;
     font-size: 1rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-color);
 }

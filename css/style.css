@@ -5,15 +5,42 @@
 }
 
 :root {
-    --bg-color: #202020;
-    --dark-grey: #282828;
-    --light-grey: #b3b3b3;
-    --orange: #ff6b00;
-    --darker-orange: #793301;
-    --white: #ffffff;
-    --card-bg: #404040;
+  --bg-color: #121212;
+  --header-bg: #1e1e1e;
+  --sidebar-bg: #1e1e1e;
+  --card-bg: #252525;
+  --text-color: #e0e0e0;
+  --secondary-text-color: #a7a7a7;
+  --input-bg: #4a4a4a;
+  --input-text-color: #cccccc;
+  --icon-color: #a7a7a7;
+  --orange: #ff6b00;
+  --darker-orange: #793301;
+  --footer-bg: linear-gradient(to right, #1a1a1a, #2d2d2d);
+  --shadow-color-dark: rgba(0, 0, 0, 0.4);
+  --shadow-color-light: rgba(0, 0, 0, 0.6);
+  --border-color: #2a2a2a;
+  --theme-icon: #ffda33;
 }
 
+body.light-theme {
+  --bg-color: #fcf9f2;
+  --header-bg: #e8e3d9;
+  --sidebar-bg: #e8e3d9;
+  --card-bg: #ffffff;
+  --text-color: #3b2c21;
+  --secondary-text-color: #69645e;
+  --input-bg: #d1cbc0;
+  --input-text-color: #554433;
+  --icon-color: #554433;
+  --orange: #ff7533;
+  --darker-orange: #a64c1e;
+  --footer-bg: #e8e3d9;
+  --shadow-color-dark: rgba(0, 0, 0, 0.1);
+  --shadow-color-light: rgba(0, 0, 0, 0.2);
+  --border-color: #e5e0d6;
+  --theme-icon: #2c2c2c;
+}
 body {
     background-color: var(--bg-color);
     color: var(--white);
@@ -43,16 +70,25 @@ main {
 
 footer {
     grid-area: footer;
-    background-color: #151515;
+    background: var(--footer-bg);
     padding: 10px 20px;
     text-align: center;
 }
 
+.foo {
+    border-top: 1px solid var(--border-color);
+}
+.song-info {
+    color: var(--secondary-text-color);
+}
+.barra-progresso {
+    background: var(--border-color);
+}
 
 /* MENU CIMA */
 
 .menu-cima {
-    background-color: #151515;
+    background-color: var(--header-bg);
     position: fixed;
     width: 100%;
     z-index: 1000; 
@@ -71,7 +107,7 @@ footer {
 
 
 .search-bar {
-    background-color: #5D5D5D;
+    background-color: var(--input-bg);
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -83,23 +119,92 @@ footer {
     margin-right: 10px; 
     margin-left: 6px;
     font-size: 14px;
-    color: #cacaca;
+    color: var(--input-text-color);
 }
 
 .search-bar input {
     border: none; 
     outline: none; 
     background: transparent;
-    color: rgb(163, 162, 162); 
+    color: var(--input-text-color); 
     width: 50%;
 }
 
+/* CONTAINER DO SWITCH DE TEMA */
+.theme-switch-container {
+    position: absolute;
+    right: 4%;
+    width: 60px;
+    height: 30px;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* BOTÃO DE TROCA DE TEMA (O CÍRCULO QUE SE MOVE) */
+.theme-toggle-btn {
+    position: absolute;
+    top: 50%;
+    left: 4px; /* Posição inicial para o modo escuro */
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--orange);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1; /* Para ficar por cima dos ícones */
+}
+
+/* ESTILO DOS ÍCONES SOL E LUA */
+.theme-switch-container i {
+    font-size: 16px;
+    color: var(--secondary-text-color);
+    transition: all 0.3s ease;
+    z-index: 0;
+}
+
+.theme-switch-container #sun-icon {
+    margin-right: 2px;
+}
+
+.theme-switch-container #moon-icon {
+    margin-left: 2px;
+}
+
+/* ESTILO DO MODO CLARO */
+body.light-theme .theme-toggle-btn {
+    left: 36px;
+}
+
+body.light-theme #moon-icon {
+    color: var(--orange);
+}
+
+body.light-theme #sun-icon {
+    color: var(--secondary-text-color);
+}
+
+/* ESTILO DO MODO ESCURO */
+body:not(.light-theme) #sun-icon {
+    color: var(--orange);
+}
+
+body:not(.light-theme) #moon-icon {
+    color: var(--secondary-text-color);
+}
 
 /* MENU LATERAL */
 
 .menu-lateral {
     grid-area: menu-lateral;
-    background-color: #070707c5;
+    background-color: var(--sidebar-bg);
     padding: 70px 20px 10px; 
     position: fixed;
     top: 0;
@@ -112,7 +217,7 @@ footer {
 }
 
 .menu-lateral a button {
-    background-color: #1C1C1C;
+    background-color: var(--card-bg);
     padding: 10px;
     border: none;
     border-radius: 8px;
@@ -122,11 +227,11 @@ footer {
 }
 
 .menu-lateral a button:hover {
-    background-color: #3f3f3f;
+    background-color: var(--sidebar-bg);
 }
 
 .menu-lateral a button i {
-    color: #a7a5a5;
+    color: var(--icon-color);
 }
 .material-icons {
     font-size: 28px;
@@ -147,7 +252,6 @@ footer {
     left: 0;
     width: 100%;
     z-index: 1001;
-    background: linear-gradient(to right, #1a1a1a, #2d2d2d);
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
@@ -166,7 +270,7 @@ footer {
 .barra-progresso {
     width: 100%;
     height: 4px;
-    background: #444;
+    background: var(--border-color);
     border-radius: 2px;
     cursor: pointer;
     margin-bottom: 10px; 
@@ -190,7 +294,7 @@ footer {
     height: 10px;
     border-radius: 50%;
     background-color: var(--orange);
-    box-shadow: 0 0 5px rgba(255, 107, 107, 0.8);
+    box-shadow: 0 0 5px var(--orange-shadow);
 }
 
 .controle-musica {
@@ -211,32 +315,32 @@ footer {
     align-items: center;
     cursor: pointer;
     background: transparent;
-    color: #ddd;
+    color: var(--secondary-text-color);
     font-size: 18px;
     transition: all 0.3s ease;
 }
 
 .controle-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--button-hover-bg);
+    color: var(--button-hover-color);
 }
 
 .play-pause-btn {
     background-color: var(--orange);
-    color: #fff;
-    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+    color: white;
+    box-shadow: 0 0 10px var(--orange-shadow);
     font-size: 20px;
 }
 
 .play-pause-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
+    box-shadow: 0 0 15px var(--orange-shadow);
 }
 
 
 .song-info {
     font-size: 14px;
-    color: #ddd;
+    color: var(--secondary-text-color);
     font-weight: bold;
     margin: 0; 
 }
@@ -244,9 +348,12 @@ footer {
 .foo {
     text-align: center;
     font-size: 12px;
-    color: #aaa;
     padding: 5px;
     border-top: 1px solid #2a2a2a;
     width: 100%; 
     margin-top: 10px; 
+}
+
+.foo p {
+    color: var(--secondary-text-color);
 }
