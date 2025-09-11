@@ -8,69 +8,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="imagex/png" href="../assets/img/vaca-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/playlists.css">
     <title>Moosica</title>
     <style>
-        main {
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            color: white;
-            background: linear-gradient(to bottom, #2d2d2d, #121212);
-            min-height: 100vh;
-            padding: 6%;
-        }
+        /* Container principal da página */
+main.playlist-page {
+    padding: 30px;
+    background: linear-gradient(to bottom, #1e1e1e 0%, #0a0a0a);
+    color: #e0e0e0;
+    margin-top: 60px;
+    padding-left: 50px;
+}
 
-        .info-playlist {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+/* Seção de cabeçalho da playlist */
+.playlist-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(30, 30, 30, 0.8), transparent);
+    border-radius: 12px;
+}
 
-        .info-playlist h1 {
-            text-align: left;
-            font-size: 28px;
-        }
+.playlist-header img {
+    width: 250px;
+    height: 250px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
 
-        .info-playlist img {
-        width: 200px;
-        height: 200px;
-        box-shadow: 0px 3px 3px 2px rgb(20, 20, 20);
-        }
+.playlist-header img:hover {
+    transform: scale(1.02);
+}
 
-        .tabela-musica {
-        margin-top: 30px;
-        }
+.header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 
-        table {
-        width: 100%;
-        border-collapse: collapse;
-        }
+.playlist-type {
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #b3b3b3;
+}
 
-        thead th {
-        text-align: left;
-        padding: 10px;
-        font-weight: normal;
-        color: #b3b3b3;
-        border-bottom: 1px solid #333;
-        }
+.playlist-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
 
-        tbody td {
-        padding: 10px;
-        border-bottom: 1px solid #333;
-        }
+.playlist-description {
+    color: #a0a0a0;
+    font-size: 1rem;
+    max-width: 600px;
+    margin-bottom: 10px;
+}
 
-        .mostra-musica {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        }
+.playlist-stats {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
 
-        .mostra-musica img {
-        width: 40px;
-        height: 40px;
-        border-radius: 5px;
-        }
+.playlist-stats a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--orange);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--darker-orange);
+}
+
+.search-songs {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #a0a0a0;
+}
+
+.search-songs input {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px 10px 40px;
+    color: #1f1f1f;
+    outline: none;
+}
+
+.search-songs .fa-search {
+    position: absolute;
+    left: 15px;
+    color: #a0a0a0;
+}
+
+/* Tabela de músicas */
+.songs-list table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+.songs-list thead th {
+    text-align: left;
+    padding: 15px;
+    font-weight: normal;
+    color: #b3b3b3;
+    border-bottom: 1px solid #444;
+}
+
+.songs-list tbody tr {
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.songs-list tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.songs-list tbody td {
+    padding: 15px;
+    color: #fff;
+}
+
+.songs-list .song-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.songs-list .song-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.songs-list .song-info .song-title {
+    display: block;
+    font-weight: bold;
+}
+
+.songs-list .song-info .song-artist {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
 
     </style>
 </head>
@@ -102,50 +212,72 @@
     </header>
     
 
-    <main>
-        <div class="info-playlist">
-            <img src="vacateste.jpg" alt="PlaylistIMG">
-            <div>
-            <h1>Nome playlist 1</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, inventore quisquam fuga vel...</p>
+    <main class="playlist-page">
+        <section class="playlist-header">
+            <img src="vacateste.jpg" alt="Playlist Cover">
+            <div class="header-info">
+                <span class="playlist-type">PLAYLIST PÚBLICA</span>
+                <h1>Nome playlist 1</h1>
+                <p class="playlist-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, inventore quisquam fuga vel...</p>
+                <p class="playlist-stats">
+                    <span>Criada por <a href="#">Maria</a></span> • <span>100 músicas</span> • <span>2h 30min</span>
+                </p>
+            </div>
+        </section>
+
+        <div class="actions-bar">
+            <div class="play-button-container">
+                <button class="play-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+            <div class="search-songs">
+                <i class="fas fa-search"></i>
+                <input type="search" placeholder="Buscar nesta playlist">
             </div>
         </div>
 
-        <div class="tabela-musica">
+        <section class="songs-list">
             <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Título</th>
-                    <th>Álbum</th>
-                    <th>Adicionada em</th>
-                    <th>Duração</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td class="mostra-musica">
-                        <img src="vacateste.jpg" alt="Capa música">
-                        <span>Música 1</span>
-                    </td>
-                    <td>Álbum 1</td>
-                    <td>25 de fev. de 2025</td>
-                    <td>3:27</td>
-                </tr>
-                <tr>
-                <td>2</td>
-                <td class="mostra-musica">
-                    <img src="vacateste.jpg" alt="Capa música">
-                    <span>Música 2</span>
-                </td>
-                <td>Álbum 2</td>
-                <td>21 de fev. de 2022</td>
-                <td>3:13</td>
-                </tr>
-            </tbody>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Álbum</th>
+                        <th>Adicionada em</th>
+                        <th><i class="far fa-clock"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="song-info">
+                            <img src="vacateste.jpg" alt="Song Cover">
+                            <div>
+                                <span class="song-title">Música 1</span>
+                                <span class="song-artist">Artista 1</span>
+                            </div>
+                        </td>
+                        <td>Álbum 1</td>
+                        <td>25 de fev. de 2025</td>
+                        <td>3:27</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="song-info">
+                            <img src="vacateste.jpg" alt="Song Cover">
+                            <div>
+                                <span class="song-title">Música 2</span>
+                                <span class="song-artist">Artista 2</span>
+                            </div>
+                        </td>
+                        <td>Álbum 2</td>
+                        <td>21 de fev. de 2022</td>
+                        <td>3:13</td>
+                    </tr>
+                </tbody>
             </table>
-        </div>
+        </section>
     </main>
 
 

@@ -127,11 +127,17 @@ footer {
 
 .menu-lateral a button i {
     color: #a7a5a5;
+}
+.material-icons {
+    font-size: 28px;
+}
+.fa-user {
     font-size: 18px;
 }
 
 .menu-lateral .btn-profile {
-    margin-top: 150%;
+    margin-top: 300%;
+    border-radius: 100%;
 }
 
 /* FOOTER */
