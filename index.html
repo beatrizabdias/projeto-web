@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="assets/img/vaca-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
     <title>Moosica</title>
@@ -18,41 +19,32 @@
 <body>
     <header>
         <nav class="menu-cima">
-            <img src="assets/img/vaca-logo.png" alt="Logo Moosica">
+            <img src="../assets/img/vaca-logo.png" alt="Logo Moosica">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input placeholder="Qual mugido você quer ouvir?" type="search">
+                <input type="search">
+            </div>
+            <div class="theme-switch-container" id="theme-toggle">
+                <i class="fas fa-sun" id="sun-icon"></i>
+                <i class="fas fa-moon" id="moon-icon"></i>
+                <span class="theme-toggle-btn"></span>
             </div>
         </nav>
 
         <nav class="menu-lateral">
-            <div class="menu-item tooltip-container">
-                <a href="#fila">
-                <button><i class="fa-solid fa-list"></i></button>
-                </a>
-                <span class="tooltip-text">Fila</span>
-            </div>
+            <a href="#fila">
+                <button><i class="material-icons">queue_music</i></button>
+            </a>
+            <a href="../playlists/playlists.html">
+                <button><i class="material-icons">playlist_play</i></button>
+            </a>
+            <a href="../grupos/grupos.html">
+                <button><i class="material-icons">groups</i></button>
+            </a>
 
-            <div class="menu-item tooltip-container">
-                <a href="playlists/playlists.html">
-                <button><i class="fas fa-th-large"></i></button>
-                </a>
-                <span class="tooltip-text">Playlists</span>
-            </div>
-
-            <div class="menu-item tooltip-container">
-                <a href="playlists/grupos.html">
-                <button><i class="fa-solid fa-people-group"></i></button>
-                </a>
-                <span class="tooltip-text">Grupos</span>
-            </div>
-
-            <div class="menu-item tooltip-container">
-                <a href="perfil/perfil.html">
+            <a href="../perfil/perfil.html">
                 <button class="btn-profile"><i class="fa-solid fa-user"></i></button>
-                </a>
-                <span class="tooltip-text">Perfil</span>
-            </div>
+            </a>
         </nav>
     </header>
     
@@ -180,6 +172,8 @@
             <p>&copy; 2025 Moosica. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script src="../js/tema.js"></script>
 </body>
 <!-- <script>
     const scrollButton = document.getElementById('scroll-btn');

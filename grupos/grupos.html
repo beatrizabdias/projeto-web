@@ -5,153 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="imagex/png" href="../assets/img/vaca-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        hr {
-            border-color: transparent;
-        }
-
-        .meus-grupos, .grupos-destaque {
-            margin-bottom: 40px;
-        }
-
-        .meus-grupos h2, .grupos-destaque h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: rgb(168, 168, 168); 
-        }
-
-        .grupos-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .card-grupo {
-            background: #1e1e1e;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
-
-        .card-grupo:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-        }
-
-        .img-cima {
-            position: relative;
-        }
-
-        .img-cima img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            filter: brightness(70%);
-        }
-
-        .img-cima .grupo-status {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-        }
-
-        .img-cima .grupo-status i {
-            color: var(--orange); 
-            margin-right: 5px;
-        }
-
-        .conteudo-baixo {
-            padding: 15px;
-        }
-
-        .conteudo-baixo h3 {
-            margin: 0;
-            font-size: 20px;
-            color: #fff;
-        }
-
-        .conteudo-baixo .info-musica {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #b3b3b3;
-            font-size: 14px;
-            margin: 8px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .conteudo-baixo .info-musica i {
-            color: var(--orange); 
-        }
-
-        .conteudo-baixo .info-integrantes {
-            font-size: 13px;
-            color: #999;
-            margin-bottom: 15px;
-        }
-
-        .conteudo-baixo .btn-entrar {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: var(--orange);
-            color: var(--white);
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .conteudo-baixo .btn-entrar:hover {
-            background-color: var(--darker-orange);
-        }
-
-        .card-grupo.novo-grupo {
-            background: #2a2a2a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px 15px;
-            border: 2px dashed #444;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 20px 10px;
-            border: 2px dashed #444;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .card-grupo.novo-grupo:hover {
-            border-color: var(--orange); 
-            transform: none;
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.3); 
-        }
-
-        .card-grupo.novo-grupo .icone-add {
-            font-size: 40px;
-            color: var(--orange); 
-            margin-bottom: 10px;
-        }
-
-        .card-grupo.novo-grupo p {
-            font-size: 16px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/grupos.css">
     <title>Moosica</title>
 </head>
 <body>
@@ -162,19 +18,25 @@
                 <i class="fas fa-search"></i>
                 <input type="search">
             </div>
+            <div class="theme-switch-container" id="theme-toggle">
+                <i class="fas fa-sun" id="sun-icon"></i>
+                <i class="fas fa-moon" id="moon-icon"></i>
+                <span class="theme-toggle-btn"></span>
+            </div>
         </nav>
 
         <nav class="menu-lateral">
             <a href="#fila">
-                <button><i class="fa-solid fa-list"></i></button>
+                <button><i class="material-icons">queue_music</i></button>
             </a>
-            <a href="playlists.html">
-                <button><i class="fas fa-th-large"></i></button>
+            <a href="../playlists/playlists.html">
+                <button><i class="material-icons">playlist_play</i></button>
             </a>
-            <a href="grupos.html">
-                <button><i class="fa-solid fa-people-group"></i></button>
+            <a href="../playlists/grupos.html">
+                <button><i class="material-icons">groups</i></button>
             </a>
-            <a href="profile.html">
+
+            <a href="../perfil/perfil.html">
                 <button class="btn-profile"><i class="fa-solid fa-user"></i></button>
             </a>
         </nav>
@@ -186,7 +48,7 @@
             <div class="grupos-container">
                 <div class="card-grupo">
                     <div class="img-cima">
-                        <img src="vacateste.jpg" alt="Imagem do grupo">
+                        <img src="../assets/img/vacateste.jpg" alt="Imagem do grupo">
                         <span class="grupo-status"><i class="fas fa-headphones"></i> Ao vivo</span>
                     </div>
                     <div class="conteudo-baixo">
@@ -206,7 +68,7 @@
             <div class="grupos-container">
                 <div class="card-grupo">
                     <div class="img-cima">
-                        <img src="vacateste.jpg" alt="Imagem do grupo">
+                        <img src="../assets/img/vacateste.jpg" alt="Imagem do grupo">
                         <span class="grupo-status"><i class="fas fa-headphones"></i> Ao vivo</span>
                     </div>
                     <div class="conteudo-baixo">
@@ -219,7 +81,7 @@
 
                 <div class="card-grupo">
                     <div class="img-cima">
-                        <img src="vacateste.jpg" alt="Imagem do grupo">
+                        <img src="../assets/img/vacateste.jpg" alt="Imagem do grupo">
                         <span class="grupo-status"><i class="fas fa-headphones"></i> Ao vivo</span>
                     </div>
                     <div class="conteudo-baixo">
@@ -262,5 +124,7 @@
             <p>&copy; 2025 Moosica. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script src="../js/tema.js"></script>
 </body>
 </html>
