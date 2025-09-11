@@ -16,6 +16,10 @@ nav {
     cursor: pointer;
 }
 
+main {
+    padding-bottom: 200px;
+}
+
 .selected {
     background-color: #ff6b00;
 }
@@ -38,4 +42,51 @@ nav {
     height: 159px;
     border-radius: 20px;
     background-color: gray;
+}
+
+.box {
+
+}
+
+
+/* --- A LÓGICA DO TOOLTIP --- */
+
+/* 1. O contêiner do tooltip precisa ter uma posição relativa.
+   Isso serve como uma "âncora" para o texto do tooltip, que terá posição absoluta. */
+.tooltip-container {
+    position: relative;
+    display: inline-block; /* Garante que o contêiner tenha o tamanho do seu conteúdo */
+}
+
+/* 2. Estilo e posicionamento do texto do tooltip. */
+.tooltip-text {
+    /* Escondido por padrão */
+    visibility: hidden;
+    opacity: 0;
+
+    /* Aparência da caixa */
+    background-color: #282828;
+    color: #fff;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+
+    /* Posicionamento absoluto em relação ao .tooltip-container */
+    position: absolute;
+    z-index: 1; /* Garante que o tooltip fique sobre outros elementos */
+    bottom: 20%; /* Posição acima do ícone */
+    left: 200%;
+    transform: translateX(-50%); /* Centraliza o tooltip horizontalmente */
+
+    /* Efeito de transição suave para aparecer */
+    transition: opacity 0.3s;
+}
+
+/* 3. A MÁGICA: Quando o mouse passa sobre o .tooltip-container... */
+.tooltip-container:hover .tooltip-text {
+    /* ...o texto do tooltip se torna visível! */
+    visibility: visible;
+    opacity: 1;
 }

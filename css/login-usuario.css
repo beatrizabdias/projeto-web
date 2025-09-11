@@ -5,7 +5,7 @@ body {
 }
 
 .logo{
-    width: 50px;
+    width: 60px;
     display: block;
     margin: 0 auto;
 }
@@ -19,7 +19,7 @@ body {
     text-align: center;
 }
 
-.container h1 {
+.container h1, .container h2 {
     margin: 0px;
     max-width: 372px;
 }
@@ -28,7 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1em;
+    gap: 1.5em;
 }
 
 .login-form {

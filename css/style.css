@@ -113,6 +113,7 @@ footer {
     align-items: center;
     padding: 5px 15px; 
     width: 50%;
+    height: 30px;
 }
 
 .search-bar i {
@@ -128,6 +129,15 @@ footer {
     background: transparent;
     color: var(--input-text-color); 
     width: 50%;
+}
+
+input::placeholder {
+    color: white;
+    font-size: 16px;
+}
+
+input {
+    padding: 10px 0;
 }
 
 /* CONTAINER DO SWITCH DE TEMA */
