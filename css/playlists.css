@@ -3,6 +3,7 @@
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
     padding: 20px;
+    padding-left: 0px;
 }
 
 main h1 {
@@ -12,6 +13,10 @@ main h1 {
     font-size: 2.5rem;
     margin-bottom: 40px;
     letter-spacing: 1px;
+}
+
+main {
+    padding-left: 30px;
 }
 
 .box-playlist {
@@ -53,6 +58,7 @@ main h1 {
 }
 
 .add-playlist {
+    background-color: var(--card-bg);
     border-radius: 12px;
     padding: 15px;
     display: flex;
@@ -61,10 +67,13 @@ main h1 {
     align-items: center;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 4px 12px var(--shadow-color-dark);
 }
 
 .add-playlist:hover {
+    background-color: var(--sidebar-bg);
     transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 8px 20px var(--shadow-color-light);
 }
 
 .btn-add-playlist {
@@ -92,8 +101,8 @@ main h1 {
 
 main.playlist-page {
     padding: 30px;
-    background: linear-gradient(to bottom, #1e1e1e 0%, #0a0a0a);
-    color: #e0e0e0;
+    background: var(--bg-color);
+    color: var(--text-color);
     margin-top: 60px;
     padding-left: 50px;
 }
@@ -104,7 +113,7 @@ main.playlist-page {
     gap: 30px;
     margin-bottom: 40px;
     padding: 20px;
-    background: linear-gradient(180deg, rgba(30, 30, 30, 0.8), transparent);
+    background: var(--card-bg);
     border-radius: 12px;
 }
 
@@ -112,7 +121,7 @@ main.playlist-page {
     width: 250px;
     height: 250px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px var(--shadow-color-dark);
     transition: transform 0.3s ease;
 }
 
@@ -130,7 +139,7 @@ main.playlist-page {
     font-size: 0.8rem;
     font-weight: bold;
     letter-spacing: 2px;
-    color: #b3b3b3;
+    color: var(--secondary-text-color);
 }
 
 .playlist-header h1 {
@@ -140,7 +149,7 @@ main.playlist-page {
 }
 
 .playlist-description {
-    color: #a0a0a0;
+    color: var(--secondary-text-color);
     font-size: 1rem;
     max-width: 600px;
     margin-bottom: 10px;
@@ -148,11 +157,11 @@ main.playlist-page {
 
 .playlist-stats {
     font-size: 0.9rem;
-    color: #b3b3b3;
+    color: var(--secondary-text-color);
 }
 
 .playlist-stats a {
-    color: #fff;
+    color: var(--text-color);
     font-weight: bold;
     text-decoration: none;
 }
@@ -169,11 +178,11 @@ main.playlist-page {
     height: 60px;
     border-radius: 50%;
     background-color: var(--orange);
-    color: #fff;
+    color: var(--text-color);
     border: none;
     cursor: pointer;
     font-size: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 15px var(--shadow-color-dark);
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
@@ -186,21 +195,22 @@ main.playlist-page {
     position: relative;
     display: flex;
     align-items: center;
-    color: #a0a0a0;
+    color: var(--secondary-text-color);
 }
 
 .search-songs input {
     border: none;
     border-radius: 20px;
     padding: 10px 15px 10px 40px;
-    color: #1f1f1f;
+    color: var(--input-text-color);
     outline: none;
+    background-color: var(--input-bg);
 }
 
 .search-songs .fa-search {
     position: absolute;
     left: 15px;
-    color: #a0a0a0;
+    color: var(--secondary-text-color);
 }
 
 .songs-list table {
@@ -213,8 +223,8 @@ main.playlist-page {
     text-align: left;
     padding: 15px;
     font-weight: normal;
-    color: #b3b3b3;
-    border-bottom: 1px solid #444;
+    color: var(--secondary-text-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .songs-list tbody tr {
@@ -225,12 +235,12 @@ main.playlist-page {
 }
 
 .songs-list tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--card-bg);
 }
 
 .songs-list tbody td {
     padding: 15px;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .songs-list .song-info {
@@ -243,7 +253,7 @@ main.playlist-page {
     width: 50px;
     height: 50px;
     border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px var(--shadow-color-dark);
 }
 
 .songs-list .song-info .song-title {
@@ -252,6 +262,6 @@ main.playlist-page {
 }
 
 .songs-list .song-info .song-artist {
-    color: #a0a0a0;
+    color: var(--secondary-text-color);
     font-size: 0.9rem;
 }
