@@ -10,7 +10,7 @@ main {
 }
 
 .flex {
-    display: flex;
+    display: flex;  
 }
 
 h1, p {

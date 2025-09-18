@@ -225,6 +225,10 @@ body:not(.light-theme) #moon-icon {
     color: var(--secondary-text-color);
 }
 
+body.light-theme {
+    color: #1a1a1a;
+}
+
 /* MENU LATERAL - visível apenas para PC */
 .menu-lateral {
     grid-area: menu-lateral;
