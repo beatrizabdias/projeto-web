@@ -142,3 +142,253 @@ hr {
     font-size: 16px;
     font-weight: bold;
 }
+
+/* Geral */
+body {
+    background-color: #121212;
+    color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+.header {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.leave-group {
+    background-color: #444;
+    color: #f0f0f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Seção Principal */
+.main-content {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+/* Painel Esquerdo */
+.left-panel {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+    margin-bottom: 20px;
+    background-color: #ff8c00;
+    padding: 10px;
+    border-radius: 20px;
+}   
+
+.search-add {
+    color: #f0f0f0; 
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.input-wrapper {
+    position: relative; 
+    flex-grow: 1; 
+    background-color: #a04f1ca8; 
+    border-radius: 25px; 
+    display: flex; 
+    align-items: center; 
+    padding: 0 15px; 
+}
+
+.search-bar input {
+    flex-grow: 1; 
+    background-color: transparent; 
+    border: none;
+    padding: 12px 0; 
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: #fff;
+}
+
+.search-icon {
+    color: #fff;
+    font-size: 24px; 
+    cursor: pointer;
+}
+
+
+.section-title {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.queue-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.queue-item {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.music-thumbnail {
+    width: 40px;
+    height: 40px;
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.music-title {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.remove-icon {
+    cursor: pointer;
+    color: #999;
+}
+
+/* Painel Direito */
+.right-panel {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel-section {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.owner-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.star-icon {
+    color: #ffc107;
+}
+
+.participants-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.participants-list li {
+    margin-bottom: 5px;
+}
+
+.settings-button {
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+/* Player de Música */
+.player {
+    background-color: #1a1a1a;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #333;
+}
+
+.progress-bar-container {
+    width: 80%;
+    height: 3px;
+    background-color: #555;
+    margin-bottom: 15px;
+    border-radius: 2px;
+}
+
+.progress-bar {
+    width: 40%; 
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+.controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.control-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: #f0f0f0;
+}
+
+.play-button {
+    font-size: 50px;
+    color: #f0f0f0;
+}
+
+.song-info {
+    text-align: center;
+}
+
+.song-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.song-artist {
+    color: #aaa;
+    margin: 0;
+    font-size: 14px;
+}
