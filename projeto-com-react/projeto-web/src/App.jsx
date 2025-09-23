@@ -1,8 +1,30 @@
-import Message from './Message';
-import CriarMusica from './musicas/criarmusica';
 
-function App(){
-  return <div><Message></Message></div>
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import MobileNav from './components/MobileNav';
+
+
+import Home from './pages/Home';
+import Playlists from './pages/playlists/Playlists';
+
+
+function App() {
+  return (
+    <Router>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/playlists" element={<Playlists />} />
+        </Routes>
+      </main>
+      <Footer />
+      <MobileNav />
+    </Router>
+  );
 }
 
 export default App;
