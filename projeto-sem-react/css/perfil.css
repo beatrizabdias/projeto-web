@@ -92,13 +92,38 @@ p, h1, h3 {
 }
 
 .mais-tocadas {
-    padding: 1.6em 0 12em;
+    padding: 1.6em 0 5em;
+    margin-top: 1.5em;
 }
 
-.song-detail, .song {
+.song-detail, .song{
     align-items: center;
 }
 
 .song-cover {
     width: 50px;
+}
+
+.margin-bottom {
+    margin-bottom: 100px;
+}
+
+.playlists-container, .artists-container, .friends-container {
+    overflow-x: auto;
+    gap: 1em;
+    padding-top: 1em;
+    /* border: 1px solid red; */
+}
+
+.playlist-card, .artist-card, .amigo-card {
+    /* border: 1px solid green; */
+    text-align: center;
+}
+
+.seus-artistas, .seus-amigos {
+    margin-top: 5em;
+}
+
+.artist-icon, .amigo-icon {
+    border-radius: 50%;
 }
