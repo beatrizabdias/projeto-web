@@ -1,0 +1,174 @@
+body {
+    color: #FFFFFF; 
+  }
+  
+  p, h1, h3 {
+    margin: 0;
+  }
+  
+  .lighter-text {
+    color: #B3B3B3;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .artist-header {
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    border: 1px solid #444; 
+    background-color: #ff6b00;
+  }
+  
+  .artist-info {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  
+  .artist-actions {
+    margin-top: 20px;
+    align-items: center;
+    gap: 1em; 
+  }
+  
+
+  .play-btn {
+    background-color: #ff6b00;
+    border: none;
+    color: white;
+    padding: 15px;
+    margin-right: 10px; 
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .follow-btn {
+    background-color: #121212;
+    color: white;
+    border: 1px solid #4a4a4a;
+    height: fit-content;
+    padding: 10px 20px;
+    border-radius: 50px;
+  }
+  
+  
+  .user-icon > img {
+    display: block;
+    border-radius: 50%;
+  }
+  
+  .user-info {
+    margin-left: 2em;
+    flex-direction: column;
+    justify-content: start;
+    gap: 0.5em;
+    height: fit-content;
+    margin-top: auto;
+  }
+  
+  .edit-btn {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    width: fit-content;
+    border: none;
+    font-weight: 700;
+    background-color: #ff6b00;
+    height: fit-content;
+    margin-top: auto;
+  }
+  
+  .edit-btn:hover {
+    background-color: #f58332;
+    cursor: pointer;
+  }
+  
+  .username {
+    font-size: 3.5em;
+  }
+  
+  .user-details {
+    gap: 0.625em;
+    align-items: center;
+  }
+  
+  
+  .song {
+    padding: 1em 1.875em;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .song:hover,
+  .song:focus {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background-color: grey;
+    cursor: pointer; 
+  }
+  
+  .song-detail {
+    gap: 1em;
+    align-items: center;
+  }
+  
+  .song-info {
+    flex-direction: column;
+  }
+  
+  .play-icon:hover, .icon:hover {
+    transform: scale(1.3);
+  }
+  
+  .mais-tocadas {
+    padding: 1.6em 0 5em;
+    margin-top: 1.5em;
+  }
+  
+  .song-cover {
+    width: 50px;
+  }
+  
+  .playlists-container,
+  .artists-container,
+  .friends-container {
+    overflow-x: auto;
+    gap: 1em;
+    padding-top: 1em;
+  }
+  
+  .playlist-card,
+  .artist-card,
+  .amigo-card {
+    text-align: center;
+  }
+  
+ 
+  .playlist-card img {
+    border-radius: 10px; 
+  }
+  
+  .artist-icon, .amigo-icon {
+    border-radius: 50%;
+  }
+  
+  .seus-artistas, .seus-amigos {
+    margin-top: 5em;
+  }
+  
+  .descricao-artista {
+    margin-top: 50px;
+  }
+  
+  .margin-bottom {
+    margin-bottom: 100px;
+  }
+  
+
+  p a {
+    color: white;
+    text-decoration: none;
+  }
