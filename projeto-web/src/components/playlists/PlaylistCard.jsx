@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
-import vacateste from '../../assets/img/vacateste.jpg'; // Importa a imagem
+import vacateste from '../../assets/img/vacateste.jpg';
 
 function PlaylistCard({ playlist }) {
   return (
     <Card sx={{ 
       backgroundColor: 'background.paper',
-      width: '100%' // Define a largura para 100% para que o card se expanda e se ajuste ao grid item
+      width: '100%' // Garante que o card preencha o Grid item
+      // Removido: maxWidth: 200
     }}>
       <CardActionArea component={Link} to={`/playlists/${playlist.id}`}>
         <CardMedia

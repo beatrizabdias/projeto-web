@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import logo from '../assets/img/vaca-logo.png';
+import logo from '../../assets/img/vaca-logo.png';
+import { IconButton } from '@mui/material';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 
 function Header() {
   return (
@@ -13,24 +16,22 @@ function Header() {
           <input type="search" />
         </div>
         <div className="theme-switch-container" id="theme-toggle">
-          <i className="fas fa-sun" id="sun-icon"></i>
-          <i className="fas fa-moon" id="moon-icon"></i>
+          <i className="fas fa-sun"></i>
+          <i className="fas fa-moon"></i>
           <span className="theme-toggle-btn"></span>
         </div>
       </nav>
 
       <nav className="menu-lateral">
         <Link to="/fila">
-          <button><i className="material-icons">queue_music</i></button>
+          <IconButton sx={{ color: '#fff' }} aria-label="Fila">
+            <QueueMusicIcon />
+          </IconButton>
         </Link>
         <Link to="/playlists">
-          <button><i className="material-icons">playlist_play</i></button>
-        </Link>
-        <Link to="/grupos">
-          <button><i className="material-icons">groups</i></button>
-        </Link>
-        <Link to="/perfil">
-          <button className="btn-profile"><i className="fa-solid fa-user"></i></button>
+          <IconButton sx={{ color: '#fff' }} aria-label="Playlists">
+            <PlaylistPlayIcon />
+          </IconButton>
         </Link>
       </nav>
     </header>

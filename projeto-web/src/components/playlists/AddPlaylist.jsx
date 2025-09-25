@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 function AddPlaylist() {
   return (
     <Card sx={{ 
-      width: '100%', // Define a largura para 100%
+      width: '100%', // Garante que o card preencha o Grid item
       backgroundColor: 'background.paper',
       boxShadow: '0 4px 12px var(--shadow-color-dark)',
       borderRadius: '12px',
