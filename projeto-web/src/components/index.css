@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+  
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  color: #FFFFFF;
+}
+
+.flex {
+    display: flex;  
+}
+
+h1, p {
+    margin: 0;
+}
+
+.lighter-text {
+    color: #B3B3B3;
+}
+
+.song-info, .album-info, .album-songs {
+    flex-direction: column;
+}
+
+.album-info,
+.album-details {
+    height: fit-content;
+}
+
+.song-detail {
+    gap: 1em;
+}
+
+.album-details, .song-detail, .song {
+    align-items: center;
+}
+
+.album-header {
+    gap: 2em;
+    padding: 2.5em 1.875em 1.875em;
+}
+
+.artist-logo {
+    border-radius: 50%;
+}
+
+.album-title {
+    font-size: 3.125rem;
+}
+
+
+.album-info {
+    gap: 0.5em;
+    margin-top: auto;
+}
+
+.album-details {
+    gap: 0.625em;
+}
+
+img {
+    display: block;
+}
+
+
+.album-songs {
+    padding: 1.6em 0 12em;
+}
+
+.song {
+    padding: 0 1.875em;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.song:hover,
+.song:focus {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background-color: grey;
+}
+
+.play-icon:hover, .icon:hover {
+    transform: scale(1.3);
+}
