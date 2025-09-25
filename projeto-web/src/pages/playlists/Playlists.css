@@ -15,9 +15,6 @@ main h1 {
     letter-spacing: 1px;
 }
 
-main {
-    padding-left: 30px;
-}
 
 .box-playlist {
     background-color: var(--card-bg);
@@ -90,6 +87,17 @@ main {
 
 .btn-add-playlist:hover {
     background: linear-gradient(45deg, var(--darker-orange), var(--darker-orange));
+}
+
+main {
+    margin-left: 50px;
+}
+
+.playlists-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 .add-playlist p {
