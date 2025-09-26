@@ -52,40 +52,26 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    grid-template-rows: auto 1fr auto; 
-    grid-template-areas:
-        "header header"
-        "menu-lateral main"
-        "footer footer";
 }
 
-header {
-    grid-area: header;
-}
-
-main {
-    grid-area: main;
-    padding-top: 70px;
-    padding-left: 70px;
-    margin-bottom: 120px;
-}
-
+/* FOOTER */
+/* FOOTER */
 footer {
-    grid-area: footer;
+    grid-area: footer; /* Importante para o layout de Grid (se ainda usar) */
     background: var(--footer-bg);
     padding: 10px 20px;
     text-align: center;
+    /* REGRAS CRÍTICAS PARA FIXAR O FOOTER */
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 1001;
+    z-index: 1001; /* Garante que fique acima de outros conteúdos */
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
 }
+
 
 .foo {
     border-top: 1px solid var(--border-color);
@@ -384,154 +370,5 @@ body.light-theme {
 
     .menu-rodape-mobile {
         display: none;
-    }
-}
-
-/* CELULAR */
-@media screen and (max-width: 767px) {
-    body {
-        grid-template-areas:
-            "header header"
-            "main main"
-            "footer footer-menu";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto auto;
-    }
-
-    .menu-lateral {
-        display: none;
-    }
-
-    footer {
-        grid-area: footer;
-        height: auto;
-        bottom: 60px; 
-        padding: 10px;
-    }
-
-    .player {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .barra-progresso {
-        display: block;
-        width: 100%;
-        margin-bottom: 5px;
-    }
-    
-    .song-info {
-        flex-grow: 0;
-        text-align: center;
-        font-size: 12px;
-    }
-
-    .controle-musica {
-        gap: 15px;
-    }
-
-    .foo {
-        display: none;
-    }
-
-    main {
-        padding-top: 60px;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-bottom: 160px; 
-    }
-
-    .menu-cima {
-        padding: 5px 10px;
-    }
-
-    .menu-cima img {
-        width: 30px;
-    }
-    
-    .search-bar {
-        width: 70%;
-        height: 35px;
-    }
-
-    .search-bar input {
-        width: 100%;
-    }
-
-    .theme-switch-container {
-        right: 1%;
-        width: 50px;
-        height: 25px;
-    }
-
-    .theme-toggle-btn {
-        width: 18px;
-        height: 18px;
-    }
-
-    body.light-theme .theme-toggle-btn {
-        left: 28px;
-    }
-
-    .menu-rodape-mobile {
-        grid-area: footer-menu;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        background-color: var(--sidebar-bg);
-        padding: 5px 0;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 60px; 
-        z-index: 1002;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .menu-rodape-mobile a {
-        display: flex;
-        flex-direction: column; 
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-        height: 100%;
-        text-align: center;
-        transition: background-color 0.3s ease;
-        text-decoration: none; 
-    }
-
-    .menu-rodape-mobile a:hover {
-        background-color: var(--card-bg);
-    }
-    
-    .menu-rodape-mobile a button {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-        width: auto;
-        height: auto;
-    }
-
-    .menu-rodape-mobile a button i {
-        color: var(--icon-color);
-        font-size: 24px;
-        transition: color 0.3s ease;
-    }
-
-    .menu-rodape-mobile a button:hover i {
-        color: var(--orange);
-    }
-
-    .menu-rodape-mobile p {
-        color: var(--secondary-text-color);
-        font-size: 10px; /* Reduz o tamanho da fonte para mobile */
-        margin: 0;
-        padding-top: 5px;
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-    .menu-rodape-mobile .fa-user {
-        font-size: 18px;
     }
 }

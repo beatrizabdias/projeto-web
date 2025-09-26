@@ -1,17 +1,30 @@
-// src/pages/pesquisa/Pesquisa.jsx
+// src/pages/Pesquisa.jsx (Exemplo de como usar o valor)
 
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom'; // Importa o hook
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 function Pesquisa() {
-  const { query } = useParams();
+  // Captura os parâmetros de consulta (query parameters)
+  const [searchParams] = useSearchParams();
+  
+  // Lê o valor do parâmetro 'q' (ex: /pesquisa?q=rock)
+  const query = searchParams.get('q'); 
 
   return (
-    <main>
-      <h1>Resultados da Pesquisa</h1>
-      <p>Você pesquisou por: <strong>{query}</strong></p>
-      {/* Aqui você pode adicionar a lógica para buscar e exibir os resultados */}
-    </main>
+    <>
+      <Header />
+      <main className="content-area">
+        <h1>Resultados da Pesquisa</h1>
+        {query ? (
+          <p>Exibindo resultados para: <strong>"{query}"</strong></p>
+        ) : (
+          <p>Digite um termo na barra de pesquisa para começar.</p>
+        )}
+        
+      </main>
+    </>
   );
 }
 
