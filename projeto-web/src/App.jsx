@@ -13,6 +13,7 @@ import Home from './pages/home/Home';
 import Playlists from './pages/playlists/Playlists';
 import PlaylistDetalhe from './pages/playlists/PlaylistDetalhe';
 import Pesquisa from './pages/pesquisa/Pesquisa';
+import TelaMusica from './pages/musicas/TelaMusica.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/playlists" element={<Playlists />} />
           <Route path="/playlists/:id" element={<PlaylistDetalhe />} /> 
           <Route path="/pesquisa" element={<Pesquisa />} />
+          <Route path="/musica/:id" element={<TelaMusica />} />
           <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
         </Routes>
 

@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "titulo": "Música Legal",
+    "artista": "Artista Legal",
+    "album": "Legalidade",
+    "duracao": "3:53",
+    "caminho": "/assets/audio/audio.mp3",
+    "imagem": "/assets/img/imagem.png",
+    "genero": "Rock",
+    "ano": 2025
+  },
+  {
+    "id": 2,
+    "titulo": "Música MAIS Legal",
+    "artista": "Artista Legal 2",
+    "album": "Legalzinho",
+    "duracao": "2:45",
+    "caminho": "/assets/audio/melodia2.mp3",
+    "imagem": "/assets/img/capa_melodia2.jpg",
+    "genero": "Pop",
+    "ano": 2024
+  }
+]

@@ -1,0 +1,150 @@
+
+:root {
+
+font-family: 'Poppins', sans-serif;
+
+}
+
+.tela-musica-container {
+    display: flex;
+    margin-top: 50px;
+    gap: 2rem; /* Espaçamento entre as colunas */
+    padding-top: 2rem;
+    padding-bottom: 5rem; /* Espaço para o footer */
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+}
+
+/* Layout para dispositivos móveis (coluna) */
+@media (max-width: 900px) {
+    .tela-musica-container {
+        flex-direction: column;
+        align-items: center; /* Centraliza blocos inteiros em mobile */
+        gap: 3rem; 
+    }
+}
+
+
+/* ------------------------------------------- */
+/* BLOCO DA MÚSICA (ESQUERDA)                  */
+/* ------------------------------------------- */
+
+.player-info-block {
+    flex: 1 1 800px; /* Base 400px, pode crescer/diminuir */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ocupa a largura total em mobile */
+}
+
+.musica-titulo {
+    font-weight: 700;
+}
+
+/* Alinhamento de Texto e Itens em Mobile */
+@media (max-width: 900px) {
+    .player-info-block {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* Estilo da Capa do Álbum */
+.album-art {
+    width: 500px; 
+    height: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    object-fit: cover; /* Garante que a imagem preencha a área */
+}
+
+/* Responsividade da Capa em Mobile */
+@media (max-width: 900px) {
+    .album-art {
+        width: 80vw; /* 80% da largura da viewport */
+        max-width: 350px; 
+        height: 80vw; /* Mantém o quadrado */
+        max-height: 350px; 
+    }
+}
+
+/* ------------------------------------------- */
+/* BLOCO DE OPÇÕES (DIREITA)                   */
+/* ------------------------------------------- */
+
+.options-block {
+    margin-left: 20px;
+    flex: 1 1 auto; /* Ocupa o espaço restante */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ocupa a largura total em mobile */
+}
+
+/* Botões (Letra, Relacionados, Descrição) */
+.options-buttons {
+    margin-bottom: 1rem;
+}
+
+/* Centraliza botões em Mobile */
+@media (max-width: 900px) {
+    .options-buttons {
+        justify-content: center;
+    }
+}
+
+/* Área de Conteúdo da Aba */
+.aba-content {
+    padding: 1rem;
+    border: 1px solid var(--border-color, #333);
+    border-radius: 8px;
+    min-height: 100px; /* Altura mínima para o conteúdo */
+    background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil */
+    color: var(--text-color, #e0e0e0);
+    overflow-y: auto;
+}
+
+.options-block .MuiButton-root {
+
+    border: 2px dotted #ff7533 !important; 
+    color: #ff7533 !important; 
+    background-color: transparent !important;
+}
+
+/* Estado Ativo (Contained) */
+.options-block .MuiButton-contained {
+    background-color: #ff7533 !important;
+    color: white !important;
+    border: 2px solid #ff7533 !important;
+}
+
+/* Efeito de Hover (Aplicação da regra pedida) */
+.options-block .MuiButton-root:hover {
+    background-color: #ff7533 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(255, 117, 51, 0.4); 
+}
+
+/* src/components/Player.css */
+
+/* VARIÁVEIS (Ajuste para seu tema) */
+:root {
+    --player-height: 80px;
+    --player-bg: #1c1c1c; 
+    --primary-color: #ff7533; 
+    --text-color: #ffffff;
+    --icon-color: #b3b3b3;
+    --progress-bg: #535353;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--player-height);
+    background-color: var(--player-bg); /* Fundo escuro */
+    padding: 0 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    width: 100%; 
+}
+
+/* ... (restante do CSS do player: .barra-progresso, .controle-musica, .song-info, etc.) ... */

@@ -1,3 +1,5 @@
+// src/components/Footer.jsx
+
 import React from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom'; 
@@ -16,12 +18,11 @@ const mobileMenuItems = [
     { to: '/grupos', label: 'Grupos', Icon: GroupIcon },
 ];
 
-// Cor de destaque usada para o estado ativo
 const ACTIVE_COLOR = 'var(--orange)';
 const INACTIVE_COLOR = 'var(--secondary-text-color)';
+const MUSIC_DETAIL_PATH = '/musica/id:'; 
 
 
-// Componente de Item de Menu Abstrato para reutilização
 const MobileMenuItem = ({ item, isActive }) => (
     <Link to={item.to} style={{ textDecoration: 'none', flexGrow: 1 }}>
         <Box 
@@ -60,9 +61,12 @@ const MobileMenuItem = ({ item, isActive }) => (
     </Link>
 );
 
-
 function Footer() {
-    const location = useLocation(); // CRÍTICO: Obtém o objeto de localização atual
+    const location = useLocation(); 
+
+    if (location.pathname === MUSIC_DETAIL_PATH) {
+        return null;
+    }
 
     return (
         <footer 
@@ -75,7 +79,13 @@ function Footer() {
             }}
         >
             {/* Player e Copyright (Desktop) */}
-            <Box sx={{ display: { xs: 'none', sm: 'flex' }, flexDirection: 'column' }}>
+            <Box sx={{ 
+                display: { xs: 'none', sm: 'flex' }, 
+                flexDirection: 'column',
+                width: '100%', // 💥 Adicionado para garantir largura total
+                // 💥 CORREÇÃO PRINCIPAL: A cor de fundo para todo o bloco do player + copyright
+                backgroundColor: 'var(--player-bg, #1c1c1c)', 
+            }}>
                 <Player /> 
                 <div className="foo">
                     <p>&copy; 2025 Moosica. Todos os direitos reservados.</p>
@@ -87,7 +97,9 @@ function Footer() {
                 display: { xs: 'flex', sm: 'none' }, 
                 flexDirection: 'column', 
                 width: '100%',
-                paddingBottom: '60px' // Espaço para o Menu Mobile
+                paddingBottom: '60px', // Espaço para o Menu Mobile
+                // 💥 CORREÇÃO PRINCIPAL: A cor de fundo para todo o bloco do player + copyright
+                backgroundColor: 'var(--player-bg, #1c1c1c)', 
             }}>
                 <Player />
                 <div className="foo" style={{ padding: '5px' }}>
@@ -109,13 +121,13 @@ function Footer() {
                     height: '60px', 
                     zIndex: 1002, 
                     boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.3)',
-                    backgroundColor: 'var(--sidebar-bg)', // Usa o fundo do sidebar
+                    backgroundColor: 'var(--sidebar-bg)', 
                     alignItems: 'center',
                     justifyContent: 'space-around',
+                    padding: '0', // 💥 Ajuste de padding, se necessário
                 }}
             >
                 {mobileMenuItems.map((item) => {
-                    // Lógica para verificar se o item está ativo
                     const isActive = location.pathname === item.to || 
                                      (item.to !== '/' && location.pathname.startsWith(item.to));
 
