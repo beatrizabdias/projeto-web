@@ -1,8 +1,7 @@
-// src/components/Footer.jsx
-
 import React from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom'; 
+
 import Player from './Player'; 
 
 import HomeIcon from '@mui/icons-material/Home'; 
@@ -13,14 +12,14 @@ import GroupIcon from '@mui/icons-material/Group';
 
 const mobileMenuItems = [
     { to: '/', label: 'Início', Icon: HomeIcon },
-    { to: '#fila', label: 'Fila', Icon: QueueMusicIcon },
+    { to: '/fila', label: 'Fila', Icon: QueueMusicIcon }, // Corrigi para rota /fila
     { to: '/playlists', label: 'Playlists', Icon: LibraryMusicIcon },
     { to: '/grupos', label: 'Grupos', Icon: GroupIcon },
 ];
 
 const ACTIVE_COLOR = 'var(--orange)';
 const INACTIVE_COLOR = 'var(--secondary-text-color)';
-const MUSIC_DETAIL_PATH = '/musica/id:'; 
+const MUSIC_DETAIL_PATH = '/musica/'; // Corrigido para corresponder à rota base
 
 
 const MobileMenuItem = ({ item, isActive }) => (
@@ -64,7 +63,8 @@ const MobileMenuItem = ({ item, isActive }) => (
 function Footer() {
     const location = useLocation(); 
 
-    if (location.pathname === MUSIC_DETAIL_PATH) {
+    // Se estiver na rota de detalhe da música (Mobile/Fullscreen), não mostra o footer
+    if (location.pathname.startsWith(MUSIC_DETAIL_PATH)) { 
         return null;
     }
 
@@ -82,9 +82,8 @@ function Footer() {
             <Box sx={{ 
                 display: { xs: 'none', sm: 'flex' }, 
                 flexDirection: 'column',
-                width: '100%', // 💥 Adicionado para garantir largura total
-                // 💥 CORREÇÃO PRINCIPAL: A cor de fundo para todo o bloco do player + copyright
-                backgroundColor: 'var(--player-bg, #1c1c1c)', 
+                width: '100%', 
+                backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player /> 
                 <div className="foo">
@@ -98,8 +97,7 @@ function Footer() {
                 flexDirection: 'column', 
                 width: '100%',
                 paddingBottom: '60px', // Espaço para o Menu Mobile
-                // 💥 CORREÇÃO PRINCIPAL: A cor de fundo para todo o bloco do player + copyright
-                backgroundColor: 'var(--player-bg, #1c1c1c)', 
+                backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player />
                 <div className="foo" style={{ padding: '5px' }}>
@@ -124,7 +122,7 @@ function Footer() {
                     backgroundColor: 'var(--sidebar-bg)', 
                     alignItems: 'center',
                     justifyContent: 'space-around',
-                    padding: '0', // 💥 Ajuste de padding, se necessário
+                    padding: '0', 
                 }}
             >
                 {mobileMenuItems.map((item) => {

@@ -5,8 +5,8 @@
     "artista": "Artista Legal",
     "album": "Legalidade",
     "duracao": "3:53",
-    "caminho": "/assets/audio/audio.mp3",
-    "imagem": "/assets/img/imagem.png",
+    "caminho": "/assets/audio/softpiano.mp3",
+    "imagem": "/assets/img/vacamario.jpg",
     "genero": "Rock",
     "ano": 2025
   },
@@ -16,8 +16,8 @@
     "artista": "Artista Legal 2",
     "album": "Legalzinho",
     "duracao": "2:45",
-    "caminho": "/assets/audio/melodia2.mp3",
-    "imagem": "/assets/img/capa_melodia2.jpg",
+    "caminho": "/assets/audio/relaxingpiano.mp3",
+    "imagem": "/assets/img/vacamario.jpg",
     "genero": "Pop",
     "ano": 2024
   }

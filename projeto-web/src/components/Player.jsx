@@ -1,14 +1,10 @@
-// src/components/Player.jsx
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useMusicPlayer } from '../context/MusicPlayerContext'; 
 import { Link } from 'react-router-dom'; 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'; 
 
-// Rota base para a tela de música
-const MUSIC_DETAIL_PATH_BASE = '/musica/id:'; 
+const MUSIC_DETAIL_PATH_BASE = '/musica/'; 
 
-// Função auxiliar para formatar segundos em MM:SS (INALTERADA)
 const formatTime = (time) => {
     if (isNaN(time) || time < 0) return "0:00";
     const minutes = Math.floor(time / 60);
@@ -17,59 +13,49 @@ const formatTime = (time) => {
 };
 
 function Player() {
-    // Puxa a música atual do Contexto. currentSong é agora um objeto do seu JSON.
-    const { currentSong } = useMusicPlayer(); 
+    const { currentSong, isPlaying, togglePlayPause, setIsPlaying } = useMusicPlayer();
     
-    const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0); 
     const [currentTime, setCurrentTime] = useState(0); 
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(0.5); 
 
     const audioRef = useRef(null);
-
-    // Define o nome da música e do artista usando os campos do JSON
+    
+    // Define as informações da música
     const songName = currentSong 
         ? `${currentSong.titulo} - ${currentSong.artista}` 
         : "Nenhuma Música Tocando";
 
-    // 💥 NOVO: Calcula a rota completa dinamicamente.
-    // Se houver currentSong, anexa o ID (ex: /musica/id:1)
     const detailRoute = currentSong 
         ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}` 
         : MUSIC_DETAIL_PATH_BASE;
     
-
-    // --- Funções de Controle (INALTERADAS) ---
-    const handlePlayPause = (e) => {
-        if (e) e.stopPropagation(); 
-        // ... (lógica inalterada) ...
-        const audio = audioRef.current;
-        if (!audio) return;
+    // --- Funções de Controle ---
     
+    const handlePlayPause = () => {
+        const audio = audioRef.current;
+        if (!audio || !currentSong) return;
+
         if (isPlaying) {
-          audio.pause();
+            audio.pause();
         } else {
-          audio.play().catch(error => {
-            console.error("Erro ao tentar tocar o áudio. Tente novamente clicando no play.", error);
-          });
+            audio.play().catch(error => console.error("Erro ao tocar:", error));
         }
-        setIsPlaying(!isPlaying);
+        togglePlayPause();
     };
     
     const handleVolumeChange = (event) => {
         if (event) event.stopPropagation(); 
-        // ... (lógica inalterada) ...
         const newVolume = parseFloat(event.target.value);
         setVolume(newVolume);
         if (audioRef.current) {
-          audioRef.current.volume = newVolume;
+            audioRef.current.volume = newVolume;
         }
     };
     
     const handleSeek = (event) => {
         if (event) event.stopPropagation(); 
-        // ... (lógica inalterada) ...
         const audio = audioRef.current;
         if (!audio || !audio.duration) return;
     
@@ -81,31 +67,56 @@ function Player() {
     };
 
 
-    // --- Efeitos Colaterais e Event Listeners (INALTERADOS) ---
+    // --- Efeito 1: Altera o SRC e Inicia a Reprodução ---
     useEffect(() => {
-        // ... (lógica inalterada) ...
+        const audio = audioRef.current;
+        if (!audio || !currentSong) return;
+
+        // 1. Define o novo SRC (currentSong.caminho deve ser uma URL válida)
+        audio.src = currentSong.caminho;
+        
+        // 2. CRÍTICO: Função para tocar assim que a mídia estiver pronta
+        const playWhenReady = () => {
+            audio.play().catch(error => {
+                console.error("Tentativa de reprodução falhou (interação necessária):", error);
+                setIsPlaying(false); 
+            });
+            audio.removeEventListener('canplay', playWhenReady);
+        };
+
+        audio.addEventListener('canplay', playWhenReady);
+        
+        // Limpeza
+        return () => {
+            audio.removeEventListener('canplay', playWhenReady);
+        };
+
+    }, [currentSong]); // Roda sempre que a música (currentSong) muda
+
+    // --- Efeito 2: Listeners e UI Updates ---
+    useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
         
         audio.volume = volume; 
     
         const handleTimeUpdate = () => {
-          if (audio.duration) {
-            setCurrentTime(audio.currentTime);
-            const currentProgress = (audio.currentTime / audio.duration) * 100;
-            setProgress(currentProgress);
-          }
+            if (audio.duration) {
+                setCurrentTime(audio.currentTime);
+                const currentProgress = (audio.currentTime / audio.duration) * 100;
+                setProgress(currentProgress);
+            }
         };
     
         const handleLoadedMetadata = () => {
-          setDuration(audio.duration);
+            setDuration(audio.duration);
         };
     
         const handleEnded = () => {
-          setIsPlaying(false);
-          setProgress(0);
-          setCurrentTime(0);
-          audio.currentTime = 0;
+            setIsPlaying(false);
+            setProgress(0);
+            setCurrentTime(0);
+            audio.currentTime = 0;
         };
         
         audio.addEventListener('timeupdate', handleTimeUpdate);
@@ -113,59 +124,55 @@ function Player() {
         audio.addEventListener('ended', handleEnded);
     
         return () => {
-          audio.removeEventListener('timeupdate', handleTimeUpdate);
-          audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-          audio.removeEventListener('ended', handleEnded);
+            audio.removeEventListener('timeupdate', handleTimeUpdate);
+            audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+            audio.removeEventListener('ended', handleEnded);
         };
     }, [volume]);
 
-    // Lógica Dinâmica para os Ícones (INALTERADA)
-    const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play";
+    // Lógica Dinâmica para os Ícones
+    const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play"; 
     const VolumeIcon = volume === 0 ? "fas fa-volume-mute" : volume < 0.5 ? "fas fa-volume-down" : "fas fa-volume-up";
 
 
     return (
-        <div style={{ position: 'relative', width: '100%' }}> 
-            {/* Elemento de Áudio Oculto. */}
-            <audio 
-                ref={audioRef} 
-                // 💥 CORREÇÃO CRÍTICA: Usa 'caminho' do JSON, não 'audioUrl'
-                src={currentSong?.caminho || "/assets/audio/relaxingpiano.mp3"} 
-                preload="metadata" 
-            />
+        <div style={{ position: 'relative', width: '100%', padding: '10px 0' }}> 
+            {/* CORREÇÃO: SRC vazio na renderização inicial. Definido apenas no useEffect. */}
+            <audio ref={audioRef} src={""} preload="metadata" />
             
-            {/* ... (Container da Barra de Progresso e Tempos inalterado) ... */}
+            {/* Container da Barra de Progresso e Tempos */}
             <div className="barra-progresso-container">
-                 <span className="current-time">{formatTime(currentTime)}</span>
-                 <div 
-                     className="barra-progresso"
-                     onClick={handleSeek}
-                 >
-                     <div 
-                         className="progresso" 
-                         style={{ width: `${progress}%` }} 
-                     />
-                 </div>
-                 <span className="duration-time">{formatTime(duration)}</span>
-             </div>
+                <span className="current-time">{formatTime(currentTime)}</span>
+                <div 
+                    className="barra-progresso"
+                    onClick={handleSeek}
+                >
+                    <div 
+                        className="progresso" 
+                        style={{ width: `${progress}%` }} 
+                    />
+                </div>
+                <span className="duration-time">{formatTime(duration)}</span>
+            </div>
 
             <div className="player">
-                 <div className="controle-musica">
-                     <button className="controle-btn" onClick={(e) => e.stopPropagation()}> 
-                         <i className="fas fa-backward"></i>
-                     </button>
-                     
-                     <button 
-                         className="play-pause-btn"
-                         onClick={handlePlayPause} 
-                     >
-                         <i className={PlayPauseIcon}></i>
-                     </button>
-                     
-                     <button className="controle-btn" onClick={(e) => e.stopPropagation()}> 
-                         <i className="fas fa-forward"></i>
-                     </button>
-                 </div>
+                <div className="controle-musica">
+                    <button className="controle-btn" onClick={(e) => e.stopPropagation()}> 
+                        <i className="fas fa-backward"></i>
+                    </button>
+                    
+                    <button 
+                        className="play-pause-btn"
+                        onClick={handlePlayPause} 
+                    >
+                        {/* CORREÇÃO DE SINTAXE GARANTIDA: Remova qualquer 'class=' que seu colega possa ter adicionado */}
+                        <i className={PlayPauseIcon}></i> 
+                    </button>
+                    
+                    <button className="controle-btn" onClick={(e) => e.stopPropagation()}> 
+                        <i className="fas fa-forward"></i>
+                    </button>
+                </div>
 
                 <p className="song-info">{songName}</p> 
                 
@@ -173,20 +180,17 @@ function Player() {
                     <i className={VolumeIcon}></i>
                     <input 
                         type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
+                        min="0" max="1" step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
                         className="volume-slider"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()} 
                     />
                 </div>
             </div>
 
-            {/* BOTÃO DE TROCA DE TELA COM ROTA DINÂMICA */}
+            {/* BOTÃO DE TROCA DE TELA COM ROTA DINÂMICA (Mobile) */}
             <Link 
-                // 💥 CORREÇÃO CRÍTICA: Passa a rota dinâmica para o 'to'
                 to={detailRoute} 
                 style={{
                     position: 'absolute',
