@@ -3,13 +3,10 @@
 import React from 'react';
 import './Albuns.css'; 
 
-function Albuns() {
+export default function AlbumDetail() {
   return (
     <main>
-      <h1>Álbuns</h1>
+      <h1>Álbum detail</h1>
     </main>
   );
 }
-
-
-export default Albuns;

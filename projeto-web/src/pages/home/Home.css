@@ -207,7 +207,7 @@ main {
   background-color: #2a2a2a; /* Cinza escuro para itens inativos */
   color: var(--text-color);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.9rem;    
   cursor: pointer;
   transition: background-color 0.2s ease;
   user-select: none; /* Impede a seleção de texto ao clicar */
@@ -222,4 +222,28 @@ main {
 .nav-item.selected {
   background-color: var(--orange);
   color: #fff;
+}
+
+/* Remover sublinhado/estilo azul dos links nos cards */
+.card,
+.artist-circle {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card *,
+.artist-circle * {
+  text-decoration: none;
+}
+
+.card:link,
+.card:visited,
+.card:hover,
+.card:active,
+.artist-circle:link,
+.artist-circle:visited,
+.artist-circle:hover,
+.artist-circle:active {
+  text-decoration: none;
+  color: inherit;
 }
