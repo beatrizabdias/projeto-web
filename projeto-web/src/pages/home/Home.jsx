@@ -49,6 +49,7 @@ function Home() {
           {section.type === 'song' && topSongs.map((song, index) => (
             <SongCard
               key={index}
+              id={song.id}
               cover={song.cover}
               title={song.title}
               artist={song.artist}
@@ -58,14 +59,16 @@ function Home() {
           {section.type === 'artist' && topArtists.map((artist, index) => (
             <ArtistCircle
               key={index}
+              id={artist.id}
               image={artist.image}
               name={artist.name}
             />
-          ))}
+          ))}  
           
           {section.type === 'playlist' && topPlaylists.map((playlist, index) => (
             <PlaylistCard
               key={index}
+              id={playlist.id}
               cover={playlist.cover}
               title={playlist.title}
             />
@@ -74,6 +77,7 @@ function Home() {
           {section.type === 'album' && topAlbums.map((album, index) => (
             <AlbumCard
               key={index}
+              id={album.id}
               cover={album.cover}
               title={album.title}
               artist={album.artist}

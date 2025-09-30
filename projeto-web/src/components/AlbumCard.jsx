@@ -1,9 +1,10 @@
 import React from 'react';
 import { FaPlay } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-const AlbumCard = ({ cover, title, artist }) => {
+const AlbumCard = ({ id, cover, title, artist }) => {
   return (
-    <div className="card">
+    <Link to={`/album/${id}`} className="card">
       <img src={cover} alt={title} className="card-image" />
       <div className="card-info">
         <h4 className="card-title">{title}</h4>
@@ -12,7 +13,7 @@ const AlbumCard = ({ cover, title, artist }) => {
       <button className="play-button">
         <FaPlay />
       </button>
-    </div>
+    </Link>
   );
 };
 
