@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
-import { Box, IconButton, Typography, styled } from '@mui/material';
+import React from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom'; 
 
-// Componente Player existente
 import Player from './Player'; 
-// Importação do contexto do player (NECESSÁRIO para o MiniPlayer)
-import { useMusicPlayer } from '../context/MusicPlayerContext'; 
 
-// Ícones de Navegação existentes
 import HomeIcon from '@mui/icons-material/Home'; 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic'; 
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import GroupIcon from '@mui/icons-material/Group'; 
 
-// NOVOS ÍCONES de controle e visibilidade
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 
-// Constantes de estilo existentes
+const mobileMenuItems = [
+    { to: '/', label: 'Início', Icon: HomeIcon },
+    { to: '/fila', label: 'Fila', Icon: QueueMusicIcon },
+    { to: '/playlists', label: 'Playlists', Icon: LibraryMusicIcon },
+    { to: '/grupos', label: 'Grupos', Icon: GroupIcon },
+];
+
 const ACTIVE_COLOR = 'var(--orange)';
 const INACTIVE_COLOR = 'var(--secondary-text-color)';
+const MUSIC_DETAIL_PATH = '/musica/'; 
 
-
-// ------------------------------------------------------------------
-// COMPONENTE AUXILIAR: MobileMenuItem (Inalterado)
-// ------------------------------------------------------------------
 
 const MobileMenuItem = ({ item, isActive }) => (
     <Link to={item.to} style={{ textDecoration: 'none', flexGrow: 1 }}>
@@ -67,96 +60,13 @@ const MobileMenuItem = ({ item, isActive }) => (
     </Link>
 );
 
-// ------------------------------------------------------------------
-// NOVO COMPONENTE: MINI PLAYER 
-// ------------------------------------------------------------------
-
-const MiniPlayerTabContainer = styled(Box)(({ theme }) => ({
-    position: 'fixed',
-    bottom: 20, 
-    right: 20,
-    width: 'auto', 
-    minWidth: '150px',
-    height: '60px',
-    borderRadius: '30px', 
-    backgroundColor: 'var(--orange, #ff7533)', 
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 5px 0 15px', 
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6)',
-    zIndex: 1003,
-    [theme.breakpoints.up('sm')]: {
-        right: 40, 
-        bottom: 40,
-    },
-}));
-
-const MiniPlayerTab = ({ onShowFooter }) => {
-    // APENAS LENDO o estado e as funções do player. Não há auto-play aqui.
-    const { isPlaying, togglePlayPause, skipNext, currentSong } = useMusicPlayer(); 
-    const musicaAtual = currentSong || { titulo: "Música Não Selecionada" };
-
-    return (
-        <MiniPlayerTabContainer>
-            <Typography 
-                variant="body2" 
-                sx={{ 
-                    whiteSpace: 'nowrap', 
-                    overflow: 'hidden', 
-                    textOverflow: 'ellipsis', 
-                    maxWidth: '100px',
-                    fontWeight: 'bold',
-                }}
-            >
-                {musicaAtual.titulo}
-            </Typography>
-
-            <IconButton 
-                onClick={togglePlayPause} // Chamado apenas ao clicar
-                sx={{ color: 'white', ml: 1, '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
-                aria-label={isPlaying ? "Pausar" : "Reproduzir"}
-            >
-                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-            </IconButton>
-
-            <IconButton 
-                onClick={skipNext} // Chamado apenas ao clicar
-                sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
-                aria-label="Avançar"
-            >
-                <SkipNextIcon />
-            </IconButton>
-
-            <IconButton 
-                onClick={onShowFooter}
-                aria-label="Mostrar Rodapé Completo"
-                sx={{ 
-                    color: 'white', 
-                    ml: 0.5,
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.3)' } 
-                }}
-            >
-                <KeyboardArrowUpIcon />
-            </IconButton>
-        </MiniPlayerTabContainer>
-    );
-};
-
-
-// ------------------------------------------------------------------
-// COMPONENTE PRINCIPAL: FOOTER 
-// ------------------------------------------------------------------
-
-import TelaMusica from '../pages/musicas/TelaMusica'; 
 function Footer() {
     const location = useLocation(); 
 
-    // Se estiver na rota de detalhe da música (Mobile/Fullscreen), não mostra o footer
-    if (location.pathname.startsWith(MUSIC_DETAIL_PATH)) { 
-        return null;
-    }
+    // Define se estamos na rota de detalhe da música.
+    const isMusicDetailRoute = location.pathname.startsWith(MUSIC_DETAIL_PATH); 
+    
+    // REMOVIDO: Toda a lógica do MiniPlayer e o estado isFooterVisible.
 
     return (
         <footer 
@@ -169,6 +79,7 @@ function Footer() {
             }}
         >
             {/* Player e Copyright (Desktop) */}
+            {/* Visível em desktop em TODAS AS TELAS */}
             <Box sx={{ 
                 display: { xs: 'none', sm: 'flex' }, 
                 flexDirection: 'column',
@@ -182,11 +93,13 @@ function Footer() {
             </Box>
 
             {/* Player e Footer Consolidado (Mobile) */}
+            {/* Visível em mobile em TODAS AS TELAS (Mesmo na TelaMusica) */}
             <Box sx={{ 
                 display: { xs: 'flex', sm: 'none' }, 
                 flexDirection: 'column', 
                 width: '100%',
-                paddingBottom: '60px', // Espaço para o Menu Mobile
+                // O paddingBottom é 0 se estiver na TelaMusica (sem menu mobile)
+                paddingBottom: isMusicDetailRoute ? '0' : '60px', 
                 backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player />
@@ -196,12 +109,13 @@ function Footer() {
             </Box>
 
 
-            {/* MENU RODAPÉ MOBILE */}
+            {/* MENU RODAPÉ MOBILE (Fixo, mas escondido na tela de música) */}
             <Box
                 className="menu-rodape-mobile"
                 component="nav"
                 sx={{
-                    display: { xs: 'flex', md: 'none' }, 
+                    // CRÍTICO: Esconde o menu mobile se estiver na tela de detalhe da música
+                    display: isMusicDetailRoute ? 'none' : { xs: 'flex', md: 'none' }, 
                     position: 'fixed',
                     bottom: 0, 
                     left: 0,
