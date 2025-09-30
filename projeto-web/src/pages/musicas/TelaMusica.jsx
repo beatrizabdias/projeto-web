@@ -10,6 +10,8 @@ import {
     Container 
 } from '@mui/material';
 
+// 👇️ 1. IMPORTAR O COMPONENTE COMENTARIOS (AJUSTE O CAMINHO SE NECESSÁRIO)
+import Comentarios from '../../components/Comentarios.jsx'; 
 import './css/TelaMusica.css';
 import { useMusicPlayer } from '../../context/MusicPlayerContext';
 
@@ -25,6 +27,10 @@ function TelaMusica() {
         artista: "Artista Desconhecido",
         // USANDO O CAMPO 'imagem' AQUI TAMBÉM
         imagem: DEFAULT_ALBUM_ART,
+        // É bom ter valores padrão para evitar erros, caso o currentSong não tenha esses campos.
+        descricao: "Nenhuma descrição disponível.",
+        letra: "Nenhuma letra disponível.",
+        id: null
     };
 
     const [abaAtiva, setAbaAtiva] = useState('letra');
@@ -52,7 +58,7 @@ function TelaMusica() {
                 {/* O Player NÃO está mais aqui, ele fica no Footer */}
             </Box>
 
-            {/* Bloco Direito: Opções (Artista, Descrição, Letra) */}
+            {/* Bloco Direito: Opções (Artista, Descrição, Letra, COMENTÁRIOS) */}
             <Box className="options-block">
                 <Stack direction="row" spacing={1} className="options-buttons">
                     <Button 
@@ -73,13 +79,25 @@ function TelaMusica() {
                     >
                         Letra
                     </Button>
+                    {/* 👇️ 2. NOVO BOTÃO: COMENTÁRIOS */}
+                    <Button 
+                        variant={abaAtiva === 'comentarios' ? 'contained' : 'outlined'} 
+                        onClick={() => setAbaAtiva('comentarios')}
+                    >
+                        Comentários
+                    </Button>
                 </Stack>
 
-                {/* Conteúdo dinâmico das abas */}
+                {/* 👇️ 3. CONTEÚDO DAS ABAS RESOLVIDO (MANTIDO A LÓGICA DA main) */}
                 <Box className="aba-content">
-                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do Artista aqui...</Typography>)}
-                    {abaAtiva === 'descricao' && (<Typography>Conteúdo da Descrição da Música aqui...</Typography>)}
-                    {abaAtiva === 'letra' && (<Typography>Conteúdo da Letra da Música aqui...</Typography>)}
+                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaAtual.artista} aqui...</Typography>)}
+                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
+                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
+                    
+                    {/* NOVO CONTEÚDO: Componente de Comentários */}
+                    {abaAtiva === 'comentarios' && (
+                        <Comentarios musicaId={musicaAtual.id} />
+                    )}
                 </Box>
             </Box>
         </Container>
