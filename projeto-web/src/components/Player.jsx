@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useMusicPlayer } from '../context/MusicPlayerContext'; 
 import { Link } from 'react-router-dom'; 
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'; 
+import { IconButton } from '@mui/material'; // Importação do MUI para o botão
+import AlbumIcon from '@mui/icons-material/Album'; // NOVO ÍCONE: Representa ir para a tela da música
+// Importações de ícones de controle (apenas para referência, pois você usa Font Awesome)
+// import PlayArrowIcon from '@mui/icons-material/PlayArrow'; 
+// import PauseIcon from '@mui/icons-material/Pause'; 
 
 const MUSIC_DETAIL_PATH_BASE = '/musica/'; 
 
@@ -33,6 +37,7 @@ function Player() {
     
     // --- Funções de Controle ---
     
+    // A função de Play/Pause é mantida, apenas usa o `isPlaying` do Contexto
     const handlePlayPause = () => {
         const audio = audioRef.current;
         if (!audio || !currentSong) return;
@@ -67,33 +72,43 @@ function Player() {
     };
 
 
-    // --- Efeito 1: Altera o SRC e Inicia a Reprodução ---
+    // ------------------------------------------------------------------
+    // MODIFICAÇÃO CHAVE 1: Impede que o player toque ao abrir/minimizar o Footer
+    // ------------------------------------------------------------------
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !currentSong) return;
 
-        // 1. Define o novo SRC (currentSong.caminho deve ser uma URL válida)
-        audio.src = currentSong.caminho;
+        const isNewSong = audio.src !== currentSong.caminho;
         
-        // 2. CRÍTICO: Função para tocar assim que a mídia estiver pronta
-        const playWhenReady = () => {
+        // 1. Define o novo SRC se for uma nova música
+        if (isNewSong) {
+             audio.src = currentSong.caminho;
+             audio.load(); // Garante que a mídia será carregada
+        }
+
+        // 2. Controla a reprodução estritamente pelo estado isPlaying do Contexto
+        if (isPlaying) {
+            // Se o estado é 'tocando', tenta tocar (útil se o componente for minimizado e reaberto)
             audio.play().catch(error => {
-                console.error("Tentativa de reprodução falhou (interação necessária):", error);
-                setIsPlaying(false); 
+                 console.warn("Tentativa de reprodução falhou:", error);
+                 // Se falhar, atualiza o estado do contexto
+                 setIsPlaying(false);
             });
-            audio.removeEventListener('canplay', playWhenReady);
-        };
-
-        audio.addEventListener('canplay', playWhenReady);
+        } else {
+            // Se o estado é 'pausado', pausa (útil se o componente for reaberto e o estado for false)
+            audio.pause();
+        }
         
-        // Limpeza
-        return () => {
-            audio.removeEventListener('canplay', playWhenReady);
-        };
+        // Se for uma nova música, garantimos que ela só começará a tocar se o estado 'isPlaying' for 'true'
+        // Se o player é minimizado/aberto, o 'currentSong' não muda, então ele apenas mantém o estado 'isPlaying'.
 
-    }, [currentSong]); // Roda sempre que a música (currentSong) muda
+    }, [currentSong, isPlaying]); // Depende tanto da música quanto do estado de reprodução
+    // NOTA: Removida a lógica 'canplay' que forçava o play. Agora 'isPlaying' decide.
+    // ------------------------------------------------------------------
 
-    // --- Efeito 2: Listeners e UI Updates ---
+
+    // --- Efeito 2: Listeners e UI Updates (inalterado, mas crucial) ---
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -119,25 +134,35 @@ function Player() {
             audio.currentTime = 0;
         };
         
+        // Este listener é CRÍTICO para manter o estado do contexto sincronizado com o DOM
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+
         audio.addEventListener('timeupdate', handleTimeUpdate);
         audio.addEventListener('loadedmetadata', handleLoadedMetadata); 
         audio.addEventListener('ended', handleEnded);
+        audio.addEventListener('play', handlePlay); 
+        audio.addEventListener('pause', handlePause);
     
         return () => {
             audio.removeEventListener('timeupdate', handleTimeUpdate);
             audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
             audio.removeEventListener('ended', handleEnded);
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
         };
     }, [volume]);
 
-    // Lógica Dinâmica para os Ícones
+    // Lógica Dinâmica para os Ícones (Font Awesome)
     const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play"; 
     const VolumeIcon = volume === 0 ? "fas fa-volume-mute" : volume < 0.5 ? "fas fa-volume-down" : "fas fa-volume-up";
 
 
     return (
-        <div style={{ position: 'relative', width: '100%', padding: '10px 0' }}> 
-            {/* CORREÇÃO: SRC vazio na renderização inicial. Definido apenas no useEffect. */}
+        // MODIFICAÇÃO CHAVE 2: Cor de fundo removida (deve ser controlada pelo CSS do Footer)
+        // Removida a estilização de 'background-color' se existisse. A cor será transparente, dependendo do elemento pai.
+        <div style={{ position: 'relative', width: '100%', padding: '10px 0', backgroundColor: 'transparent' }}> 
+            
             <audio ref={audioRef} src={""} preload="metadata" />
             
             {/* Container da Barra de Progresso e Tempos */}
@@ -165,7 +190,6 @@ function Player() {
                         className="play-pause-btn"
                         onClick={handlePlayPause} 
                     >
-                        {/* CORREÇÃO DE SINTAXE GARANTIDA: Remova qualquer 'class=' que seu colega possa ter adicionado */}
                         <i className={PlayPauseIcon}></i> 
                     </button>
                     
@@ -189,7 +213,7 @@ function Player() {
                 </div>
             </div>
 
-            {/* BOTÃO DE TROCA DE TELA COM ROTA DINÂMICA (Mobile) */}
+            {/* MODIFICAÇÃO CHAVE 3: Substituição do Link com ícone MUI */}
             <Link 
                 to={detailRoute} 
                 style={{
@@ -198,17 +222,20 @@ function Player() {
                     top: '50%',
                     transform: 'translateY(-50%)',
                     zIndex: 10, 
-                    color: 'var(--orange)', 
-                    textDecoration: 'none',
-                    padding: '8px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                 }}
                 onClick={(e) => e.stopPropagation()} 
             >
-                <KeyboardArrowUpIcon sx={{ fontSize: '30px' }} />
+                <IconButton
+                    aria-label="Abrir página da música"
+                    disabled={!currentSong} // Desabilita se não houver música
+                    sx={{ 
+                        color: 'var(--orange)', 
+                        '&:hover': { backgroundColor: 'rgba(255, 117, 51, 0.1)' } 
+                    }}
+                >
+                    {/* Ícone de Album/Disco para ir para a tela de detalhes */}
+                    <AlbumIcon sx={{ fontSize: '30px' }} /> 
+                </IconButton>
             </Link>
         </div>
     );
