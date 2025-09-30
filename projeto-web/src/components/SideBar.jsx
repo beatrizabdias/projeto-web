@@ -7,9 +7,7 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 
-// O SideButton agora é uma função auxiliar (Componente) que usa Tooltip
 const SideButton = ({ children, to, label, isMobile, isProfile = false }) => {
-    // Para mobile, renderizamos o label abaixo do ícone (mantido)
     if (isMobile) {
         return (
             <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>

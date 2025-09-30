@@ -149,53 +149,14 @@ const MiniPlayerTab = ({ onShowFooter }) => {
 // COMPONENTE PRINCIPAL: FOOTER 
 // ------------------------------------------------------------------
 
+import TelaMusica from '../pages/musicas/TelaMusica'; 
 function Footer() {
     const location = useLocation(); 
-    const [isFooterVisible, setIsFooterVisible] = useState(true);
 
-    const toggleFooter = () => {
-        setIsFooterVisible(prev => !prev);
-    };
-
-    if (!isFooterVisible) {
-        return <MiniPlayerTab onShowFooter={toggleFooter} />;
+    // Se estiver na rota de detalhe da música (Mobile/Fullscreen), não mostra o footer
+    if (location.pathname.startsWith(MUSIC_DETAIL_PATH)) { 
+        return null;
     }
-
-    // Componente customizado que combina o texto do footer e o botão de ocultar
-    const FooterBarWithButton = ({ isMobile = false }) => (
-        <div className="foo" style={{ 
-            padding: isMobile ? '5px' : '0 20px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: 'var(--footer-bg)',
-            height: isMobile ? 'auto' : '30px',
-        }}>
-            <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--secondary-text-color)' }}>
-                {isMobile ? `© 2025 Moosica.` : `© 2025 Moosica. Todos os direitos reservados.`}
-            </p>
-            {/* Botão de Ocultar posicionado à direita e embaixo */}
-            <IconButton 
-                onClick={toggleFooter} 
-                aria-label="Ocultar Player" 
-                sx={{ 
-                    color: 'var(--icon-color)', 
-                    p: 0.5,
-                    ml: 1
-                }}
-            >
-                <KeyboardArrowDownIcon />
-            </IconButton>
-        </div>
-    );
-
-    const mobileMenuItems = [
-        { to: '/', label: 'Início', Icon: HomeIcon },
-        { to: '/fila', label: 'Fila', Icon: QueueMusicIcon }, 
-        { to: '/playlists', label: 'Playlists', Icon: LibraryMusicIcon },
-        { to: '/grupos', label: 'Grupos', Icon: GroupIcon },
-    ];
-
 
     return (
         <footer 
@@ -215,8 +176,9 @@ function Footer() {
                 backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player /> 
-                {/* Footer e Botão de Ocultar para Desktop */}
-                <FooterBarWithButton />
+                <div className="foo">
+                    <p>&copy; 2025 Moosica. Todos os direitos reservados.</p>
+                </div>
             </Box>
 
             {/* Player e Footer Consolidado (Mobile) */}
@@ -224,12 +186,13 @@ function Footer() {
                 display: { xs: 'flex', sm: 'none' }, 
                 flexDirection: 'column', 
                 width: '100%',
-                paddingBottom: '60px', 
+                paddingBottom: '60px', // Espaço para o Menu Mobile
                 backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player />
-                {/* Footer e Botão de Ocultar para Mobile */}
-                <FooterBarWithButton isMobile={true} />
+                <div className="foo" style={{ padding: '5px' }}>
+                    <p>&copy; 2025 Moosica.</p>
+                </div>
             </Box>
 
 

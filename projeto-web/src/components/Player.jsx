@@ -22,7 +22,6 @@ function Player() {
 
     const audioRef = useRef(null);
     
-    // Define as informações da música
     const songName = currentSong 
         ? `${currentSong.titulo} - ${currentSong.artista}` 
         : "Nenhuma Música Tocando";
@@ -31,7 +30,6 @@ function Player() {
         ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}` 
         : MUSIC_DETAIL_PATH_BASE;
     
-    // --- Funções de Controle ---
     
     const handlePlayPause = () => {
         const audio = audioRef.current;
@@ -67,15 +65,12 @@ function Player() {
     };
 
 
-    // --- Efeito 1: Altera o SRC e Inicia a Reprodução ---
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio || !currentSong) return;
 
-        // 1. Define o novo SRC (currentSong.caminho deve ser uma URL válida)
         audio.src = currentSong.caminho;
         
-        // 2. CRÍTICO: Função para tocar assim que a mídia estiver pronta
         const playWhenReady = () => {
             audio.play().catch(error => {
                 console.error("Tentativa de reprodução falhou (interação necessária):", error);
@@ -86,14 +81,12 @@ function Player() {
 
         audio.addEventListener('canplay', playWhenReady);
         
-        // Limpeza
         return () => {
             audio.removeEventListener('canplay', playWhenReady);
         };
 
-    }, [currentSong]); // Roda sempre que a música (currentSong) muda
+    }, [currentSong]); 
 
-    // --- Efeito 2: Listeners e UI Updates ---
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -130,14 +123,12 @@ function Player() {
         };
     }, [volume]);
 
-    // Lógica Dinâmica para os Ícones
     const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play"; 
     const VolumeIcon = volume === 0 ? "fas fa-volume-mute" : volume < 0.5 ? "fas fa-volume-down" : "fas fa-volume-up";
 
 
     return (
         <div style={{ position: 'relative', width: '100%', padding: '10px 0' }}> 
-            {/* CORREÇÃO: SRC vazio na renderização inicial. Definido apenas no useEffect. */}
             <audio ref={audioRef} src={""} preload="metadata" />
             
             {/* Container da Barra de Progresso e Tempos */}
@@ -165,7 +156,6 @@ function Player() {
                         className="play-pause-btn"
                         onClick={handlePlayPause} 
                     >
-                        {/* CORREÇÃO DE SINTAXE GARANTIDA: Remova qualquer 'class=' que seu colega possa ter adicionado */}
                         <i className={PlayPauseIcon}></i> 
                     </button>
                     
