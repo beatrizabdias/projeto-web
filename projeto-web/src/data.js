@@ -190,60 +190,70 @@ export const topArtists = [
     name: 'Dua Lipa',
     genre: 'Pop',
     id:'artist-01',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Taylor Swift',
     genre: 'Pop',
     id:'artist-02',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'The Weeknd',
     genre: 'R&B/Pop',
     id:'artist-03',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Ed Sheeran',
     genre: 'Pop',
     id:'artist-04',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Marília Mendonça',
     genre: 'Sertanejo',
     id:'artist-05',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Bad Bunny',
     genre: 'Reggaeton',
     id:'artist-06',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Billie Eilish',
     genre: 'Alt-Pop',
     id:'artist-07',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Anitta',
     genre: 'Funk/Pop',
     id:'artist-08',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Gusttavo Lima',
     genre: 'Sertanejo',
     id:'artist-09',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
   {
     image: "https://placehold.co/400x400",
     name: 'Ariana Grande',
     genre: 'Pop',
     id:'artist-10',
+    about: 'Nulla faucibus magna est, vel posuere dui pellentesque a. Etiam semper luctus orci id cursus. Donec vel efficitur urna. Duis risus ante, faucibus eget urna at, ornare porta eros. Nulla bibendum, diam id vestibulum posuere, metus metus feugiat augue, ac viverra ligula ipsum ut augue. Proin suscipit nec nulla finibus faucibus. Nunc ornare mauris erat, ornare elementum urna iaculis et. Phasellus facilisis mi sit amet lorem ullamcorper ultricies. Integer eget enim eu purus condimentum cursus. Suspendisse iaculis, lectus eu feugiat placerat, augue diam molestie nibh, sit amet blandit orci metus quis turpis. Pellentesque non orci aliquam, vehicula mauris vel, iaculis felis. Suspendisse potenti. Praesent in erat venenatis, blandit nisi vitae, placerat odio. Vestibulum id justo ornare, porta turpis in, pulvinar leo. Duis sem metus, pellentesque sed efficitur ac, mattis aliquet elit.'
   },
 ];
 

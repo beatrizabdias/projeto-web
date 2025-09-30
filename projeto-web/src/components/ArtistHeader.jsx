@@ -1,15 +1,14 @@
 import React from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FaPlay } from 'react-icons/fa';
 
-export default function ArtistHeader() {
+export default function ArtistHeader( {name, about} ) {
     return (
         <>
             <div className="artist-header flex">
                 <div className="artist-info flex">
-                    <h1 className="username">username</h1>
+                    <h1 className="username">{name}</h1>
                     <p className="artist-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, inventore quisquam fuga vel... 
+                        {about} 
                         <a href="#"><strong>Ver mais</strong></a>
                     </p>
                     <span>10 ouvintes mensais</span>
@@ -18,7 +17,7 @@ export default function ArtistHeader() {
 
             <div className="artist-actions flex">
                 <button className="play-btn">
-                    <FontAwesomeIcon icon={faPlay} />
+                    <FaPlay />
                 </button>
                 <button className="follow-btn">
                      Seguir

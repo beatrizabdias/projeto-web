@@ -16,7 +16,7 @@ import UploadM from './pages/musicas/criarmusica.jsx';
 import Grupos from './pages/grupos/Grupos.jsx';
 import GrupoDetalhe from './pages/grupos/GrupoDetalhe.jsx';
 import AlbumDetail from './pages/albuns/AlbumDetail';
-import ArtistDetail from './pages/artists/ArtistDetail';
+import Artist from './pages/artists/Artist';
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
 import SongDetail from './pages/musicas/SongDetail.jsx';
 
@@ -37,13 +37,14 @@ function App() {
             <Route path="/uploadmusica" element={<UploadM />} />
             <Route path="/grupos" element={<Grupos />} />
             <Route path="/grupos/:id" element={<GrupoDetalhe />} />
+
             <Route path="/song/:id" element={<SongDetail />} />
             <Route path="/albumDetail/:id" element={<AlbumDetail />} />
             <Route path="/album/:id" element={<AlbumDetail />} />
             <Route path="/playlistDetail/:id" element={<PlaylistDetail />} />
-            <Route path="/playlist/:id" element={<PlaylistDetail />} />
-            <Route path="/artistDetail/:id" element={<ArtistDetail />} />
-            <Route path="/artist/:id" element={<ArtistDetail />} />
+            <Route path="/playlist/:id" element={<PlaylistDetalhe />} />
+            <Route path="/artistDetail/:id" element={<Artist />} />
+            <Route path="/artist/:id" element={<Artist />} />
 
             <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
           </Routes>
