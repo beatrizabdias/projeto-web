@@ -8,31 +8,30 @@ font-family: 'Poppins', sans-serif;
 .tela-musica-container {
     display: flex;
     margin-top: 50px;
-    gap: 2rem; /* Espaçamento entre as colunas */
+    gap: 2rem;
     padding-top: 2rem;
-    padding-bottom: 5rem; /* Espaço para o footer */
-    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    padding-bottom: 5rem;
+    align-items: flex-start;
 }
 
 /* Layout para dispositivos móveis (coluna) */
 @media (max-width: 900px) {
     .tela-musica-container {
         flex-direction: column;
-        align-items: center; /* Centraliza blocos inteiros em mobile */
+        align-items: center;
         gap: 3rem; 
     }
 }
-
 
 /* ------------------------------------------- */
 /* BLOCO DA MÚSICA (ESQUERDA)                  */
 /* ------------------------------------------- */
 
 .player-info-block {
-    flex: 1 1 800px; /* Base 400px, pode crescer/diminuir */
+    flex: 1 1 800px;
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ocupa a largura total em mobile */
+    width: 100%;
 }
 
 .musica-titulo {
@@ -55,15 +54,15 @@ font-family: 'Poppins', sans-serif;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     margin-top: 1rem;
     margin-bottom: 2rem;
-    object-fit: cover; /* Garante que a imagem preencha a área */
+    object-fit: cover;
 }
 
 /* Responsividade da Capa em Mobile */
 @media (max-width: 900px) {
     .album-art {
-        width: 80vw; /* 80% da largura da viewport */
+        width: 80vw;
         max-width: 350px; 
-        height: 80vw; /* Mantém o quadrado */
+        height: 80vw;
         max-height: 350px; 
     }
 }
@@ -74,10 +73,10 @@ font-family: 'Poppins', sans-serif;
 
 .options-block {
     margin-left: 20px;
-    flex: 1 1 auto; /* Ocupa o espaço restante */
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ocupa a largura total em mobile */
+    width: 100%;
 }
 
 /* Botões (Letra, Relacionados, Descrição) */
@@ -97,8 +96,8 @@ font-family: 'Poppins', sans-serif;
     padding: 1rem;
     border: 1px solid var(--border-color, #333);
     border-radius: 8px;
-    min-height: 100px; /* Altura mínima para o conteúdo */
-    background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil */
+    min-height: 100px;
+    background-color: rgba(0, 0, 0, 0.2);
     color: var(--text-color, #e0e0e0);
     overflow-y: auto;
 }
@@ -117,16 +116,14 @@ font-family: 'Poppins', sans-serif;
     border: 2px solid #ff7533 !important;
 }
 
-/* Efeito de Hover (Aplicação da regra pedida) */
+/* Efeito de Hover */
 .options-block .MuiButton-root:hover {
     background-color: #ff7533 !important;
     color: white !important;
     box-shadow: 0 4px 10px rgba(255, 117, 51, 0.4); 
 }
 
-/* src/components/Player.css */
-
-/* VARIÁVEIS (Ajuste para seu tema) */
+/* VARIÁVEIS */
 :root {
     --player-height: 80px;
     --player-bg: #1c1c1c; 
@@ -145,7 +142,7 @@ font-family: 'Poppins', sans-serif;
     width: 100%; 
 }
 
-/* Estilo para os botões de like/dislike (Adicione este bloco) */
+/* Estilo para os botões de like/dislike */
 .like-dislike-buttons {
     margin-top: 1rem;
     padding-bottom: 1rem;
@@ -156,8 +153,6 @@ font-family: 'Poppins', sans-serif;
 @media (max-width: 900px) {
     .like-dislike-buttons {
         justify-content: center;
-        width: 100%; /* Ocupa a largura total para centralização */
+        width: 100%;
     }
 }
-
-/* ... (restante do CSS do player: .barra-progresso, .controle-musica, .song-info, etc.) ... */
