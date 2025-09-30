@@ -17,7 +17,6 @@ const Section = ({ title, children }) => {
     <section className="section-container">
       <div className="section-header">
         <h2>{title}</h2>
-        <a href="#">Mostrar tudo</a>
       </div>
 
       <div className="section-scroll-container" ref={scrollContainerRef}>

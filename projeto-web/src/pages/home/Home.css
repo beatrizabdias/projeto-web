@@ -1,7 +1,8 @@
 /* --- Estilos Gerais da Página Home --- */
 main h1 {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; 
+  margin-left: 0;
 }
 
 main {
@@ -25,17 +26,6 @@ main {
 
 .section-header h2 {
   font-size: 1.5rem;
-}
-
-.section-header a {
-  color: var(--secondary-text-color);
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 0.875rem;
-}
-
-.section-header a:hover {
-  text-decoration: underline;
 }
 
 /* Container que permite o scroll horizontal */
@@ -81,10 +71,8 @@ main {
 .scroll-button.right { right: -20px; }
 
 
-/* --- Cards de Conteúdo --- */
-
-/* Card de Música (Retangular) */
-.song-card, .album-card {
+/* --- Cards de Conteúdo (Unificados) --- */
+.card {
   position: relative;
   background-color: var(--card-bg);
   border-radius: 8px;
@@ -95,22 +83,22 @@ main {
   cursor: pointer;
 }
 
-.song-card:hover, .album-card:hover {
+.card:hover {
   background-color: #3a3a3a;
 }
 
-.song-card-image, .album-card-image {
+.card-image {
   width: 100%;
   border-radius: 4px;
   margin-bottom: 1rem;
   box-shadow: 0 8px 24px var(--shadow-color-dark);
 }
 
-.song-card-info, .album-card-info {
+.card-info {
   min-height: 50px;
 }
 
-.song-title, .album-title {
+.card-title {
   font-size: 1rem;
   font-weight: 600;
   white-space: nowrap;
@@ -120,7 +108,7 @@ main {
   color: var(--text-color);
 }
 
-.song-artist, .album-artist {
+.card-artist {
   font-size: 0.875rem;
   color: var(--secondary-text-color);
   margin: 0;
@@ -129,8 +117,8 @@ main {
 /* Botão de Play que aparece no Hover do Card */
 .play-button {
   position: absolute;
-  right: 1.2rem;
-  bottom: 6.8rem;
+  right: 0.7rem;
+  bottom: 6rem;
   background-color: var(--orange);
   color: #fff;
   border: none;
@@ -149,9 +137,23 @@ main {
   transition: all 0.3s ease;
 }
 
-.song-card:hover .play-button, .album-card:hover {
+.card:hover .play-button  {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Botão de Play para Cards de Playlists */
+.playlist-card .play-button {
+  right: 0.8rem; /* Ajuste horizontal */
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  bottom: 4.5rem; /* Ajuste vertical */
+}
+
+/* Aparece no hover do PlaylistCard */
+.playlist-card:hover .play-button {
+  opacity: 1;
+  transform: translateY(0); /* Remove o deslocamento inicial */
 }
 
 

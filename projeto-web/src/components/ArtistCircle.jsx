@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlay } from 'react-icons/fa';
 
 const ArtistCircle = ({ image, name }) => {
   return (

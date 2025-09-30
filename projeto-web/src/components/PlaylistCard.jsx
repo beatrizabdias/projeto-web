@@ -3,11 +3,11 @@ import { FaPlay } from 'react-icons/fa';
 
 const PlaylistCard = ({ cover, title, artist }) => {
   return (
-    <div className="album-card">
-      <img src={cover} alt={title} className="album-card-image" />
-      <div className="album-card-info">
-        <h4 className="album-title">{title}</h4>
-        <p className="album-artist">{artist}</p>
+    <div className="card playlist-card">
+      <img src={cover} alt={title} className="card-image" />
+      <div className="card-info">
+        <h4 className="card-title">{title}</h4>
+        <p className="card-artist">{artist}</p>
       </div>
       <button className="play-button">
         <FaPlay />
