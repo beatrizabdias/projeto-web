@@ -14,6 +14,7 @@ import Pesquisa from './pages/pesquisa/Pesquisa';
 import TelaMusica from './pages/musicas/TelaMusica.jsx';
 import UploadM from './pages/musicas/criarmusica.jsx';
 import Grupos from './pages/grupos/Grupos.jsx';
+import Artistas from './pages/artists/Artist.jsx';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/musica/:id" element={<TelaMusica />} />
             <Route path="/uploadmusica" element={<UploadM />} />
             <Route path="/grupos" element={<Grupos />} />
+            <Route path="/artistas" element={<Artistas />} />
             <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
           </Routes>
         </main>

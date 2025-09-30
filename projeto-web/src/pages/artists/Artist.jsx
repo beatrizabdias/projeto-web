@@ -1,6 +1,8 @@
 import React from 'react';
-import ArtistHeader from '../../components/ArtistHeader';
-import ArtistMaisTocadas from '../../components/ArtistMaisTocadas';
+import ArtistHeader from '../../components/ArtistHeader.jsx';
+import ArtistMaisTocadas from '../../components/ArtistMaisTocadas.jsx';
+import Song from '../../components/Song.jsx';
+import './artist.css';  
 
 export default function ArtistPage() {
     return (
