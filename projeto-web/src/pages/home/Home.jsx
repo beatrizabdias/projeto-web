@@ -1,114 +1,89 @@
-import React from 'react';
-import './Home.css'; 
+import React, { useState } from 'react';
+import Section from '../../components/Section';
+import SongCard from '../../components/SongCard';
+import AlbumCard from '../../components/AlbumCard';
+import PlaylistCard from '../../components/PlaylistCard';
+import ArtistCircle from '../../components/ArtistCircle';
+import Navigation from '../../components/Navigation';
+import { topSongs, topAlbums, topArtists, topPlaylists, sectionsData, navItemsData } from '../../data';
+import './Home.css';
 
 function Home() {
+  // Estado para controlar o filtro selecionado. Começa com "Tudo".
+  const [selectedFilter, setSelectedFilter] = useState('Tudo');
+
+  // Mapeamento entre os valores de filtro e os tipos de seção
+  const filterMap = {
+    'Tudo': null, // Exibe todas as seções
+    'Músicas': 'song',
+    'Artistas': 'artist',
+    'Playlists': 'playlist',
+    'Álbuns': 'album',
+  };
+
+  // Lógica de filtragem: cria uma nova lista apenas com as seções que devem ser exibidas.
+  const filteredSections = sectionsData.filter(section => {
+    if (selectedFilter === 'Tudo') {
+      return true; // Se for "Tudo", retorna todas as seções
+    }
+    // Caso contrário, retorna apenas as seções cujo tipo corresponde ao filtro
+    return section.type === filterMap[selectedFilter];
+  });
+
   return (
-    <div>
+    <main>
+      <h1>Página Inicial</h1>
 
-      <main>
-          <h1>Página Inicial</h1>
-          <nav>
-              <div className="nav-item selected">Tudo</div>
-              <div className="nav-item">Playlists</div>
-              <div className="nav-item">Músicas</div>
-              <div className="nav-item">Álbuns</div>
-              <div className="nav-item">Artistas</div>
-          </nav>
+      {/* O componente de Navegação controla o estado do filtro */}
+      <Navigation 
+        navItemsData={navItemsData}
+        selectedItem={selectedFilter}
+        setSelectedItem={setSelectedFilter} 
+      />
 
-          <h2>Em alta</h2>
-          <div className="container">
-              <div class="div">
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div> 
-              </div>
-          </div>
-            <button id="scroll-btn" className="scroll-btn">▶</button> 
+      {/* Mapeamos a lista JÁ FILTRADA para renderizar o conteúdo */}
+      {filteredSections.map((section) => (
+        <Section key={section.title} title={section.title}>
           
-          <h2>Para você</h2>
-          <div class="container">
-              <div className="div">
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-              </div>
-          </div>
-            <button id="scroll-right" className="scroll-btn">▶</button>
+          {/* Renderização condicional para cada tipo de card */}
+          {section.type === 'song' && topSongs.map((song, index) => (
+            <SongCard
+              key={index}
+              cover={song.cover}
+              title={song.title}
+              artist={song.artist}
+            />
+          ))}
 
-          <h2>Top Hits do Rebanho</h2>
-          <div className="container">
-              <div className="div">
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-                  <div className="box"></div>
-              </div>
-          </div>
+          {section.type === 'artist' && topArtists.map((artist, index) => (
+            <ArtistCircle
+              key={index}
+              image={artist.image}
+              name={artist.name}
+            />
+          ))}
+          
+          {section.type === 'playlist' && topPlaylists.map((playlist, index) => (
+            <PlaylistCard
+              key={index}
+              cover={playlist.cover}
+              title={playlist.title}
+            />
+          ))}
 
-          <h2>Acús-ticos do Campo</h2>
-          <div class="container">
-              <div class="div">
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-              </div>
-          </div>
+          {section.type === 'album' && topAlbums.map((album, index) => (
+            <AlbumCard
+              key={index}
+              cover={album.cover}
+              title={album.title}
+              artist={album.artist}
+            />
+          ))}
 
-          <h2>Pista de Dança Malhada</h2>
-          <div class="container">
-              <div class="div">
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-              </div>
-          </div>
-
-
-          <h2>Sofrência Bovina</h2>
-          <div class="container">
-              <div class="div">
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-              </div>
-          </div>
-
-          <h2>Pop Leite</h2>
-          <div class="container">
-              <div class="div">
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-                  <div class="box"></div>
-              </div>
-          </div>
-      </main>
-  </div>
+        </Section>
+      ))}
+    </main>
   );
 }
-export default Home; 
+
+export default Home;
