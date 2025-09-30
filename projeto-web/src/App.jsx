@@ -22,17 +22,18 @@ function App() {
       <MusicPlayerProvider>
         <Header />
         
-        <Routes>        
-          <Route path="/" element={<Home />} />
-          <Route path="/playlists" element={<Playlists />} />
-          <Route path="/playlists/:id" element={<PlaylistDetalhe />} /> 
-          <Route path="/pesquisa" element={<Pesquisa />} />
-          <Route path="/musica/:id" element={<TelaMusica />} />
-          <Route path="/uploadmusica" element={<UploadM />} />
-          <Route path="/grupos" element={<Grupos />} />
-          <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
-        </Routes>
-
+        <main className="main-content-area">
+          <Routes>        
+            <Route path="/" element={<Home />} />
+            <Route path="/playlists" element={<Playlists />} />
+            <Route path="/playlists/:id" element={<PlaylistDetalhe />} /> 
+            <Route path="/pesquisa" element={<Pesquisa />} />
+            <Route path="/musica/:id" element={<TelaMusica />} />
+            <Route path="/uploadmusica" element={<UploadM />} />
+            <Route path="/grupos" element={<Grupos />} />
+            <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
+          </Routes>
+        </main>
         <Footer />
       </MusicPlayerProvider>
     </Router>
