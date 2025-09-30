@@ -8,7 +8,9 @@
     "caminho": "/assets/audio/softpiano.mp3",
     "imagem": "/assets/img/vacamario.jpg",
     "genero": "Rock",
-    "ano": 2025
+    "ano": 2025,
+    "descricao": "acontece",
+    "letra": "legal legal legal legal"
   },
   {
     "id": 2,
@@ -19,6 +21,8 @@
     "caminho": "/assets/audio/relaxingpiano.mp3",
     "imagem": "/assets/img/vacamario.jpg",
     "genero": "Pop",
-    "ano": 2024
+    "ano": 2024,
+    "descricao": "acontece",
+    "letra": "legal legal legal legal"
   }
 ]

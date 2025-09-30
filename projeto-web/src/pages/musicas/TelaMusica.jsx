@@ -152,8 +152,8 @@ function TelaMusica() {
                 {/* Conteúdo dinâmico das abas */}
                 <Box className="aba-content">
                     {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaAtual.artista} aqui...</Typography>)}
-                    {abaAtiva === 'descricao' && (<Typography>Conteúdo da Descrição da Música {musicaAtual.titulo} aqui...</Typography>)}
-                    {abaAtiva === 'letra' && (<Typography>Conteúdo da Letra de {musicaAtual.titulo} aqui...</Typography>)}
+                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
+                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
                     
                     {/* NOVO CONTEÚDO: Componente de Comentários */}
                     {abaAtiva === 'comentarios' && (
