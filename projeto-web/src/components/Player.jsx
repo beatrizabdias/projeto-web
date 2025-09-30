@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useMusicPlayer } from '../context/MusicPlayerContext'; 
 import { Link } from 'react-router-dom'; 
-import { IconButton } from '@mui/material'; // Importação do MUI para o botão
-import AlbumIcon from '@mui/icons-material/Album'; // NOVO ÍCONE: Representa ir para a tela da música
-// Importações de ícones de controle (apenas para referência, pois você usa Font Awesome)
-// import PlayArrowIcon from '@mui/icons-material/PlayArrow'; 
-// import PauseIcon from '@mui/icons-material/Pause'; 
+import { IconButton } from '@mui/material'; 
+import AlbumIcon from '@mui/icons-material/Album'; 
 
 const MUSIC_DETAIL_PATH_BASE = '/musica/'; 
 
@@ -26,7 +23,6 @@ function Player() {
 
     const audioRef = useRef(null);
     
-    // Define as informações da música
     const songName = currentSong 
         ? `${currentSong.titulo} - ${currentSong.artista}` 
         : "Nenhuma Música Tocando";
@@ -35,9 +31,7 @@ function Player() {
         ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}` 
         : MUSIC_DETAIL_PATH_BASE;
     
-    // --- Funções de Controle ---
     
-    // A função de Play/Pause é mantida, apenas usa o `isPlaying` do Contexto
     const handlePlayPause = () => {
         const audio = audioRef.current;
         if (!audio || !currentSong) return;
@@ -71,9 +65,8 @@ function Player() {
         audio.currentTime = clickPercent * audio.duration;
     };
 
-
     // ------------------------------------------------------------------
-    // MODIFICAÇÃO CHAVE 1: Impede que o player toque ao abrir/minimizar o Footer
+    // EFEITO 1: Controle de Música (Combinação da lógica de 'main')
     // ------------------------------------------------------------------
     useEffect(() => {
         const audio = audioRef.current;
@@ -89,26 +82,25 @@ function Player() {
 
         // 2. Controla a reprodução estritamente pelo estado isPlaying do Contexto
         if (isPlaying) {
-            // Se o estado é 'tocando', tenta tocar (útil se o componente for minimizado e reaberto)
+            // Se o estado é 'tocando', tenta tocar
             audio.play().catch(error => {
                  console.warn("Tentativa de reprodução falhou:", error);
                  // Se falhar, atualiza o estado do contexto
                  setIsPlaying(false);
             });
         } else {
-            // Se o estado é 'pausado', pausa (útil se o componente for reaberto e o estado for false)
+            // Se o estado é 'pausado', pausa
             audio.pause();
         }
         
-        // Se for uma nova música, garantimos que ela só começará a tocar se o estado 'isPlaying' for 'true'
-        // Se o player é minimizado/aberto, o 'currentSong' não muda, então ele apenas mantém o estado 'isPlaying'.
-
+        // Esta função de limpeza (return) foi removida, pois não é necessária
+        // com esta nova abordagem que depende do estado 'isPlaying'.
     }, [currentSong, isPlaying]); // Depende tanto da música quanto do estado de reprodução
-    // NOTA: Removida a lógica 'canplay' que forçava o play. Agora 'isPlaying' decide.
+    
     // ------------------------------------------------------------------
 
 
-    // --- Efeito 2: Listeners e UI Updates (inalterado, mas crucial) ---
+    // --- EFEITO 2: Listeners e UI Updates (inalterado, mas crucial) ---
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -153,14 +145,14 @@ function Player() {
         };
     }, [volume]);
 
+
     // Lógica Dinâmica para os Ícones (Font Awesome)
     const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play"; 
     const VolumeIcon = volume === 0 ? "fas fa-volume-mute" : volume < 0.5 ? "fas fa-volume-down" : "fas fa-volume-up";
 
 
     return (
-        // MODIFICAÇÃO CHAVE 2: Cor de fundo removida (deve ser controlada pelo CSS do Footer)
-        // Removida a estilização de 'background-color' se existisse. A cor será transparente, dependendo do elemento pai.
+        // Mantido o estilo de 'main' que garante o fundo transparente e posição relativa
         <div style={{ position: 'relative', width: '100%', padding: '10px 0', backgroundColor: 'transparent' }}> 
             
             <audio ref={audioRef} src={""} preload="metadata" />
@@ -213,7 +205,7 @@ function Player() {
                 </div>
             </div>
 
-            {/* MODIFICAÇÃO CHAVE 3: Substituição do Link com ícone MUI */}
+            {/* Link para a página da música com ícone MUI */}
             <Link 
                 to={detailRoute} 
                 style={{
@@ -227,13 +219,12 @@ function Player() {
             >
                 <IconButton
                     aria-label="Abrir página da música"
-                    disabled={!currentSong} // Desabilita se não houver música
+                    disabled={!currentSong} 
                     sx={{ 
                         color: 'var(--orange)', 
                         '&:hover': { backgroundColor: 'rgba(255, 117, 51, 0.1)' } 
                     }}
                 >
-                    {/* Ícone de Album/Disco para ir para a tela de detalhes */}
                     <AlbumIcon sx={{ fontSize: '30px' }} /> 
                 </IconButton>
             </Link>
