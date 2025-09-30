@@ -9,12 +9,12 @@ const tracksData = [
     { rank: 5, coverUrl: 'https://placehold.co/250?text=song+cover.png', title: 'Título da Música 5', artist: 'Artista Famoso', album: 'Álbum B', duration: '3:20' },
 ];
 
-export default function ArtistMaisTocadas( {tituloDaSecao} ) {
+export default function ArtistMaisTocadas( {tituloDaSecao, tracksArr = tracksData} ) {
     return (
         <div className="mais-tocadas">
             <h3>{tituloDaSecao}</h3>
             
-            {tracksData.map((song) => (
+            {tracksArr.map((song) => (
                 <Song 
                     key={song.rank}
                     rank={song.rank}

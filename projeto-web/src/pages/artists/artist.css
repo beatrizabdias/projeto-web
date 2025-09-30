@@ -2,11 +2,11 @@ body {
     color: #FFFFFF; 
   }
 
-  main {
+  /* main {
     margin: 0;
     padding-top: 20px;
     padding-left: 30px;
-  }
+  } */
   
   p, h1, h3 {
     margin: 0;
@@ -65,7 +65,7 @@ body {
 
   .follow-btn:hover {
     cursor: pointer;
-    background-color: #f58332;
+    background-color: #ff6b00;
   }
   
   
@@ -100,7 +100,7 @@ body {
     cursor: pointer;
   }
   
-  .username {
+  .artist-name {
     font-size: 3.5em;
   }
   

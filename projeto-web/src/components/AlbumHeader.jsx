@@ -1,22 +1,22 @@
-export default function AlbumHeader() {
+export default function AlbumHeader( {cover, type, title, artistImg = "https://placehold.co/30?text=Artist+Img.png", artist, year, duration} ) {
     return (
         <>
             <div className="album-header flex">
                 <div className="album-cover">
-                    <img src="https://placehold.co/250?text=Album+Cover.png" alt="Capa do Álbum"/>
+                    <img src={cover} alt="Capa do Álbum"className="album-cover"/>
                 </div>
                 <div className="album-info flex">
-                    <p>Álbum</p>
-                    <h1 className="album-title">Título do álbum</h1>
+                    <p>{type}</p>
+                    <h1 className="album-title">{title}</h1>
                     <div className="album-details flex">
                         <div className="artist-logo-container">
-                            <img className="artist-logo" src="https://placehold.co/30?text=Artist+Img.png" alt="Logo do Artista"/>
+                            <img className="artist-logo" src={artistImg} alt="Logo do Artista"/>
                         </div>
-                        <span>Artista Famoso</span>
+                        <span>{artist}</span>
                         <span>•</span>
-                        <span className='lighter-text'>2024</span>
+                        <span className='lighter-text'>{year}</span>
                         <span>•</span>
-                        <span className='lighter-text'>12 músicas, 1h12min</span>
+                        <span className='lighter-text'>{duration}</span>
                     </div>
                 </div>
             </div>

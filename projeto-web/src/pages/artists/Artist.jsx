@@ -6,6 +6,7 @@ import Song from '../../components/Song.jsx';
 import './artist.css';  
 import ArtistParecidos from '../../components/ArtistParecidos';
 import { topArtists } from '../../data.js';
+import { topArtists } from '../../data.js';
 
 export default function Artist({ artistID }) {
   // Pega o id da URL (rota /artist/:id) e usa a prop como fallback
