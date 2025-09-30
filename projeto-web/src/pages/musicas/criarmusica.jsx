@@ -23,8 +23,6 @@ const generosLista = [
     "Pagode", "Pop", "Punk", "Rap", "Rock", "Sertanejo"
 ];
 
-// Componente customizado para o TextField do MUI (Estilo Filled)
-// Este CSS está injetado no componente. Não precisa de arquivo CSS separado.
 const CustomTextField = styled(TextField)({
     '& label': {
         color: 'var(--secondary-text-color)', 
@@ -54,8 +52,6 @@ const CustomTextField = styled(TextField)({
     },
 });
 
-// Componente customizado para o Select do MUI (Estilo Filled)
-// Este CSS está injetado no componente. Não precisa de arquivo CSS separado.
 const CustomSelect = styled(Select)({
     color: 'var(--input-text-color)',
     backgroundColor: 'var(--input-bg)',

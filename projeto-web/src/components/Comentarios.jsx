@@ -1,5 +1,3 @@
-// src/components/Comentarios.jsx
-
 import React, { useState, useEffect } from 'react';
 import { 
     Box, 
@@ -61,8 +59,8 @@ function Comentarios({ musicaId }) {
     };
 
     return (
+        // Formulário de Adição de Comentário
         <Box sx={{ padding: 0 }}>
-            {/* Formulário de Adição de Comentário */}
             <Box component="form" onSubmit={handleSubmit} sx={{ mb: 3 }}>
                 <TextField
                     label="Adicionar um comentário"
@@ -94,18 +92,17 @@ function Comentarios({ musicaId }) {
                         mt: 1 
                     }}
                 >
-                    Comentar
+                    Cowmentar
                 </Button>
             </Box>
 
-            {/* Lista de Comentários */}
             <Typography variant="h6" gutterBottom sx={{ color: '#ff7533', borderTop: '1px solid #444', pt: 2 }}>
-                Comentários ({comentarios.length})
+                Cowmentários ({comentarios.length})
             </Typography>
             
             {comentarios.length === 0 ? (
                 <Typography variant="body2" sx={{ color: '#b3b3b3' }}>
-                    Nenhum comentário ainda. Seja o primeiro a opinar!
+                    Nenhum cowmentário ainda. Seja o primeiro a opinar!
                 </Typography>
             ) : (
                 <List disablePadding>

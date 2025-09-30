@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { 
-    Box, 
-    Typography, 
-    Button, 
-    Stack, 
-    CardMedia, 
-    Container,
+    Box, 
+    Typography, 
+    Button, 
+    Stack, 
+    CardMedia, 
+    Container,
     IconButton,
 } from '@mui/material';
 
@@ -17,17 +17,17 @@ import { useMusicPlayer } from '../../context/MusicPlayerContext';
 import Comentarios from '../../components/Comentarios'; 
 
 function TelaMusica() {
-    const { currentSong } = useMusicPlayer(); 
-    
-    // ADICIONADO: Um ID único para a música (essencial para comentários persistentes)
-    const musicaAtual = currentSong || {
-        id: "default-song-placeholder", // ID único
-        titulo: "Nenhuma Música Tocando",
-        artista: "Artista Desconhecido",
-        imagem: "/assets/img/vacamario.jpg",
-    };
+    const { currentSong } = useMusicPlayer(); 
 
-    const [abaAtiva, setAbaAtiva] = useState('letra');
+    // ADICIONADO: Um ID único para a música (essencial para comentários persistentes)
+    const musicaAtual = currentSong || {
+        id: "default-song-placeholder", // ID único
+        titulo: "Nenhuma Música Tocando",
+        artista: "Artista Desconhecido",
+        imagem: "/assets/img/vacamario.jpg",
+    };
+
+    const [abaAtiva, setAbaAtiva] = useState('letra');
 
     // --- NOVO: Lógica de Like/Dislike ---
     const [likes, setLikes] = useState(15);
@@ -64,24 +64,23 @@ function TelaMusica() {
     };
     // ------------------------------------
 
-    return (
-        <Container maxWidth="lg" className="tela-musica-container">
-            {/* Bloco Esquerdo: Capa da Música e Nome */}
-            <Box className="player-info-block">
-                <Typography variant="h4" component="h1" gutterBottom className="musica-titulo">
-                    {musicaAtual.titulo}
-                </Typography>
-                <Typography variant="h6" gutterBottom className="musica-artista">
-                    {musicaAtual.artista}
-                </Typography>
-                
-                {/* Imagem da Capa */}
-                <CardMedia
-                    component="img"
-                    image={musicaAtual.imagem}
-                    alt={`Capa do álbum de ${musicaAtual.titulo}`}
-                    className="album-art"
-                />
+    return (
+        <Container maxWidth="lg" className="tela-musica-container">
+            {/* Bloco Esquerdo: Capa da Música e Nome */}
+            <Box className="player-info-block">
+                <Typography variant="h4" component="h1" gutterBottom className="musica-titulo">
+                    {musicaAtual.titulo}
+                </Typography>
+                <Typography variant="h6" gutterBottom className="musica-artista">
+                    {musicaAtual.artista}
+                </Typography>
+
+                <CardMedia
+                    component="img"
+                    image={musicaAtual.imagem}
+                    alt={`Capa do álbum de ${musicaAtual.titulo}`}
+                    className="album-art"
+                />
 
                 {/* NOVO: Botões de Like e Dislike */}
                 <Stack direction="row" spacing={2} alignItems="center" className="like-dislike-buttons">
@@ -116,30 +115,30 @@ function TelaMusica() {
                 </Stack>
                 {/* Fim dos Botões de Like e Dislike */}
 
-            </Box>
+            </Box>
 
-            {/* Bloco Direito: Opções (Artista, Descrição, Letra, Comentários) */}
-            <Box className="options-block">
-                
-                <Stack direction="row" spacing={1} className="options-buttons">
-                    <Button 
-                        variant={abaAtiva === 'artista' ? 'contained' : 'outlined'} 
-                        onClick={() => setAbaAtiva('artista')}
-                    >
-                        Artista
-                    </Button>
-                    <Button 
-                        variant={abaAtiva === 'descricao' ? 'contained' : 'outlined'} 
-                        onClick={() => setAbaAtiva('descricao')}
-                    >
-                        Descrição
-                    </Button>
-                    <Button 
-                        variant={abaAtiva === 'letra' ? 'contained' : 'outlined'} 
-                        onClick={() => setAbaAtiva('letra')}
-                    >
-                        Letra
-                    </Button>
+            {/* Bloco Direito: Opções (Artista, Descrição, Letra, Comentários) */}
+            <Box className="options-block">
+
+            <Stack direction="row" spacing={1} className="options-buttons">
+                    <Button 
+                        variant={abaAtiva === 'artista' ? 'contained' : 'outlined'} 
+                        onClick={() => setAbaAtiva('artista')}
+                    >
+                        Artista
+                    </Button>
+                    <Button 
+                        variant={abaAtiva === 'descricao' ? 'contained' : 'outlined'} 
+                        onClick={() => setAbaAtiva('descricao')}
+                    >
+                    Descrição
+                    </Button>
+                    <Button 
+                        variant={abaAtiva === 'letra' ? 'contained' : 'outlined'} 
+                        onClick={() => setAbaAtiva('letra')}
+                    >
+                        Letra
+                    </Button>
                     {/* NOVA ABA: Comentários */}
                     <Button 
                         variant={abaAtiva === 'comentarios' ? 'contained' : 'outlined'} 
@@ -147,22 +146,22 @@ function TelaMusica() {
                     >
                         Comentários
                     </Button>
-                </Stack>
+                </Stack>
 
-                {/* Conteúdo dinâmico das abas */}
-                <Box className="aba-content">
-                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaAtual.artista} aqui...</Typography>)}
-                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
-                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
+                {/* Conteúdo dinâmico das abas */}
+                <Box className="aba-content">
+                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaAtual.artista} aqui...</Typography>)}
+                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
+                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
                     
                     {/* NOVO CONTEÚDO: Componente de Comentários */}
                     {abaAtiva === 'comentarios' && (
                         <Comentarios musicaId={musicaAtual.id} />
                     )}
-                </Box>
-            </Box>
-        </Container>
-    );
+                </Box>
+            </Box>
+        </Container>
+    );
 }
 
 export default TelaMusica;
