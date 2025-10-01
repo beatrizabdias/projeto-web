@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play } from 'lucide-react'; 
 
-export default function ArtistHeader({ artist }) {
+export default function ArtistHeader({ artist = {} }) {
     const { name, about, image } = artist;
     const monthlyListeners = (Math.random() * 10 + 1).toFixed(1); 
 
@@ -54,5 +54,7 @@ export default function ArtistHeader({ artist }) {
                 </button>
             </div>
         </header>
+        </div> 
+        </>
     );
 }
