@@ -6,7 +6,7 @@ export default function ArtistHeader( {name, about} ) {
         <>
             <div className="artist-header flex">
                 <div className="artist-info flex">
-                    <h1 className="artist-name">{name}</h1>
+                    <h1 className="name-artist">{name}</h1>
                     <p className="artist-description">
                         {about} 
                         <a href="#"><strong>Ver mais</strong></a>
