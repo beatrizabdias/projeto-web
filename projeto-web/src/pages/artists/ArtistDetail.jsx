@@ -4,7 +4,7 @@ import { topArtists } from '../data';
 import ArtistHeader from '../components/ArtistHeader'; 
 import ArtistMusicList from '../components/ArtistMusicList'; 
 import CardGrid from '../components/CardGrid'; 
-import Card from '../components/Card'; 
+import SongCard from '../components/SongCard'; 
 
 const ArtistDetail = () => {
   const { id } = useParams();

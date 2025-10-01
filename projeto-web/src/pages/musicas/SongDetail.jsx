@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
-import ArtistMusicList from '../../components/ArtistMusicList.jsx';
+import ArtistMusicList from '../../components/SongListCover.jsx';
+import ArtistMaisTocadas from '../../components/SongList.jsx';
 import { topSongs } from '../../data.js';
 import './css/SongDetail.css'
 
@@ -30,8 +31,8 @@ export default function SongDetail( {songID} ) {
             /> 
             
             <section className="p-4"> 
-                <ArtistMusicList 
-                    tracks={[song]} 
+                <ArtistMaisTocadas 
+                    tracksArr={[song]} 
                 />
             </section>
         </main>
