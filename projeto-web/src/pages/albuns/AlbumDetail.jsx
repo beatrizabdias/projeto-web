@@ -4,7 +4,7 @@ import React from 'react';
 import './Albuns.css'; 
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
-import ArtistMaisTocadas from '../../components/ArtistMaisTocadas.jsx';
+import ArtistMusicList from "../../components/ArtistMusicList.jsx";
 import { topAlbums } from '../../data.js';
 import '../musicas/css/SongDetail.css'
 

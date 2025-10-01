@@ -16,7 +16,7 @@ import UploadM from './pages/musicas/criarmusica.jsx';
 import Grupos from './pages/grupos/Grupos.jsx';
 import GrupoDetalhe from './pages/grupos/GrupoDetalhe.jsx';
 import AlbumDetail from './pages/albuns/AlbumDetail';
-import Artist from './pages/artists/Artist';
+import Artist from './pages/artists/Artist'; 
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
 import SongDetail from './pages/musicas/SongDetail.jsx';
 
@@ -37,6 +37,7 @@ function App() {
             <Route path="/uploadmusica" element={<UploadM />} />
             <Route path="/grupos" element={<Grupos />} />
             <Route path="/grupos/:id" element={<GrupoDetalhe />} />
+            <Route path="/artista/:id" element={<Artist />} />
 
             <Route path="/song/:id" element={<SongDetail />} />
             <Route path="/albumDetail/:id" element={<AlbumDetail />} />
