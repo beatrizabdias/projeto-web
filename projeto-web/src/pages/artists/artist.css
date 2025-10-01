@@ -25,6 +25,7 @@ body {
     border-bottom: 1px solid #ccc;
     border: 1px solid #444; 
     background-color: #ff6b00;
+    border: 1px solid red;
   }
   
   .artist-info {
@@ -57,9 +58,10 @@ body {
   .follow-btn {
     background-color: #121212;
     color: white;
+    font-size: 17px;
     border: 1px solid #4a4a4a;
     height: fit-content;
-    padding: 10px 20px;
+    padding: 15px 25px;
     border-radius: 50px;
   }
 
@@ -187,6 +189,12 @@ body {
   }
 
   .mais-tocadas {
-    padding-left: 30px;
+    /* padding-left: 30px; */
     padding-bottom: 0;
+    /* border: 1px solid red; */
+
+  }
+
+  .mais-tocadas h3{
+    font-size: 1.5rem;
   }

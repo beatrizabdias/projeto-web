@@ -84,7 +84,9 @@ main {
 }
 
 .card:hover {
-  background-color: #3a3a3a;
+  background-color: var(--shadow-color-dark);
+  color: var(--white);
+
 }
 
 .card-image {
@@ -204,7 +206,7 @@ main {
 .nav-item {
   padding: 0.6rem 1.2rem;
   border-radius: 50px;
-  background-color: #2a2a2a; /* Cinza escuro para itens inativos */
+  background-color: var(--card-bg); /* Cinza um pouco mais claro */
   color: var(--text-color);
   font-weight: 600;
   font-size: 0.9rem;    
@@ -215,7 +217,7 @@ main {
 
 /* Efeito ao passar o mouse sobre um item */
 .nav-item:hover {
-  background-color: #3f3f3f; /* Cinza um pouco mais claro */
+  background-color: var(--shadow-color-dark); /* Cinza escuro para itens inativos */
 }
 
 /* Estilo específico para o item que está selecionado */

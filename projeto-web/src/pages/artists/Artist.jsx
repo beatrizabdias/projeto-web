@@ -3,11 +3,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ArtistHeader from '../../components/ArtistHeader.jsx';
-import SongList from '../../components/SongList.jsx'; 
-import ArtistPlaylist from '../../components/ArtistPlaylist';       // Importado
-import ArtistParecidos from '../../components/ArtistParecidos';     // Importado
+import SongList from '../../components/SongList.jsx';      
+import ArtistParecidos from '../../components/ArtistParecidos';     
 import './artist.css';  
-import { topArtists } from '../../data.js';
+import Section from '../../components/Section.jsx'; 
+import AlbumCard from '../../components/AlbumCard.jsx'; 
+import ArtistCircle from '../../components/ArtistCircle.jsx'; 
+import { topArtists, topAlbums } from '../../data.js';
 
 export default function Artist({ artistID }) {
   const { id: routeId } = useParams();
@@ -33,11 +35,35 @@ export default function Artist({ artistID }) {
         
       />
 
-      <ArtistPlaylist />
+      
+      
+      <Section key={"Discografia"} title={"Discografia"}>
+        {topAlbums.map((album, index) => (
+          <AlbumCard
+            key={index}
+            id={album.id}
+            cover={album.cover}
+            title={album.title}
+            artist={album.artist}
+          />
+         ))}
+      </Section>
 
+
+        
+      <Section key={"Artistas Parecidos"} title={"Artistas Parecidos"}>
+        {topArtists.map((artist, index) => (
+        <ArtistCircle
+          key={index}
+          id={artist.id}
+          image={artist.image}
+          name={artist.name}
+        />
+      ))}  
+      </Section>
       
 
-      <ArtistParecidos />
+      
       
       <div className="margin-bottom"></div>
     </main>

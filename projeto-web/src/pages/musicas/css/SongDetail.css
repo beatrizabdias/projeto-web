@@ -10,10 +10,6 @@ h1, p {
     margin: 0;
 }
 
-.lighter-text {
-    color: #B3B3B3;
-}
-
 .song-info, .album-info, .album-songs {
     flex-direction: column;
 }
@@ -74,9 +70,36 @@ img {
 
 .song:hover,
 .song:focus {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    background-color: grey;
+    /* Usa a variável de fundo de hover */
+    background-color: var(--song-hover-bg); 
+    /* Define a cor principal no contêiner. Ajuda na herança. */
+    color: var(--text-color); 
 }
+
+.song-title {
+    color: var(--text-color);
+}
+
+/* Artista e Duração: Cor secundária do tema (cinza) */
+.song-artist,
+.song-duration {
+    color: var(--secondary-text-color);
+}
+
+/* CORREÇÃO DA ESPECIFICIDADE DO TEXTO NO HOVER */
+/* Força TODOS os spans a usarem a cor principal do tema no hover (alto contraste) */
+.song:hover .song-title,
+.song:hover .song-artist,
+.song:hover .song-duration {
+    color: var(--text-color); /* Sobrescreve a cor secundária e garante contraste */
+}
+
+/* CORREÇÃO DA COR DOS ÍCONES NO HOVER */
+.song:hover .icon,
+.song:hover .play-icon {
+    color: var(--text-color); /* Deixa os ícones brancos/escuros no hover */
+}
+
 
 .play-icon:hover, .icon:hover {
     transform: scale(1.3);
