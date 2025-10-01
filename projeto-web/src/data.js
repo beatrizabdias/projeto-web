@@ -91,6 +91,7 @@ export const topSongs = [
   },
 ]
 
+
 export const topAlbums = [
   {
     cover: "https://placehold.co/600x600",
