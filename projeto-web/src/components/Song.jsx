@@ -31,7 +31,7 @@ export default function Song({ title, duration }) {
 
    
     const menuOptions = [
-        { icon: <AddIcon fontSize="small" />, label: 'Adicionar à playlist', action: () => console.log(`Adicionar ${title}`) },
+        { icon: <AddIcon fontSize="small" />, label: 'Adicionar à playlist', action: () => console.log(`Adicionar ${title}`) },
         { icon: <PersonIcon fontSize="small" />, label: 'Ir para o artista', action: () => console.log(`Ir para o artista`) },
         { icon: <ShareIcon fontSize="small" />, label: 'Compartilhar', action: () => console.log(`Compartilhar ${title}`) },
     ];

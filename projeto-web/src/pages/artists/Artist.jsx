@@ -51,38 +51,40 @@ export default function Artist({ artistID }) {
   return (
     <main className='main-artist-page'>
       <ArtistHeader artist={artist} />
+      <div class = "artist-song">
+        <SongList 
+          tituloDaSecao={"Sucessos do Vaqueiro"} 
+          // Aqui futuramente você pode filtrar músicas por artista
+        />
 
-      <SongList 
-        tituloDaSecao={"Sucessos do Vaqueiro"} 
-        // Aqui futuramente você pode filtrar músicas por artista
-      />
+        <Section key={"Discografia"} title={"Discografia"}>
+          {albums
+            .filter((album) => album.artist.includes(artist.name)) // mostra só álbuns do artista
+            .map((album) => (
+              <AlbumCard
+                key={album.id}
+                id={album.id}
+                cover={album.cover}
+                title={album.title}
+                artist={album.artist}
+              />
+            ))}
+        </Section>
 
-      <Section key={"Discografia"} title={"Discografia"}>
-        {albums
-          .filter((album) => album.artist.includes(artist.name)) // mostra só álbuns do artista
-          .map((album) => (
-            <AlbumCard
-              key={album.id}
-              id={album.id}
-              cover={album.cover}
-              title={album.title}
-              artist={album.artist}
-            />
-          ))}
-      </Section>
+        <Section key={"Artistas Parecidos"} title={"Artistas Parecidos"}>
+          {artists
+            .filter((a) => String(a.id) !== String(artist.id)) // não mostra o próprio
+            .map((a) => (
+              <ArtistCircle
+                key={a.id}
+                id={a.id}
+                image={a.image}
+                name={a.name}
+              />
+            ))}
+        </Section>
 
-      <Section key={"Artistas Parecidos"} title={"Artistas Parecidos"}>
-        {artists
-          .filter((a) => String(a.id) !== String(artist.id)) // não mostra o próprio
-          .map((a) => (
-            <ArtistCircle
-              key={a.id}
-              id={a.id}
-              image={a.image}
-              name={a.name}
-            />
-          ))}
-      </Section>
+      </div>
 
       <div className="margin-bottom"></div>
     </main>

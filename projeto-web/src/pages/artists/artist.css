@@ -9,8 +9,7 @@ body {
   } */
 
   .main-artist-page {
-    margin-top: 
-    0;
+    margin: 0;
     width: 100%;
   }
   
@@ -27,7 +26,7 @@ body {
   }
   
   .artist-header {
-    padding: 40px; 
+    padding: 60px 40px 40px; 
     border-bottom: 1px solid #ccc;
     border: 1px solid #444; 
     background-color: #69645e;
@@ -47,11 +46,20 @@ body {
 }
   .artist-info {
     flex-direction: column;
-    gap: 0.5em;
+  }
+
+  .artist-song{
+    margin: 0 70px;
+
+  }
+
+  .artist-description {
+    margin-bottom: 1em;
   }
   
   .artist-actions {
     margin-top: 20px;
+    margin-left: 40px;
     align-items: center;
     gap: 1em; 
     padding-left: 30px;
