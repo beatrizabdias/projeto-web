@@ -76,11 +76,11 @@ function GrupoDetalhe() {
                     {/* Barra de Busca e Adicionar (CONTROLES INTERNOS) */}
                     <Box className="search-bar" sx={{ 
                         display: 'flex', 
-                        alignItems: 'center', 
+                        // alignItems: 'center', 
                         gap: '10px', 
                         marginBottom: '20px', 
                         backgroundColor: 'var(--header-bg)',
-                        padding: '10px 0', 
+                        // padding: '10px 0', 
                         borderRadius: '12px',
                         border: '1px solid var(--border-color)',
                         
