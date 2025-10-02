@@ -4,7 +4,7 @@ import React from 'react';
 import './Albuns.css'; 
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
-import ArtistMusicList from "../../components/SongListCover.jsx";
+import SongList from "../../components/SongList.jsx";
 import { topAlbums } from '../../data.js';
 import '../musicas/css/SongDetail.css'
 
@@ -25,7 +25,7 @@ export default function AlbumDetail( {albumID} ) {
     return (
         <main>
             <AlbumHeader cover={album.cover} type={'Album'} title={album.title} artist={album.artist}  year={"2025"}  duration={"12 músicas, 53min 30s"} /> 
-            <ArtistMaisTocadas />
+            <SongList />
         </main>
     )
 }

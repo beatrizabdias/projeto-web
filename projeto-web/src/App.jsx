@@ -19,7 +19,7 @@ import AlbumDetail from './pages/albuns/AlbumDetail';
 import Artist from './pages/artists/Artist'; 
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
 import SongDetail from './pages/musicas/SongDetail.jsx';
-
+import Perfil from './pages/perfil/Perfil.jsx'
 
 function App() {
   return (
@@ -38,6 +38,7 @@ function App() {
             <Route path="/grupos" element={<Grupos />} />
             <Route path="/grupos/:id" element={<GrupoDetalhe />} />
             <Route path="/artista/:id" element={<Artist />} />
+            <Route path="/perfil" element={<Perfil />} />
 
             <Route path="/song/:id" element={<SongDetail />} />
             <Route path="/albumDetail/:id" element={<AlbumDetail />} />
