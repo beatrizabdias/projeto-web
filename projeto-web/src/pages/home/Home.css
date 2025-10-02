@@ -7,7 +7,7 @@ main h1 {
 
 main {
   /* Garante que o conteúdo não fique escondido atrás do player */
-  padding-bottom: 150px; 
+  padding-bottom: 125px; 
   color: var(--text-color);
 }
 

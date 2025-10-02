@@ -272,11 +272,9 @@ main {
 }
 
 main.playlist-page {
-    padding: 30px;
     background: var(--bg-color);
     color: var(--text-color);
     margin-top: 60px;
-    padding-left: 50px;
 }
 
 .playlist-header {

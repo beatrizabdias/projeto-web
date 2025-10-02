@@ -46,7 +46,6 @@ body {
     border-radius: 50px;
 }
 .artist-actions{
-    /* border: 1px solid red; */
     margin-top: 20px;
     align-items: center;
 }
@@ -67,10 +66,6 @@ body {
     color: #B3B3B3;
 }
 
-.profile-header {
-    /* gap: 2em; */
-    /* border: 1px solid red; */
-}
 
 .user-icon > img {
     display: block;

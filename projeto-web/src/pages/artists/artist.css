@@ -7,6 +7,12 @@ body {
     padding-top: 20px;
     padding-left: 30px;
   } */
+
+  .main-artist-page {
+    margin-top: 
+    0;
+    width: 100%;
+  }
   
   p, h1, h3 {
     margin: 0;
@@ -21,13 +27,24 @@ body {
   }
   
   .artist-header {
-    padding: 40px;
+    padding: 40px; 
     border-bottom: 1px solid #ccc;
     border: 1px solid #444; 
-    background-color: #ff6b00;
-    border: 1px solid red;
+    background-color: #69645e;
+    width: 100%;  
   }
-  
+
+
+  .follow-btn.following {
+    border-color: white;     
+
+    color: white; /* Corrigido para manter o texto branco */
+}
+
+.follow-btn.following:hover {
+    background-color: var(--darker-orange);
+    border-color: var(--darker-orange); 
+}
   .artist-info {
     flex-direction: column;
     gap: 0.5em;
