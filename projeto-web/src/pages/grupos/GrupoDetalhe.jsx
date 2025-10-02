@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, Button, TextField, List, ListItem, ListItemText, ListItemAvatar, Avatar, InputBase, styled, Divider, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import StarIcon from '@mui/icons-material/Star';
+import PetsIcon from '@mui/icons-material/Pets'; 
 import PersonIcon from '@mui/icons-material/Person';
 import MusicNoteIcon from '@mui/icons-material/MusicNote'; // Ícone de música
 
@@ -11,7 +11,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote'; // Ícone de música
 const mockGrupoDetalhe = {
     id: 1,
     owner: 'maria',
-    participants: ['ana', 'beatriz', 'igor'],
+    participants: ['Você', 'Ana', 'Beatriz', 'Igor'],
     queue: [
         { id: 1, title: 'Música 1', cover: '/assets/img/music_cover1.jpg' },
         { id: 2, title: 'Música 2', cover: '/assets/img/music_cover2.jpg' },
@@ -76,11 +76,11 @@ function GrupoDetalhe() {
                     {/* Barra de Busca e Adicionar (CONTROLES INTERNOS) */}
                     <Box className="search-bar" sx={{ 
                         display: 'flex', 
-                        // alignItems: 'center', 
+                        alignItems: 'center', 
                         gap: '10px', 
                         marginBottom: '20px', 
                         backgroundColor: 'var(--header-bg)',
-                        // padding: '10px 0', 
+                        padding: '10px 0', 
                         borderRadius: '12px',
                         border: '1px solid var(--border-color)',
                         
@@ -148,22 +148,45 @@ function GrupoDetalhe() {
                     <Box className="panel-section owner" sx={{ width: '100%', marginBottom: '20px' }}>
                         <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Dono(a)</Typography>
                         <Box className="owner-info" sx={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-color)' }}>
-                            <StarIcon className="star-icon" sx={{ color: 'var(--orange)' }} />
+                            
+                            {/* ÍCONE DE VACA LARANJA (PetsIcon ou outro) */}
+                            <PetsIcon sx={{ 
+                                color: 'var(--orange)', // Cor laranja do seu tema
+                                fontSize: '20px' 
+                            }} />
+                            
                             <Typography className="owner-name" sx={{ fontWeight: 'bold' }}>{grupo.owner}</Typography>
                         </Box>
                     </Box>
 
-                    {/* Participantes */}
-                    <Box className="panel-section participants" sx={{ width: '100%', marginBottom: '20px' }}>
-                        <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Participantes</Typography>
-                        <List className="participants-list" sx={{ p: 0 }}>
-                            {grupo.participants.map((p, index) => (
-                                <ListItem key={index} sx={{ p: 0, mb: 0.5, color: 'var(--text-color)' }}>
-                                    <ListItemText primary={p} primaryTypographyProps={{ fontSize: '15px' }} />
+                     {/* Participantes */}
+                <Box className="panel-section participants" sx={{ width: '100%', marginBottom: '20px' }}>
+                    <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Participantes</Typography>
+                    <List className="participants-list" sx={{ p: 0 }}>
+                        {grupo.participants.map((p, index) => {
+                            // CRÍTICO: Verifica se o participante é o usuário atual (você)
+                            const isCurrentUser = p.toLowerCase() === 'você';
+                            const textColor = isCurrentUser ? 'var(--orange)' : 'var(--text-color)';
+
+                            return (
+                                <ListItem key={index} sx={{ p: 0, mb: 0.5, color: textColor }}>
+                                    {/* Ícone de pessoa (participante) */}
+                                    <PersonIcon sx={{ color: isCurrentUser ? 'var(--orange)' : 'var(--secondary-text-color)', fontSize: '15px', mr: 1 }} />
+                                    
+                                    {/* Nome do Participante */}
+                                    <ListItemText 
+                                        primary={p} 
+                                        primaryTypographyProps={{ 
+                                            fontSize: '15px',
+                                            fontWeight: isCurrentUser ? 'bold' : 'normal',
+                                            color: textColor
+                                        }} 
+                                    />
                                 </ListItem>
-                            ))}
-                        </List>
-                    </Box>
+                            );
+                        })}
+                        </List>
+                    </Box>
                     
                     {/* Botão de Configurações (Apenas para o Dono) */}
                     {isOwner && (
