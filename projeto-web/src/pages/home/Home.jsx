@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from '../../components/Section';
 import SongCard from '../../components/SongCard';
 import AlbumCard from '../../components/AlbumCard';
 import PlaylistCard from '../../components/PlaylistCard';
 import ArtistCircle from '../../components/ArtistCircle';
 import Navigation from '../../components/Navigation';
-import { topSongs, topAlbums, topArtists, topPlaylists, sectionsData, navItemsData } from '../../data';
+// import { topSongs, topAlbums, topArtists, topPlaylists, sectionsData, navItemsData } from '../../data';
 import './Home.css';
+import { sectionsData, navItemsData } from '../../data';
+import api from '../../services/api.js';
 
 function Home() {
   // Estado para controlar o filtro selecionado. Começa com "Tudo".
@@ -30,6 +32,37 @@ function Home() {
     return section.type === filterMap[selectedFilter];
   });
 
+  const [songs, setSongs] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+
+  // Buscar álbuns
+  useEffect(() => {
+    api.get("/topAlbums")
+      .then((res) => setAlbums(res.data))
+      .catch((err) => console.error("Erro ao buscar álbuns:", err));
+  }, []);
+
+  // Buscar artistas para a seção "Parecidos"
+  useEffect(() => {
+    api.get("/topArtists")
+      .then((res) => setArtists(res.data))
+      .catch((err) => console.error("Erro ao buscar artistas:", err));
+  }, []);
+
+  useEffect(() => {
+    api.get("/topPlaylists")
+      .then((res) => setPlaylists(res.data))
+      .catch((err) => console.error("Erro ao buscar playlists:", err));
+  }, []);
+
+  useEffect(() => {
+    api.get("/topSongs")
+      .then((res) => setSongs(res.data))
+      .catch((err) => console.error("Erro ao buscar músicas:", err));
+  }, []);
+
   return (
     <main>
       <h1>Página Inicial</h1>
@@ -46,7 +79,7 @@ function Home() {
         <Section key={section.title} title={section.title}>
           
           {/* Renderização condicional para cada tipo de card */}
-          {section.type === 'song' && topSongs.map((song, index) => (
+          {section.type === 'song' && songs.map((song, index) => (
             <SongCard
               key={index}
               id={song.id}
@@ -56,7 +89,7 @@ function Home() {
             />
           ))}
 
-          {section.type === 'artist' && topArtists.map((artist, index) => (
+          {section.type === 'artist' && artists.map((artist, index) => (
             <ArtistCircle
               key={index}
               id={artist.id}
@@ -65,7 +98,7 @@ function Home() {
             />
           ))}  
           
-          {section.type === 'playlist' && topPlaylists.map((playlist, index) => (
+          {section.type === 'playlist' && playlists.map((playlist, index) => (
             <PlaylistCard
               key={index}
               id={playlist.id}
@@ -74,7 +107,7 @@ function Home() {
             />
           ))}
 
-          {section.type === 'album' && topAlbums.map((album, index) => (
+          {section.type === 'album' && albums.map((album, index) => (
             <AlbumCard
               key={index}
               id={album.id}

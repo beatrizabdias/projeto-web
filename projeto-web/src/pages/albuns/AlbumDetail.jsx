@@ -5,14 +5,22 @@ import './Albuns.css';
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
 import SongList from "../../components/SongList.jsx";
-import { topAlbums } from '../../data.js';
+// import { topAlbums } from '../../data.js';
 import '../musicas/css/SongDetail.css'
+import api from "../../services/api";
 
 export default function AlbumDetail( {albumID} ) {
     const { id: routeId } = useParams();
+
     const effectiveId = albumID || routeId;
 
-    const album = topAlbums.find((a) => a.id === effectiveId);
+    const [album, setAlbum] = useState(null);
+
+    useEffect(() => {
+      api.get(`/topAlbums/${effectiveId}`)
+        .then((res) => setAlbum(res.data))
+        .catch((err) => console.error("Erro ao buscar álbum:", err));
+    }, []);
 
     if (!album) {
     return (

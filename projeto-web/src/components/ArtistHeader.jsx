@@ -1,6 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FaPlay } from 'react-icons/fa';
 
 export default function ArtistHeader({ artist = {} }) {
     const { name, about, image } = artist;
@@ -21,7 +22,7 @@ export default function ArtistHeader({ artist = {} }) {
 
             <div className="artist-actions flex">
                 <button className="play-btn">
-                    <FontAwesomeIcon icon={faPlay} />
+                    <FaPlay />
                 </button>
                 <button className="follow-btn">
                      Seguir

@@ -1,21 +1,44 @@
-// src/pages/artists/Artist.jsx (VERSÃO CORRIGIDA)
+// src/pages/artists/Artist.jsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ArtistHeader from '../../components/ArtistHeader.jsx';
-import SongList from '../../components/SongList.jsx';      
-import ArtistParecidos from '../../components/ArtistParecidos';     
-import './artist.css';  
-import Section from '../../components/Section.jsx'; 
-import AlbumCard from '../../components/AlbumCard.jsx'; 
-import ArtistCircle from '../../components/ArtistCircle.jsx'; 
-import { topArtists, topAlbums } from '../../data.js';
+import SongList from '../../components/SongList.jsx';
+import ArtistParecidos from '../../components/ArtistParecidos';
+import './artist.css';
+import Section from '../../components/Section.jsx';
+import AlbumCard from '../../components/AlbumCard.jsx';
+import ArtistCircle from '../../components/ArtistCircle.jsx';
+import api from '../../services/api.js'; // aquele axios com baseURL
 
 export default function Artist({ artistID }) {
   const { id: routeId } = useParams();
   const effectiveId = artistID || routeId;
-  // Sugestão de correção na busca para garantir que o ID seja encontrado (converte para string)
-  const artist = topArtists.find((a) => String(a.id) === String(effectiveId));
+
+  const [artist, setArtist] = useState(null);
+  const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
+
+  // Buscar dados do artista atual
+  useEffect(() => {
+    api.get(`/topArtists/${effectiveId}`)
+      .then((res) => setArtist(res.data))
+      .catch(() => setArtist(null));
+  }, [effectiveId]);
+
+  // Buscar álbuns
+  useEffect(() => {
+    api.get("/topAlbums")
+      .then((res) => setAlbums(res.data))
+      .catch((err) => console.error("Erro ao buscar álbuns:", err));
+  }, []);
+
+  // Buscar artistas para a seção "Parecidos"
+  useEffect(() => {
+    api.get("/topArtists")
+      .then((res) => setArtists(res.data))
+      .catch((err) => console.error("Erro ao buscar artistas:", err));
+  }, []);
 
   if (!artist) {
     return (
@@ -28,43 +51,39 @@ export default function Artist({ artistID }) {
   return (
     <main>
       <ArtistHeader artist={artist} />
-      
-      
+
       <SongList 
-          tituloDaSecao={"Sucessos do Vaqueiro"} 
-        
+        tituloDaSecao={"Sucessos do Vaqueiro"} 
+        // Aqui futuramente você pode filtrar músicas por artista
       />
 
-      
-      
       <Section key={"Discografia"} title={"Discografia"}>
-        {topAlbums.map((album, index) => (
-          <AlbumCard
-            key={index}
-            id={album.id}
-            cover={album.cover}
-            title={album.title}
-            artist={album.artist}
-          />
-         ))}
+        {albums
+          .filter((album) => album.artist.includes(artist.name)) // mostra só álbuns do artista
+          .map((album) => (
+            <AlbumCard
+              key={album.id}
+              id={album.id}
+              cover={album.cover}
+              title={album.title}
+              artist={album.artist}
+            />
+          ))}
       </Section>
 
-
-        
       <Section key={"Artistas Parecidos"} title={"Artistas Parecidos"}>
-        {topArtists.map((artist, index) => (
-        <ArtistCircle
-          key={index}
-          id={artist.id}
-          image={artist.image}
-          name={artist.name}
-        />
-      ))}  
+        {artists
+          .filter((a) => String(a.id) !== String(artist.id)) // não mostra o próprio
+          .map((a) => (
+            <ArtistCircle
+              key={a.id}
+              id={a.id}
+              image={a.image}
+              name={a.name}
+            />
+          ))}
       </Section>
-      
 
-      
-      
       <div className="margin-bottom"></div>
     </main>
   );
