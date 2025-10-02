@@ -238,8 +238,16 @@ function PlaylistDetalhe() {
                                         <Box className="song-info" sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                             <img src={song.cover} alt="Song Cover" style={{ width: '50px', height: '50px', borderRadius: '6px', objectFit: 'cover' }} />
                                             <Box>
-                                                <Typography className="song-title" sx={{ color: 'var(--text-color)', fontWeight: 'bold', display: 'block', color: isCurrentRowPlaying ? 'var(--orange)' : 'var(--text-color)' }}>{song.title}</Typography>
-                                                <Typography className="song-artist" sx={{ color: 'var(--secondary-text-color)', fontSize: '0.9rem' }}>{song.artist}</Typography>
+                                                <Typography 
+                                                    className="song-title" 
+                                                    sx={{ 
+                                                        fontWeight: 'bold', 
+                                                        display: 'block', 
+                                                        color: isCurrentRowPlaying ? 'var(--orange)' : 'var(--text-color)' 
+                                                    }}
+                                                >
+                                                    {song.title}
+                                                </Typography>
                                             </Box>
                                         </Box>
                                     </TableCell>

@@ -2,6 +2,10 @@ import React from 'react';
 import { Box, Typography, Avatar, Button } from '@mui/material';
 
 export default function ProfileHeader({ user }) {
+    const DYNAMIC_TEXT_COLOR = 'var(--secondary-text-color)'; 
+    const ORANGE_COLOR = 'var(--orange)';                     
+    const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
+
     return (
         <Box 
             sx={{ 
@@ -23,26 +27,46 @@ export default function ProfileHeader({ user }) {
                 }}
             />
             <Box>
-                <Typography variant="caption" color="text.secondary">
-                    Perfil de Peão
-                </Typography>
                 <Typography variant="h2" component="h1" fontWeight={700} sx={{ mb: 1 }}>
                     {user.username}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: { xs: 'center', sm: 'flex-start' }, flexWrap: 'wrap' }}>
-                    <Typography variant="body1" color="text.secondary">
-                        {user.playlists} Seleções Públicas
+                    
+                    <Typography 
+                        variant="body1" 
+                        sx={{ color: DYNAMIC_TEXT_COLOR }} 
+                    >
+                        {user.playlists} Playlists 
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">•</Typography>
-                    <Typography variant="body1" color="text.primary">
-                        {user.friends} Peões Seguidos
+                    
+                    <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>•</Typography>
+                    
+                    <Typography 
+                        variant="body1" 
+                        sx={{ color: DYNAMIC_TEXT_COLOR }}
+                    >
+                        {user.friends} Peões Amigos
                     </Typography>
+                    
+               
                     <Button 
                         variant="outlined" 
                         size="medium" 
-                        sx={{ ml: { sm: 2 }, mt: { xs: 1, sm: 0 }, borderRadius: 20 }}
+                        sx={{ 
+                            ml: { sm: 2 }, 
+                            mt: { xs: 1, sm: 0 }, 
+                            borderRadius: 20,
+                          
+                            color: ORANGE_COLOR,
+                            borderColor: ORANGE_COLOR,
+                
+                            '&:hover': {
+                                backgroundColor: BUTTON_HOVER_BG, 
+                                borderColor: ORANGE_COLOR,
+                            }
+                        }}
                     >
-                        Ajustar Perfil
+                        Editar
                     </Button>
                 </Box>
             </Box>
