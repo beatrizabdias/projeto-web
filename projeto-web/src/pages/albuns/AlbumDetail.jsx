@@ -1,6 +1,6 @@
 // src/pages/playlists/Playlists.jsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Albuns.css'; 
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';

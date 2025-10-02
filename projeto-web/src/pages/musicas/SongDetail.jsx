@@ -5,6 +5,7 @@ import ArtistMaisTocadas from '../../components/SongList.jsx';
 // import { topSongs } from '../../data.js';
 import './css/SongDetail.css'
 import api from "../../services/api";
+import React, { useEffect, useState } from 'react';
 
 export default function SongDetail( {songID} ) {
     const { id: routeId } = useParams();

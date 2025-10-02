@@ -49,7 +49,7 @@ export default function Artist({ artistID }) {
   }
 
   return (
-    <main>
+    <main className='main-artist-page'>
       <ArtistHeader artist={artist} />
 
       <SongList 
