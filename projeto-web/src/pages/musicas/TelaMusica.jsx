@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleVote } from '../../redux/votesSlice'; 
+
 import { 
     Box, 
     Typography, 
@@ -15,13 +18,15 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import './css/TelaMusica.css';
 import { useMusicPlayer } from '../../context/MusicPlayerContext';
 import Comentarios from '../../components/Comentarios'; 
+import BarraLikes from '../../components/BarraLikes';
 
 function TelaMusica() {
     const { currentSong } = useMusicPlayer(); 
+    
+    const musicaId = currentSong ? currentSong.id : "default-song-placeholder";
 
-    // ADICIONADO: Um ID único para a música (essencial para comentários persistentes)
     const musicaAtual = currentSong || {
-        id: "default-song-placeholder", // ID único
+        id: musicaId, 
         titulo: "Nenhuma Música Tocando",
         artista: "Artista Desconhecido",
         imagem: "/assets/img/vacamario.jpg",
@@ -29,39 +34,28 @@ function TelaMusica() {
 
     const [abaAtiva, setAbaAtiva] = useState('letra');
 
-    // --- NOVO: Lógica de Like/Dislike ---
-    const [likes, setLikes] = useState(15);
-    const [dislikes, setDislikes] = useState(3);
-    // userRating: 1 (Like), -1 (Dislike), 0 (Nenhum)
-    const [userRating, setUserRating] = useState(0); 
+    const dispatch = useDispatch();
+    
+    // Busca os dados de votação desta música no estado global
+    const { likes, dislikes, userRating } = useSelector(state => 
+        state.votes[musicaId] || { likes: 0, dislikes: 0, userRating: 0 }
+    );
 
     const handleLike = () => {
-        if (userRating === 1) { // Já deu like -> Desfazer
-            setLikes(likes - 1);
-            setUserRating(0);
-        } else if (userRating === -1) { // Deu dislike -> Trocar para like
-            setDislikes(dislikes - 1);
-            setLikes(likes + 1);
-            setUserRating(1);
-        } else { // Não avaliou -> Dar like
-            setLikes(likes + 1);
-            setUserRating(1);
-        }
+        dispatch(toggleVote({ musicaId, voteType: 'like' }));
     };
 
     const handleDislike = () => {
-        if (userRating === -1) { // Já deu dislike -> Desfazer
-            setDislikes(dislikes - 1);
-            setUserRating(0);
-        } else if (userRating === 1) { // Deu like -> Trocar para dislike
-            setLikes(likes - 1);
-            setDislikes(dislikes + 1);
-            setUserRating(-1);
-        } else { // Não avaliou -> Dar dislike
-            setDislikes(dislikes + 1);
-            setUserRating(-1);
-        }
+        dispatch(toggleVote({ musicaId, voteType: 'dislike' }));
     };
+
+    const totalVotes = likes + dislikes;
+    let likePercentage = 0;
+
+    if (totalVotes > 0) {
+        // Calcula a porcentagem e limita a duas casas decimais
+        likePercentage = (likes / totalVotes) * 100;
+    }
     // ------------------------------------
 
     return (
@@ -82,45 +76,50 @@ function TelaMusica() {
                     className="album-art"
                 />
 
-                {/* NOVO: Botões de Like e Dislike */}
-                <Stack direction="row" spacing={2} alignItems="center" className="like-dislike-buttons">
-                    {/* Botão de Like */}
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton 
-                            onClick={handleLike} 
-                            aria-label="like"
-                            // Cor condicional: laranja quando ativo, branco/padrão quando inativo
-                            sx={{ color: userRating === 1 ? '#ff7533' : 'white', '&:hover': { color: '#ff7533' } }}
-                        >
-                            <ThumbUpIcon />
-                        </IconButton>
-                        <Typography variant="body1" sx={{ color: 'white' }}>
-                            {likes}
-                        </Typography>
-                    </Box>
+                {/* Container para os Botões e a Barra (para que a barra fique abaixo de ambos) */}
+                <Box sx={{ width: '100%', maxWidth: '300px', mx: 'auto' }}> 
+                    
+                    {/* Botões de Like e Dislike */}
+                    <Stack direction="row" spacing={2} alignItems="center" className="like-dislike-buttons">
+                        {/* Botão de Like */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <IconButton 
+                                onClick={handleLike} 
+                                aria-label="like"
+                                sx={{ color: userRating === 1 ? '#ff7533' : 'white', '&:hover': { color: '#ff7533' } }}
+                            >
+                                <ThumbUpIcon />
+                            </IconButton>
+                            <Typography variant="body1" sx={{ color: 'white' }}>
+                                {likes}
+                            </Typography>
+                        </Box>
 
-                    {/* Botão de Dislike */}
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton 
-                            onClick={handleDislike} 
-                            aria-label="dislike"
-                            sx={{ color: userRating === -1 ? '#ff7533' : 'white', '&:hover': { color: '#ff7533' } }}
-                        >
-                            <ThumbDownIcon />
-                        </IconButton>
-                        <Typography variant="body1" sx={{ color: 'white' }}>
-                            {dislikes}
-                        </Typography>
-                    </Box>
-                </Stack>
-                {/* Fim dos Botões de Like e Dislike */}
+                        {/* Botão de Dislike */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <IconButton 
+                                onClick={handleDislike} 
+                                aria-label="dislike"
+                                sx={{ color: userRating === -1 ? '#ff7533' : 'white', '&:hover': { color: '#ff7533' } }}
+                            >
+                                <ThumbDownIcon />
+                            </IconButton>
+                            <Typography variant="body1" sx={{ color: 'white' }}>
+                                {dislikes}
+                            </Typography>
+                        </Box>
+                    </Stack>
+
+                    <BarraLikes likePercentage={likePercentage} /> 
+                    
+                </Box>
 
             </Box>
 
             {/* Bloco Direito: Opções (Artista, Descrição, Letra, Comentários) */}
             <Box className="options-block">
-
-            <Stack direction="row" spacing={1} className="options-buttons">
+                {/* ... (Conteúdo das abas, inalterado) ... */}
+                <Stack direction="row" spacing={1} className="options-buttons">
                     <Button 
                         variant={abaAtiva === 'artista' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('artista')}
@@ -131,7 +130,7 @@ function TelaMusica() {
                         variant={abaAtiva === 'descricao' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('descricao')}
                     >
-                    Descrição
+                        Descrição
                     </Button>
                     <Button 
                         variant={abaAtiva === 'letra' ? 'contained' : 'outlined'} 
@@ -139,7 +138,6 @@ function TelaMusica() {
                     >
                         Letra
                     </Button>
-                    {/* NOVA ABA: Comentários */}
                     <Button 
                         variant={abaAtiva === 'comentarios' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('comentarios')}
@@ -154,7 +152,7 @@ function TelaMusica() {
                     {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
                     {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
                     
-                    {/* NOVO CONTEÚDO: Componente de Comentários */}
+                    {/* CONTEÚDO: Componente de Comentários */}
                     {abaAtiva === 'comentarios' && (
                         <Comentarios musicaId={musicaAtual.id} />
                     )}

@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addComment } from '../redux/comentarioSlice';
+
 import { 
     Box, 
     Typography, 
@@ -10,56 +13,32 @@ import {
     Divider 
 } from '@mui/material';
 
-// Função auxiliar para gerar um ID simples
-const generateId = () => Math.random().toString(36).substring(2, 9);
-
 /**
- * Componente para a seção de comentários (Frontend funcional com localStorage).
- * @param {string} musicaId - O ID único da música para chavear o localStorage.
+ * @param {string} musicaId - O ID único da música para chavear o estado no Redux.
  */
 function Comentarios({ musicaId }) {
-    const storageKey = `comments_${musicaId}`;
+    const dispatch = useDispatch();
     
-    // Estado para carregar/salvar comentários no localStorage
-    const [comentarios, setComentarios] = useState([]);
-    const [novoComentario, setNovoComentario] = useState('');
+    // Pega os comentários específicos para esta musicaId do estado global
+    const comentarios = useSelector(state => state.comments[musicaId] || []);
 
-    // Efeito para carregar comentários quando o componente é montado ou a musicaId muda
-    useEffect(() => {
-        try {
-            const storedComments = localStorage.getItem(storageKey);
-            setComentarios(storedComments ? JSON.parse(storedComments) : []);
-        } catch (error) {
-            console.error("Erro ao carregar comentários:", error);
-        }
-    }, [musicaId, storageKey]);
+    // 2. State local
+    const [novoComentario, setNovoComentario] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (novoComentario.trim() === '') return;
 
-        const novoCom = {
-            id: generateId(),
-            texto: novoComentario.trim(),
-            autor: 'Você (Anônimo)', // Nome simulado
-            data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR').substring(0, 5),
-        };
+        // Dispara a ação do Redux
+        dispatch(addComment({ 
+            musicaId: musicaId, 
+            texto: novoComentario.trim() 
+        }));
 
-        // Adiciona o novo comentário (mais novo primeiro)
-        const novosComentarios = [novoCom, ...comentarios];
-        setComentarios(novosComentarios);
         setNovoComentario('');
-        
-        // Salva a lista atualizada no localStorage
-        try {
-            localStorage.setItem(storageKey, JSON.stringify(novosComentarios));
-        } catch (error) {
-            console.error("Erro ao salvar comentários:", error);
-        }
     };
 
     return (
-        // Formulário de Adição de Comentário
         <Box sx={{ padding: 0 }}>
             <Box component="form" onSubmit={handleSubmit} sx={{ mb: 3 }}>
                 <TextField
@@ -70,7 +49,6 @@ function Comentarios({ musicaId }) {
                     value={novoComentario}
                     onChange={(e) => setNovoComentario(e.target.value)}
                     variant="outlined"
-                    // Estilos do MUI para tema escuro e destaque em laranja
                     InputLabelProps={{ style: { color: '#ff7533' } }}
                     sx={{ 
                         mb: 1, 
