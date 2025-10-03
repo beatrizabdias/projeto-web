@@ -1,5 +1,7 @@
+// SideBar.jsx (Código completo)
+
 import React from 'react';
-import { Box, IconButton, Typography, Tooltip } from '@mui/material'; // Adicionado Tooltip
+import { Box, IconButton, Typography, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home'; 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
@@ -7,9 +9,7 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 
-// O SideButton agora é uma função auxiliar (Componente) que usa Tooltip
 const SideButton = ({ children, to, label, isMobile, isProfile = false }) => {
-    // Para mobile, renderizamos o label abaixo do ícone (mantido)
     if (isMobile) {
         return (
             <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>
@@ -35,30 +35,24 @@ const SideButton = ({ children, to, label, isMobile, isProfile = false }) => {
         );
     }
 
-    // Para Desktop: Usamos o Tooltip com estilos personalizados
     return (
         <Tooltip 
             title={label} 
             placement="right" 
             arrow
-            // ESTILOS CRÍTICOS PARA O TOOLTIP: Usa a propriedade componentsProps
             componentsProps={{
                 tooltip: {
                     sx: {
-                        // 1. Fundo Preto/Escuro
                         backgroundColor: '#1a1a1a', 
-                        // 2. Aumentar Tamanho da Fonte
                         fontSize: '0.9rem', 
                         padding: '8px 12px',
-                        // 3. Cor do texto (Branco)
                         color: 'var(--text-color)',
-                        // 4. Sombra para destacar
                         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)', 
                     },
                 },
                 arrow: {
                     sx: {
-                        color: '#1a1a1a', // Cor da seta (deve combinar com o fundo)
+                        color: '#1a1a1a',
                     },
                 },
             }}
@@ -98,7 +92,6 @@ const SideButton = ({ children, to, label, isMobile, isProfile = false }) => {
 
 
 function SideBar({ isMobile = false }) {
-// ... (restante do código do SideBar, que agora usa a função SideButton atualizada) ...
     return (
         <Box
             component="nav" 
@@ -120,7 +113,7 @@ function SideBar({ isMobile = false }) {
                 <HomeIcon sx={{ fontSize: isMobile ? '24px' : '28px' }} />
             </SideButton>
 
-            <SideButton to="#fila" label="Fila" isMobile={isMobile}>
+            <SideButton to="/fila" label="Fila" isMobile={isMobile}>
                 <QueueMusicIcon sx={{ fontSize: isMobile ? '24px' : '28px' }} />
             </SideButton>
             

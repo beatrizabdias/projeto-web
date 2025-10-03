@@ -1,6 +1,8 @@
-// MusicPlayerContext.js
+// MusicPlayerContext.js (Código REVISADO)
 
 import React, { createContext, useState, useContext, useRef, useEffect } from 'react';
+// IMPORTANTE: Se você não está mais usando musicas.json e sim a fila, 
+// o estado inicial da música precisa ser compatível. 
 import musicasData from '../pages/musicas/musicas.json'; 
 
 
@@ -14,42 +16,47 @@ export const MusicPlayerProvider = ({ children }) => {
     const [currentTime, setCurrentTime] = useState(0); 
     const [duration, setDuration] = useState(0); 
     
+    // ESTADO DA FILA E ÍNDICE
+    const [queue, setQueue] = useState([]); // Array de objetos de música
+    const [queueIndex, setQueueIndex] = useState(-1); 
+    
     const audioRef = useRef(new Audio());
 
-    // ⚠️ MUDANÇA CRÍTICA AQUI: O play/pause agora é controlado diretamente
-    // na função para satisfazer as políticas de autoplay dos navegadores.
     const togglePlayPause = () => {
         const audio = audioRef.current;
         if (!currentSong) return;
 
         if (audio.paused) {
-            // Tenta tocar diretamente ao receber o comando de clique
             audio.play().catch(error => {
                 console.warn("Erro ao tentar tocar (Autoplay Policy?):", error);
-                // Mesmo que o play falhe, o listener 'pause' irá sincronizar o isPlaying
             });
-            // Definimos o estado imediatamente para dar feedback na UI
             setIsPlaying(true);
         } else {
-            // Pausa (mantém a posição)
             audio.pause();
-            // O listener 'pause' garantirá que o estado isPlaying seja false
         }
     };
 
     const playSong = (songId) => {
-        const songToPlay = musicasData.find(song => song.id === songId);
+        // Encontra a música, seja nos mocks globais ou na fila, se for o caso.
+        const songToPlay = musicasData.find(song => song.id === songId) || queue.find(song => song.id === songId);
+
         if (songToPlay) {
-            // Se for a mesma música, apenas garante que toque (chama o togglePlayPause se necessário)
             if (songToPlay.id === currentSong?.id) {
                  if (audioRef.current.paused) {
-                    togglePlayPause(); // Dispara o play
+                    togglePlayPause();
                  }
             } else {
-                 // Nova música
                  setCurrentSong(songToPlay);
-                 // O useEffect 1 e 2 tratarão o SRC e o início da reprodução
                  setIsPlaying(true);
+                 
+                 // Se estiver tocando uma música individualmente, a fila é limpa
+                 const indexInQueue = queue.findIndex(s => s.id === songId);
+                 if (indexInQueue === -1) {
+                     setQueue([]);
+                     setQueueIndex(-1);
+                 } else {
+                     setQueueIndex(indexInQueue);
+                 }
             }
         } else {
             console.error(`Música com ID ${songId} não encontrada.`);
@@ -62,24 +69,74 @@ export const MusicPlayerProvider = ({ children }) => {
             audio.currentTime = newTime;
             setCurrentTime(newTime); 
             
-            // Garante que comece a tocar após o seek, se não estiver
-            if (audio.paused) { // Usa o estado DOM para verificar
-                togglePlayPause(); // Dispara o play através da função de clique
+            if (audio.paused) { 
+                togglePlayPause();
             }
         }
     };
+
+    const addPlaylistToQueue = (songs) => {
+        if (songs.length === 0) return;
+
+        setQueue(songs);
+        setQueueIndex(0); 
+
+        const firstSong = songs[0];
+        setCurrentSong(firstSong); 
+        setIsPlaying(true); 
+    };
     
-    // ------------------------------------------------------------------
-    // Efeito 1: Carregamento de Música (roda apenas quando currentSong muda)
-    // ------------------------------------------------------------------
+    // =========================================================
+    // NOVAS FUNÇÕES: PULAR E VOLTAR
+    // =========================================================
+
+    const skipNext = () => {
+        if (queueIndex !== -1 && queueIndex < queue.length - 1) {
+            const nextIndex = queueIndex + 1;
+            const nextSong = queue[nextIndex];
+            
+            setQueueIndex(nextIndex);
+            setCurrentSong(nextSong);
+            setIsPlaying(true);
+        } else if (queueIndex === queue.length - 1 && queue.length > 0) {
+            // Se for a última música, apenas pausa e volta para o início
+            audioRef.current.currentTime = 0;
+            setIsPlaying(false);
+        }
+    };
+    
+    const skipPrevious = () => {
+        if (currentTime > 3 || queueIndex === -1 || queueIndex === 0) {
+            // Se a música já tocou por mais de 3 segundos OU não está na fila OU é a primeira música
+            // apenas reinicia a música atual.
+            audioRef.current.currentTime = 0;
+            setCurrentTime(0);
+        } else if (queueIndex > 0) {
+            // Se for o início da música e não for a primeira da fila, volta para a anterior
+            const prevIndex = queueIndex - 1;
+            const prevSong = queue[prevIndex];
+
+            setQueueIndex(prevIndex);
+            setCurrentSong(prevSong);
+            setIsPlaying(true);
+        }
+    };
+    
+    // =========================================================
+    // FIM DAS NOVAS FUNÇÕES
+    // =========================================================
+
+    // ... (Restante dos useEffects mantidos)
+    
+    // Efeito 1: Carregamento de Música 
     useEffect(() => {
         const audio = audioRef.current;
         if (!currentSong) return;
 
-        // Verifica se o caminho do áudio no DOM é diferente do caminho da música atual
-        if (audio.src !== currentSong.caminho) {
-            console.log("Música nova detectada. Carregando:", currentSong.titulo);
-            audio.src = currentSong.caminho;
+        const songPath = currentSong.caminho || `/assets/audio/relaxingpiano.mp3`; 
+
+        if (audio.src !== songPath) {
+            audio.src = songPath;
             audio.load(); 
             audio.currentTime = 0;
             
@@ -88,31 +145,26 @@ export const MusicPlayerProvider = ({ children }) => {
         }
     }, [currentSong]); 
 
-    // ------------------------------------------------------------------
-    // Efeito 2: Sincronização de Reprodução (MUITO MAIS SIMPLES)
-    // ------------------------------------------------------------------
+    // Efeito 2: Sincronização de Reprodução
     useEffect(() => {
         const audio = audioRef.current;
         if (!currentSong) return;
+        
+        const songPath = currentSong.caminho || `/assets/audio/relaxingpiano.mp3`; 
 
-        // Se o estado é 'tocando', e o áudio DOM não está, tentamos sincronizar.
-        // Isso é importante caso a música tenha sido trocada rapidamente ou a inicialização falhe.
-        if (isPlaying && audio.paused && audio.src === currentSong.caminho) {
+        if (isPlaying && audio.paused && audio.src.includes(songPath.replace('/assets/audio/', ''))) {
              audio.play().catch(error => {
                 console.warn("Tentativa de reprodução de sincronização falhou:", error);
              });
         } 
-        // Se o estado é 'pausado', e o áudio DOM está tocando, sincronizamos.
         else if (!isPlaying && !audio.paused) {
             audio.pause();
         }
         
-    }, [isPlaying, currentSong]); // Mantém a dependência para cobrir trocas rápidas e MiniPlayer.
+    }, [isPlaying, currentSong]);
 
 
-    // ------------------------------------------------------------------
-    // Efeito 3: Listeners Permanentes (Roda uma vez)
-    // ------------------------------------------------------------------
+    // Efeito 3: Listeners Permanentes (Lógica de avanço de fila)
     useEffect(() => {
         const audio = audioRef.current;
         
@@ -124,14 +176,24 @@ export const MusicPlayerProvider = ({ children }) => {
              setDuration(audio.duration);
         };
         
+        // LÓGICA DE AVANÇO DE FILA AUTOMÁTICA
         const handleEnded = () => {
-            setIsPlaying(false);
-            audio.currentTime = 0; 
-            setCurrentTime(0); 
+            if (queueIndex !== -1 && queueIndex < queue.length - 1) {
+                const nextIndex = queueIndex + 1;
+                const nextSong = queue[nextIndex];
+
+                setQueueIndex(nextIndex);
+                setCurrentSong(nextSong); 
+            } else {
+                // Fim da fila: reseta e para
+                setIsPlaying(false);
+                audio.currentTime = 0; 
+                setCurrentTime(0); 
+                setQueueIndex(-1);
+                setQueue([]);
+            }
         };
         
-        // CORREÇÃO: Usamos os listeners handlePlay/handlePause para *forçar* a sincronização do estado isPlaying
-        // Isso é crucial porque o togglePlayPause agora altera o estado do DOM primeiro.
         const handlePlay = () => setIsPlaying(true);
         const handlePause = () => setIsPlaying(false);
 
@@ -139,7 +201,7 @@ export const MusicPlayerProvider = ({ children }) => {
 
         audio.addEventListener('timeupdate', handleTimeUpdate);
         audio.addEventListener('loadedmetadata', handleLoadedMetadata); 
-        audio.addEventListener('ended', handleEnded);
+        audio.addEventListener('ended', handleEnded); 
         audio.addEventListener('play', handlePlay); 
         audio.addEventListener('pause', handlePause);
 
@@ -150,7 +212,8 @@ export const MusicPlayerProvider = ({ children }) => {
             audio.removeEventListener('play', handlePlay);
             audio.removeEventListener('pause', handlePause);
         };
-    }, []); 
+    // Dependências CRUCIAIS para a fila e navegação:
+    }, [queue, queueIndex]); 
 
     const setVolume = (newVolume) => {
         audioRef.current.volume = newVolume;
@@ -169,7 +232,15 @@ export const MusicPlayerProvider = ({ children }) => {
             setVolume,        
             seekTo,           
             setCurrentSong,
-            setIsPlaying, 
+            setIsPlaying,
+            
+            queue, 
+            queueIndex,
+            addPlaylistToQueue,
+            
+            // EXPORTAÇÃO DAS NOVAS FUNÇÕES
+            skipNext,
+            skipPrevious,
         }}>
             {children}
         </MusicPlayerContext.Provider>

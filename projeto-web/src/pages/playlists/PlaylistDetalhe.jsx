@@ -1,3 +1,5 @@
+// PlaylistDetalhe.jsx
+
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, IconButton, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from '@mui/material';
@@ -8,26 +10,56 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useMusicPlayer } from '../../context/MusicPlayerContext';
 
-// --- Dados Mock (Simulando a busca de uma API) ---
+// --- Dados Mock (ATUALIZADO com suas 3 músicas de piano) ---
+const mockSongs = [
+    { 
+        id: 101, 
+        title: "Ambient Piano", 
+        artist: "Piano Collection", 
+        album: "Calm", 
+        added: "01 de Out. de 2025", 
+        duration: "4:05", 
+        cover: "/assets/img/vacateste.jpg", 
+        caminho: "/assets/audio/ambientpiano.mp3" 
+    },
+    { 
+        id: 102, 
+        title: "Relaxing Piano", 
+        artist: "Piano Collection", 
+        album: "Calm", 
+        added: "02 de Out. de 2025", 
+        duration: "3:40", 
+        cover: "/assets/img/vacateste.jpg", 
+        caminho: "/assets/audio/relaxingpiano.mp3" 
+    },
+    { 
+        id: 103, 
+        title: "Soft Piano", 
+        artist: "Piano Collection", 
+        album: "Calm", 
+        added: "03 de Out. de 2025", 
+        duration: "5:10", 
+        cover: "/assets/img/vacateste.jpg", 
+        caminho: "/assets/audio/softpiano.mp3" 
+    },
+];
+
 const mockPlaylist = {
     id: 1,
     cover: "/assets/img/vacateste.jpg", 
-    title: "Nome playlist 1",
+    title: "Músicas de Piano para Foco",
     type: "PLAYLIST PÚBLICA",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, inventore quisquam fuga vel...",
-    creator: "Maria",
-    songCount: 100,
-    duration: "2h 30min",
-    songs: [
-        { id: 1, title: "Música 1", artist: "Artista 1", album: "Álbum 1", added: "25 de fev. de 2025", duration: "3:27", cover: "/assets/img/vacateste.jpg" },
-        { id: 2, title: "Música 2", artist: "Artista 2", album: "Álbum 2", added: "21 de fev. de 2022", duration: "3:13", cover: "/assets/img/vacateste.jpg" },
-    ]
+    description: "Uma coleção tranquila para ajudar você a relaxar e se concentrar no seu trabalho.",
+    creator: "Assistente AI",
+    songCount: mockSongs.length,
+    duration: "12:55",
+    songs: mockSongs
 };
 
 // --- Constantes de Estilo ---
 const INACTIVE_ICON_COLOR = 'var(--secondary-text-color)';
 
-// --- Componentes Estilizados ---
+// --- Componentes Estilizados (Mantidos sem alteração) ---
 
 const PlaylistHeaderContainer = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'flex-end', gap: '30px', marginBottom: '40px', padding: '20px', backgroundColor: 'var(--card-bg)', borderRadius: '12px',
@@ -100,44 +132,33 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
 
 function PlaylistDetalhe() {
     const { id } = useParams();
+    // Usando o mockPlaylist atualizado
     const playlist = mockPlaylist; 
     
-    // ESTADOS GLOBAIS
-    const { currentSong, isPlaying, playSong, togglePlayPause } = useMusicPlayer();
+    const { currentSong, isPlaying, togglePlayPause, addPlaylistToQueue, playSong } = useMusicPlayer();
     
-    // ESTADO LOCAL: Rastrea qual linha está sob o mouse
     const [hoveredSongId, setHoveredSongId] = useState(null); 
 
-    // Variável de controle: verifica se esta playlist está tocando
-    const isThisPlaylistPlaying = isPlaying && currentSong?.sourceId === `playlist-${id}`;
+    // Nota: O currentSong precisa vir do contexto. As IDs de música são 101, 102, 103
+    const isThisPlaylistPlaying = isPlaying && playlist.songs.some(song => song.id === currentSong?.id); 
     
     // FUNÇÃO PARA TOCAR A PLAYLIST (Botão Principal)
     const handlePlaylistPlay = () => {
         if (isThisPlaylistPlaying) {
             togglePlayPause();
         } else {
-            const firstSong = playlist.songs[0];
-            playSong({
-                url: `/assets/audio/relaxingpiano.mp3`, 
-                title: firstSong.title,
-                artist: firstSong.artist,
-                sourceId: `playlist-${id}` 
-            });
+            // Adiciona a playlist inteira à fila e começa a tocar a primeira música (101)
+            addPlaylistToQueue(playlist.songs);
         }
     };
     
-    // FUNÇÃO PARA TOCAR MÚSICA INDIVIDUAL (Clique na Linha da Tabela)
+    // FUNÇÃO PARA TOCAR MÚSICA INDIVIDUAL
     const handleSongClick = (song) => {
-        // Se a música clicada já estiver tocando, pausa. Caso contrário, toca.
-        if (currentSong?.sourceId === `song-${song.id}` && isPlaying) {
+        if (currentSong?.id === song.id && isPlaying) {
              togglePlayPause();
         } else {
-             playSong({
-                url: `/assets/audio/relaxingpiano.mp3`, 
-                title: song.title,
-                artist: song.artist,
-                sourceId: `song-${song.id}` 
-             });
+             // playSong() limpa a fila e toca a música individualmente.
+             playSong(song.id); 
         }
     }
 
@@ -192,7 +213,7 @@ function PlaylistDetalhe() {
                     </TableHead>
                     <TableBody>
                         {playlist.songs.map((song, index) => {
-                            const isCurrentRowPlaying = currentSong?.sourceId === `song-${song.id}` && isPlaying;
+                            const isCurrentRowPlaying = currentSong?.id === song.id && isPlaying;
                             const isRowHovered = hoveredSongId === song.id;
 
                             return (
@@ -217,23 +238,20 @@ function PlaylistDetalhe() {
                                             {isRowHovered ? (
                                                 <IconButton 
                                                     size="small" 
-                                                    onClick={() => handleSongClick(song)} // Chama a ação de play/pause
+                                                    onClick={(e) => { e.stopPropagation(); handleSongClick(song); }} 
                                                     sx={{ color: 'var(--text-color)', '&:hover': { backgroundColor: 'transparent' } }}
                                                 >
                                                     {isCurrentRowPlaying ? <PauseIcon fontSize="small" /> : <PlayArrowIcon fontSize="small" />}
                                                 </IconButton>
                                             ) : (
                                                 isCurrentRowPlaying ? (
-                                                    // Ícone de volume (tocando)
                                                     <i className="fas fa-volume-up" style={{ color: 'var(--orange)', fontSize: '14px' }} />
                                                 ) : (
-                                                    // Número da música
                                                     <Typography sx={{ color: 'var(--secondary-text-color)', fontSize: '0.9rem' }}>{index + 1}</Typography>
                                                 )
                                             )}
                                         </Box>
                                     </TableCell>
-                                    {/* ... O restante das TableCells ... */}
                                     <TableCell sx={{ borderBottom: 'none' }}>
                                         <Box className="song-info" sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                             <img src={song.cover} alt="Song Cover" style={{ width: '50px', height: '50px', borderRadius: '6px', objectFit: 'cover' }} />
