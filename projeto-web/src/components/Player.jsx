@@ -1,12 +1,23 @@
-// Player.jsx (Código REVISADO para exibir o nome da música)
+// Player.jsx (Código COMPLETO adaptado para Redux)
 
-import React, { useState, useEffect } from 'react';
-import { useMusicPlayer } from '../context/MusicPlayerContext'; 
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux'; 
 import { Link } from 'react-router-dom'; 
 import { IconButton } from '@mui/material'; 
 import AlbumIcon from '@mui/icons-material/Album'; 
 
+// Importa todas as ações necessárias do seu Slice
+import { 
+    togglePlayPause, 
+    updateCurrentTime, 
+    setDuration, 
+    skipNext, 
+    skipPrevious,
+    // Note: setVolume e seekTo precisarão ser adicionados ao playerSlice se forem usados
+} from '../store/playerSlice'; 
+
 const MUSIC_DETAIL_PATH_BASE = '/musica/'; 
+const audioRef = new Audio(); // Instância única do objeto Audio fora do componente
 
 const formatTime = (time) => {
     if (isNaN(time) || time < 0) return "0:00";
@@ -16,39 +27,101 @@ const formatTime = (time) => {
 };
 
 function Player() {
-    // DESESTRUTURANDO AS NOVAS FUNÇÕES
+    // 1. LER o estado do Redux Store
     const { 
-        currentSong, isPlaying, togglePlayPause, 
-        currentTime, duration, setVolume, seekTo, volume: contextVolume,
-        skipNext, 
-        skipPrevious 
-    } = useMusicPlayer();
+        currentSong, 
+        isPlaying, 
+        currentTime, 
+        duration, 
+        volume // O volume inicial é lido do Redux
+    } = useSelector((state) => state.player);
     
-    const [localVolume, setLocalVolume] = useState(contextVolume);
+    // 2. DISPARAR ações
+    const dispatch = useDispatch();
+    
+    // O volume local é mantido para o controle deslizante (slider)
+    const [localVolume, setLocalVolume] = useState(volume); 
 
+    // Efeito: Sincronizar volume local com volume do Redux na inicialização
     useEffect(() => {
-        setLocalVolume(contextVolume);
-    }, [contextVolume]);
+        audioRef.volume = volume;
+        setLocalVolume(volume);
+    }, [volume]);
 
-    // CORREÇÃO AQUI: Usando 'title' e 'artist' em vez de 'titulo' e 'artista'
-    const songName = currentSong 
-        ? `${currentSong.title} - ${currentSong.artist}` 
-        : "Nenhuma Música Tocando";
 
-    const detailRoute = currentSong 
-        ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}` 
-        : MUSIC_DETAIL_PATH_BASE;
+    // ----------------------------------------------------
+    // Lógica do Áudio e Efeitos (Substituindo o Context)
+    // ----------------------------------------------------
+
+    // Efeito 1: Carregar Nova Música
+    useEffect(() => {
+        if (currentSong && currentSong.caminho) {
+            // Se a música for a mesma, apenas garante que está pronta
+            if (audioRef.src !== currentSong.caminho) {
+                audioRef.src = currentSong.caminho;
+                audioRef.load();
+            }
+            // Toca automaticamente se isPlaying for verdadeiro no Redux
+            if (isPlaying) {
+                audioRef.play().catch(e => console.error("Erro ao tentar tocar áudio:", e));
+            }
+        }
+    }, [currentSong]);
     
+    // Efeito 2: Sincronizar Play/Pause
+    useEffect(() => {
+        if (isPlaying) {
+            audioRef.play().catch(e => console.error("Erro ao tentar tocar áudio:", e));
+        } else {
+            audioRef.pause();
+        }
+    }, [isPlaying]);
+
+    // Efeito 3: Adicionar Listeners Permanentes
+    useEffect(() => {
+        const setAudioData = () => {
+            dispatch(setDuration(audioRef.duration));
+        };
+        const updateTime = () => {
+            dispatch(updateCurrentTime(audioRef.currentTime));
+        };
+        const handleEnded = () => {
+             // Dispara a action para pular para a próxima no Redux
+             dispatch(skipNext());
+        };
+
+        audioRef.addEventListener('loadedmetadata', setAudioData);
+        audioRef.addEventListener('timeupdate', updateTime);
+        audioRef.addEventListener('ended', handleEnded);
+
+        // Limpeza dos Listeners
+        return () => {
+            audioRef.removeEventListener('loadedmetadata', setAudioData);
+            audioRef.removeEventListener('timeupdate', updateTime);
+            audioRef.removeEventListener('ended', handleEnded);
+        };
+    }, [dispatch]); // Depende apenas do dispatch (que é constante)
+
+
+    // ----------------------------------------------------
+    // Handlers (Usando Dispatch)
+    // ----------------------------------------------------
+
     const handlePlayPause = (e) => {
         e.stopPropagation();
-        togglePlayPause();
+        // Dispara a action Redux
+        dispatch(togglePlayPause()); 
     };
     
     const handleVolumeChange = (event) => {
         if (event) event.stopPropagation(); 
         const newVolume = parseFloat(event.target.value);
         setLocalVolume(newVolume);
-        setVolume(newVolume); 
+        
+        audioRef.volume = newVolume;
+        
+        // Se você quiser que o Redux saiba do volume, precisa de uma action 'setVolume'
+        // dispatch(setVolume(newVolume)); 
     };
     
     const handleSeek = (event) => {
@@ -60,21 +133,36 @@ function Player() {
         const clickPercent = clickPosition / bar.offsetWidth;
         
         const newTime = clickPercent * duration;
-        seekTo(newTime); 
+        
+        // Ação de seek é feita diretamente no objeto Audio
+        audioRef.currentTime = newTime;
+        
+        // Atualiza imediatamente o estado Redux para feedback visual
+        dispatch(updateCurrentTime(newTime)); 
     };
     
     const handleSkipNext = (e) => {
         e.stopPropagation();
-        if (currentSong) skipNext(); 
+        if (currentSong) dispatch(skipNext()); // Dispara a action Redux
     }
     
     const handleSkipPrevious = (e) => {
         e.stopPropagation();
-        if (currentSong) skipPrevious();
+        if (currentSong) dispatch(skipPrevious()); // Dispara a action Redux
     }
     
-    const progress = (currentTime / duration) * 100 || 0;
+    // ----------------------------------------------------
+    // Renderização
+    // ----------------------------------------------------
 
+    const progress = (currentTime / duration) * 100 || 0;
+    const songName = currentSong 
+        ? `${currentSong.title} - ${currentSong.artist}` 
+        : "Nenhuma Música Tocando";
+    const detailRoute = currentSong 
+        ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}` 
+        : MUSIC_DETAIL_PATH_BASE;
+    
     const PlayPauseIcon = isPlaying ? "fas fa-pause" : "fas fa-play"; 
     const VolumeIcon = localVolume === 0 ? "fas fa-volume-mute" : localVolume < 0.5 ? "fas fa-volume-down" : "fas fa-volume-up";
 

@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { MusicPlayerProvider } from './context/MusicPlayerContext';
+
+// ❌ REMOVER: import { MusicPlayerProvider } from './context/MusicPlayerContext';
+// O Provider do Redux (Provider) já foi configurado no main.jsx.
 
 // Componentes Fixos
 import Header from './components/Header';
@@ -22,14 +24,12 @@ import Artist from './pages/artists/Artist';
 import SongDetail from './pages/musicas/SongDetail.jsx';
 import Perfil from './pages/perfil/Perfil.jsx'
 
-// NOVO: Importe o componente da fila (assumindo que está em src/pages/Fila.jsx)
-import Fila from './components/Fila.jsx'; 
-
 
 function App() {
   return (
     <Router>
-      <MusicPlayerProvider>
+      {/* ❌ REMOVER: MusicPlayerProvider (O Redux agora gerencia o estado global) */}
+      
         <Header />
         
         <main className="main-content-area">
@@ -37,9 +37,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/playlists" element={<Playlists />} />
             <Route path="/playlists/:id" element={<PlaylistDetalhe />} /> 
-            
-            {/* ROTA DA FILA ADICIONADA */}
-            <Route path="/fila" element={<Fila />} /> 
 
             <Route path="/pesquisa" element={<Pesquisa />} />
             <Route path="/musica/:id" element={<TelaMusica />} />
@@ -60,7 +57,8 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </MusicPlayerProvider>
+        
+      {/* ❌ REMOVER: Fechamento do MusicPlayerProvider */}
     </Router>
   );
 }

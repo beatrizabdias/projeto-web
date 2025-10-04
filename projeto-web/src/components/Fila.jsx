@@ -1,81 +1,102 @@
-// Fila.jsx
+// QueueOverlay.jsx (Adaptado para Redux)
 
 import React from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Divider } from '@mui/material';
-import { useMusicPlayer } from '../context/MusicPlayerContext';
 
-function Fila() {
-    // Importamos a fila, o índice da música atual na fila e o objeto da música atual
-    const { queue, queueIndex, currentSong } = useMusicPlayer();
+// 1. Importações do Redux
+import { useSelector } from 'react-redux'; 
 
+function QueueOverlay() {
+    // LER o estado da fila e da música atual do Redux
+    const { queue, currentSong } = useSelector(state => state.player); 
+
+    // Box principal estilizado para ocupar 100% da altura disponível no Overlay Container
     return (
-        <main className="content-area queue-page">
-            <Typography variant="h4" component="h1" sx={{ color: 'var(--text-color)', fontWeight: 'bold', marginBottom: '20px' }}>
-                Fila de Reprodução
+        <Box 
+            sx={{ 
+                width: '300px', 
+                height: '100%', 
+                backgroundColor: 'var(--sidebar-bg)', 
+                borderRadius: '8px', 
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                padding: '0', 
+                overflowY: 'auto', 
+            }}
+        >
+            <Typography 
+                variant="h6" 
+                sx={{ 
+                    color: 'var(--text-color)', 
+                    fontWeight: 'bold', 
+                    padding: '15px 15px 10px', 
+                    borderBottom: '1px solid var(--border-color)',
+                    position: 'sticky', 
+                    top: 0, 
+                    backgroundColor: 'var(--sidebar-bg)', 
+                    zIndex: 1,
+                }}
+            >
+                Próximas na Fila ({queue.length})
             </Typography>
             
-            <Box sx={{ maxWidth: '800px', backgroundColor: 'var(--card-bg)', borderRadius: '12px', padding: '10px 0' }}>
-                <List>
-                    {queue.length === 0 ? (
-                        <Typography sx={{ color: 'var(--secondary-text-color)', padding: '20px' }}>
-                            A fila está vazia. Comece a tocar uma playlist para adicionar músicas aqui.
-                        </Typography>
-                    ) : (
-                        queue.map((song, index) => {
-                            // Verifica se esta música é a que está tocando agora
-                            const isCurrentlyPlaying = currentSong && song.id === currentSong.id;
-                            
-                            return (
-                                <React.Fragment key={song.id}>
-                                    <ListItem 
-                                        sx={{ 
-                                            // Estilos para destacar a música tocando
-                                            backgroundColor: isCurrentlyPlaying ? 'var(--input-bg)' : 'transparent',
-                                            borderLeft: isCurrentlyPlaying ? '4px solid var(--orange)' : '4px solid transparent',
-                                            borderRadius: '0 12px 12px 0',
-                                            cursor: 'default',
-                                            transition: 'background-color 0.2s',
-                                            '&:hover': { backgroundColor: 'var(--input-bg)' }
+            <List sx={{ padding: 0 }}>
+                {queue.length === 0 ? (
+                    <Typography sx={{ color: 'var(--secondary-text-color)', padding: '15px' }}>
+                        A fila está vazia.
+                    </Typography>
+                ) : (
+                    queue.map((song, index) => {
+                        // Verifica o ID da música na fila com o ID da música atual no Redux
+                        const isCurrentlyPlaying = currentSong && song.id === currentSong.id;
+                        
+                        return (
+                            <React.Fragment key={song.id}>
+                                <ListItem 
+                                    // ... (Estilos da Linha da Música Mantidos)
+                                    sx={{ 
+                                        padding: '8px 15px',
+                                        backgroundColor: isCurrentlyPlaying ? 'var(--input-bg)' : 'transparent',
+                                        borderLeft: isCurrentlyPlaying ? '4px solid var(--orange)' : '4px solid transparent',
+                                        cursor: 'default',
+                                        transition: 'background-color 0.2s',
+                                        '&:hover': { backgroundColor: 'var(--card-bg)' }
+                                    }}
+                                >
+                                    {/* Conteúdo da Música Mantido */}
+                                    <Box sx={{ width: '25px', textAlign: 'center' }}>
+                                        {isCurrentlyPlaying ? (
+                                            <i className="fas fa-volume-up" style={{ color: 'var(--orange)', fontSize: '12px' }} />
+                                        ) : (
+                                            <Typography sx={{ color: 'var(--secondary-text-color)', fontSize: '0.8rem' }}>{index + 1}</Typography>
+                                        )}
+                                    </Box>
+
+                                    <ListItemText
+                                        // Usando 'title' e 'artist' do seu JSON
+                                        primary={song.title} 
+                                        secondary={song.artist}
+                                        primaryTypographyProps={{ 
+                                            fontWeight: 'bold', fontSize: '0.9rem',
+                                            color: isCurrentlyPlaying ? 'var(--orange)' : 'var(--text-color)',
+                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                         }}
-                                    >
-                                        {/* Número da Fila / Ícone de Reprodução */}
-                                        <Box sx={{ width: '40px', textAlign: 'center' }}>
-                                            {isCurrentlyPlaying ? (
-                                                <i className="fas fa-volume-up" style={{ color: 'var(--orange)', fontSize: '14px' }} />
-                                            ) : (
-                                                <Typography sx={{ color: 'var(--secondary-text-color)' }}>{index + 1}</Typography>
-                                            )}
-                                        </Box>
-
-                                        {/* Informações da Música */}
-                                        <ListItemText
-                                            primary={song.title}
-                                            secondary={`${song.artist} - ${song.album}`}
-                                            primaryTypographyProps={{ 
-                                                fontWeight: 'bold', 
-                                                color: isCurrentlyPlaying ? 'var(--orange)' : 'var(--text-color)' 
-                                            }}
-                                            secondaryTypographyProps={{ 
-                                                color: 'var(--secondary-text-color)'
-                                            }}
-                                            sx={{ marginLeft: '10px' }}
-                                        />
-                                        
-                                        {/* Duração */}
-                                        <Typography sx={{ color: 'var(--secondary-text-color)' }}>
-                                            {song.duration}
-                                        </Typography>
-
-                                    </ListItem>
-                                    <Divider component="li" sx={{ backgroundColor: 'var(--border-color)' }} />
-                                </React.Fragment>
-                            );
-                        })
-                    )}
-                </List>
-            </Box>
-        </main>
+                                        secondaryTypographyProps={{ 
+                                            color: 'var(--secondary-text-color)', fontSize: '0.75rem'
+                                        }}
+                                        sx={{ marginLeft: '10px' }}
+                                    />
+                                    
+                                    <Typography sx={{ color: 'var(--secondary-text-color)', fontSize: '0.8rem' }}>
+                                        {song.duration}
+                                    </Typography>
+                                </ListItem>
+                            </React.Fragment>
+                        );
+                    })
+                )}
+            </List>
+        </Box>
     );
 }
 
-export default Fila;
+export default QueueOverlay;

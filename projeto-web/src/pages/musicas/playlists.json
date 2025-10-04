@@ -1,0 +1,38 @@
+[
+    {
+        "id": 0,
+        "name": "Músicas Curtidas",
+        "img": "/assets/img/liked_cover_0.png",
+        "type": "PLAYLIST ESPECIAL",
+        "description": "Todas as músicas que você salvou como favoritas.",
+        "creator": "Você",
+        "duration": "Vários"
+    },
+    {
+        "id": 1,
+        "name": "Rock Power",
+        "img": "/assets/img/rock_cover_1.png",
+        "type": "ROCK COLLECTION",
+        "description": "Energia total para o seu dia com os melhores riffs e batidas fortes.",
+        "creator": "User Rock",
+        "duration": "11:00"
+    },
+    {
+        "id": 2,
+        "name": "Vibe Otimista",
+        "img": "/assets/img/vibe_cover_2.png",
+        "type": "HAPPY TUNES",
+        "description": "Músicas para levantar o astral e te fazer sorrir. Perfeito para corridas ou manhã de trabalho.",
+        "creator": "User Happy",
+        "duration": "10:05"
+    },
+    {
+        "id": 3,
+        "name": "Sons de Piano",
+        "img": "/assets/img/piano_cover_3.png",
+        "type": "PIANO RELAX",
+        "description": "Trilhas sonoras tranquilas para foco, estudo e relaxamento. Música clássica moderna.",
+        "creator": "User Calm",
+        "duration": "12:55"
+    }
+]

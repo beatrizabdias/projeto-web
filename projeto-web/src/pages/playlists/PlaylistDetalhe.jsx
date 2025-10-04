@@ -1,69 +1,25 @@
-// PlaylistDetalhe.jsx
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, IconButton, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause'; 
-import SearchIcon from '@mui/icons-material/Search';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-import { useMusicPlayer } from '../../context/MusicPlayerContext';
+// 1. Importações do Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { setQueue, togglePlayPause, setCurrentSong } from '../../store/playerSlice'; // Importa as actions necessárias
 
-// --- Dados Mock (ATUALIZADO com suas 3 músicas de piano) ---
-const mockSongs = [
-    { 
-        id: 101, 
-        title: "Ambient Piano", 
-        artist: "Piano Collection", 
-        album: "Calm", 
-        added: "01 de Out. de 2025", 
-        duration: "4:05", 
-        cover: "/assets/img/vacateste.jpg", 
-        caminho: "/assets/audio/ambientpiano.mp3" 
-    },
-    { 
-        id: 102, 
-        title: "Relaxing Piano", 
-        artist: "Piano Collection", 
-        album: "Calm", 
-        added: "02 de Out. de 2025", 
-        duration: "3:40", 
-        cover: "/assets/img/vacateste.jpg", 
-        caminho: "/assets/audio/relaxingpiano.mp3" 
-    },
-    { 
-        id: 103, 
-        title: "Soft Piano", 
-        artist: "Piano Collection", 
-        album: "Calm", 
-        added: "03 de Out. de 2025", 
-        duration: "5:10", 
-        cover: "/assets/img/vacateste.jpg", 
-        caminho: "/assets/audio/softpiano.mp3" 
-    },
-];
+// Importa os arquivos JSON
+import allMusics from '../musicas/musicas.json';
+import allPlaylists from '../musicas/playlists.json'; 
 
-const mockPlaylist = {
-    id: 1,
-    cover: "/assets/img/vacateste.jpg", 
-    title: "Músicas de Piano para Foco",
-    type: "PLAYLIST PÚBLICA",
-    description: "Uma coleção tranquila para ajudar você a relaxar e se concentrar no seu trabalho.",
-    creator: "Assistente AI",
-    songCount: mockSongs.length,
-    duration: "12:55",
-    songs: mockSongs
-};
 
-// --- Constantes de Estilo ---
+// --- Constantes e Componentes Estilizados (MANTIDOS) ---
 const INACTIVE_ICON_COLOR = 'var(--secondary-text-color)';
-
-// --- Componentes Estilizados (Mantidos sem alteração) ---
 
 const PlaylistHeaderContainer = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'flex-end', gap: '30px', marginBottom: '40px', padding: '20px', backgroundColor: 'var(--card-bg)', borderRadius: '12px',
-    [theme.breakpoints.down('md')]: { flexDirection: 'column', alignItems: 'flex-start' },
+    ['@media (max-width:960px)']: { flexDirection: 'column', alignItems: 'flex-start' },
 }));
 
 const PlayButton = styled(IconButton)(({ theme }) => ({
@@ -132,45 +88,87 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
 
 function PlaylistDetalhe() {
     const { id } = useParams();
-    // Usando o mockPlaylist atualizado
-    const playlist = mockPlaylist; 
+    const playlistId = parseInt(id); // Converte para número
+
+    // Hooks do Redux
+    const dispatch = useDispatch();
+    const { currentSong, isPlaying } = useSelector(state => state.player); // Pega o estado do player
+
+    // 1. Encontra os detalhes da Playlist no playlists.json
+    const playlistDetails = allPlaylists.find(pl => pl.id === playlistId); 
     
-    const { currentSong, isPlaying, togglePlayPause, addPlaylistToQueue, playSong } = useMusicPlayer();
+    // 2. Filtra as Músicas da Playlist: Lógica para Músicas Curtidas (ID 0)
+    let playlistSongs = [];
     
+    if (playlistId === 0) {
+        // Músicas Curtidas: filtra todas as músicas onde isLiked é true
+        playlistSongs = allMusics.filter(music => music.isLiked === true);
+    } else {
+        // Playlists Normais: filtra pelo playlistId
+        playlistSongs = allMusics.filter(music => music.playlistId === playlistId);
+    }
+    
+    // 3. Monta o objeto final da playlist
+    const playlist = playlistDetails 
+        ? {
+            ...playlistDetails,
+            songs: playlistSongs,
+            songCount: playlistSongs.length
+        }
+        : null;
+        
     const [hoveredSongId, setHoveredSongId] = useState(null); 
 
-    // Nota: O currentSong precisa vir do contexto. As IDs de música são 101, 102, 103
+    // Se a playlist não for encontrada, exibe uma mensagem de erro simples
+    if (!playlist) {
+        return <main className="content-area" style={{paddingTop: '50px'}}><Typography variant="h4" color="error">Playlist Não Encontrada! (ID: {id})</Typography></main>;
+    }
+    
+    // Verifica se a música atual pertence a esta playlist
     const isThisPlaylistPlaying = isPlaying && playlist.songs.some(song => song.id === currentSong?.id); 
     
     // FUNÇÃO PARA TOCAR A PLAYLIST (Botão Principal)
     const handlePlaylistPlay = () => {
         if (isThisPlaylistPlaying) {
-            togglePlayPause();
+            // Se já está tocando, pausa
+            dispatch(togglePlayPause());
         } else {
-            // Adiciona a playlist inteira à fila e começa a tocar a primeira música (101)
-            addPlaylistToQueue(playlist.songs);
+            // Se não está tocando, inicia a playlist (limpa a fila e começa)
+            dispatch(setQueue({ songs: playlist.songs, startIndex: 0 }));
         }
     };
     
     // FUNÇÃO PARA TOCAR MÚSICA INDIVIDUAL
     const handleSongClick = (song) => {
-        if (currentSong?.id === song.id && isPlaying) {
-             togglePlayPause();
+        if (currentSong?.id === song.id) {
+             // Se é a mesma música, apenas alterna play/pause
+             dispatch(togglePlayPause());
         } else {
-             // playSong() limpa a fila e toca a música individualmente.
-             playSong(song.id); 
+             // Se for outra música, configura a fila para iniciar com esta música
+             
+             // 1. Encontra o índice da música na playlist atual (que será a nova fila)
+             const newQueue = playlist.songs;
+             const startIndex = newQueue.findIndex(s => s.id === song.id);
+             
+             // 2. Seta a nova fila no Redux, iniciando na música clicada
+             if (startIndex !== -1) {
+                 dispatch(setQueue({ songs: newQueue, startIndex: startIndex }));
+             }
+             
+             // Nota: setQueue já configura currentSong e isPlaying = true
         }
     }
+
 
     return (
         <main className="content-area playlist-page">
             
             {/* 1. CABEÇALHO DA PLAYLIST */}
             <PlaylistHeaderContainer>
-                <img src={playlist.cover} alt="Playlist Cover" style={{ width: '250px', height: '250px', borderRadius: '12px', boxShadow: '0 10px 30px var(--shadow-color-dark)', objectFit: 'cover' }}/>
+                <img src={playlist.img} alt="Playlist Cover" style={{ width: '250px', height: '250px', borderRadius: '12px', boxShadow: '0 10px 30px var(--shadow-color-dark)', objectFit: 'cover' }}/>
                 <Box className="header-info">
                     <Typography variant="overline" className="playlist-type" sx={{ color: 'var(--secondary-text-color)', fontWeight: 'bold' }}>{playlist.type}</Typography>
-                    <Typography variant="h3" component="h1" sx={{ color: 'var(--text-color)', fontWeight: 'bold', margin: '10px 0' }}>{playlist.title}</Typography>
+                    <Typography variant="h3" component="h1" sx={{ color: 'var(--text-color)', fontWeight: 'bold', margin: '10px 0' }}>{playlist.name}</Typography>
                     <Typography className="playlist-description" sx={{ color: 'var(--secondary-text-color)', maxWidth: '600px' }}>{playlist.description}</Typography>
                     <Typography variant="body2" className="playlist-stats" sx={{ color: 'var(--secondary-text-color)', marginTop: '10px' }}>
                         Criada por <Link to={`/perfil/${playlist.creator}`} style={{ color: 'var(--text-color)', fontWeight: 'bold', textDecoration: 'none' }}>{playlist.creator}</Link> 
@@ -186,6 +184,7 @@ function PlaylistDetalhe() {
                 <PlayButton 
                     aria-label={isThisPlaylistPlaying ? "Pausar Playlist" : "Tocar Playlist"}
                     onClick={handlePlaylistPlay}
+                    disabled={playlist.songs.length === 0} // Desabilita se a fila for vazia (ex: curtidas vazias)
                 >
                     {isThisPlaylistPlaying ? <PauseIcon sx={{ fontSize: '32px' }} /> : <PlayArrowIcon sx={{ fontSize: '32px' }} />}
                 </PlayButton>

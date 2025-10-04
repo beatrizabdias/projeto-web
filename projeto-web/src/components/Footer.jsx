@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
+// Footer.jsx (CORRIGIDO NOVAMENTE - Incluindo MobileMenuItem)
+
+import React, { useState } from 'react'; 
 import { Box, IconButton, Typography, styled } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom'; 
 
+// 1. Importações do Redux
+import { useSelector, useDispatch } from 'react-redux'; 
+import { togglePlayPause, skipNext } from '../store/playerSlice'; 
+
 // Componente Player existente
 import Player from './Player'; 
-// Importação do contexto do player (NECESSÁRIO para o MiniPlayer)
-import { useMusicPlayer } from '../context/MusicPlayerContext'; 
 
-// Ícones de Navegação existentes
+// Ícones e Constantes (Mantidos)
 import HomeIcon from '@mui/icons-material/Home'; 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic'; 
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import GroupIcon from '@mui/icons-material/Group'; 
-
-// NOVOS ÍCONES de controle e visibilidade
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
-// Constantes de estilo existentes
 const ACTIVE_COLOR = 'var(--orange)';
 const INACTIVE_COLOR = 'var(--secondary-text-color)';
 
 
 // ------------------------------------------------------------------
-// COMPONENTE AUXILIAR: MobileMenuItem (Inalterado)
+// COMPONENTE AUXILIAR: MobileMenuItem (REINCLUÍDO)
 // ------------------------------------------------------------------
 
 const MobileMenuItem = ({ item, isActive }) => (
@@ -67,8 +68,9 @@ const MobileMenuItem = ({ item, isActive }) => (
     </Link>
 );
 
+
 // ------------------------------------------------------------------
-// NOVO COMPONENTE: MINI PLAYER 
+// 2. Componente Estilizado para o MiniPlayer (Mantido FORA da função)
 // ------------------------------------------------------------------
 
 const MiniPlayerTabContainer = styled(Box)(({ theme }) => ({
@@ -86,70 +88,20 @@ const MiniPlayerTabContainer = styled(Box)(({ theme }) => ({
     padding: '0 5px 0 15px', 
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6)',
     zIndex: 1003,
-    [theme.breakpoints.up('sm')]: {
+    ['@media (min-width:600px)']: { 
         right: 40, 
         bottom: 40,
     },
 }));
 
-const MiniPlayerTab = ({ onShowFooter }) => {
-    // APENAS LENDO o estado e as funções do player. Não há auto-play aqui.
-    const { isPlaying, togglePlayPause, skipNext, currentSong } = useMusicPlayer(); 
-    const musicaAtual = currentSong || { titulo: "Música Não Selecionada" };
-
-    return (
-        <MiniPlayerTabContainer>
-            <Typography 
-                variant="body2" 
-                sx={{ 
-                    whiteSpace: 'nowrap', 
-                    overflow: 'hidden', 
-                    textOverflow: 'ellipsis', 
-                    maxWidth: '100px',
-                    fontWeight: 'bold',
-                }}
-            >
-                {musicaAtual.titulo}
-            </Typography>
-
-            <IconButton 
-                onClick={togglePlayPause} // Chamado apenas ao clicar
-                sx={{ color: 'white', ml: 1, '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
-                aria-label={isPlaying ? "Pausar" : "Reproduzir"}
-            >
-                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-            </IconButton>
-
-            <IconButton 
-                onClick={skipNext} // Chamado apenas ao clicar
-                sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
-                aria-label="Avançar"
-            >
-                <SkipNextIcon />
-            </IconButton>
-
-            <IconButton 
-                onClick={onShowFooter}
-                aria-label="Mostrar Rodapé Completo"
-                sx={{ 
-                    color: 'white', 
-                    ml: 0.5,
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.3)' } 
-                }}
-            >
-                <KeyboardArrowUpIcon />
-            </IconButton>
-        </MiniPlayerTabContainer>
-    );
-};
-
 
 // ------------------------------------------------------------------
-// COMPONENTE PRINCIPAL: FOOTER 
+// COMPONENTE PRINCIPAL: FOOTER (Função MiniPlayerTab mantida DENTRO)
 // ------------------------------------------------------------------
 
 function Footer() {
+    // ... (restante do código da função Footer, incluindo MiniPlayerTab interno)
+
     const location = useLocation(); 
     const [isFooterVisible, setIsFooterVisible] = useState(true);
 
@@ -157,11 +109,63 @@ function Footer() {
         setIsFooterVisible(prev => !prev);
     };
 
+    const MiniPlayerTab = ({ onShowFooter }) => {
+        const dispatch = useDispatch();
+        const { isPlaying, currentSong } = useSelector(state => state.player); 
+        
+        const musicaAtual = currentSong || { title: "Música Não Selecionada" };
+
+        return (
+            <MiniPlayerTabContainer>
+                <Typography 
+                    variant="body2" 
+                    sx={{ 
+                        whiteSpace: 'nowrap', 
+                        overflow: 'hidden', 
+                        textOverflow: 'ellipsis', 
+                        maxWidth: '100px',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    {musicaAtual.title}
+                </Typography>
+
+                <IconButton 
+                    onClick={() => dispatch(togglePlayPause())} 
+                    sx={{ color: 'white', ml: 1, '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
+                    aria-label={isPlaying ? "Pausar" : "Reproduzir"}
+                >
+                    {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                </IconButton>
+
+                <IconButton 
+                    onClick={() => dispatch(skipNext())} 
+                    sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}
+                    aria-label="Avançar"
+                >
+                    <SkipNextIcon />
+                </IconButton>
+
+                <IconButton 
+                    onClick={onShowFooter}
+                    aria-label="Mostrar Rodapé Completo"
+                    sx={{ 
+                        color: 'white', 
+                        ml: 0.5,
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.3)' } 
+                    }}
+                >
+                    <KeyboardArrowUpIcon />
+                </IconButton>
+            </MiniPlayerTabContainer>
+        );
+    };
+
     if (!isFooterVisible) {
-        return <MiniPlayerTab onShowFooter={toggleFooter} />;
+        return <MiniPlayerTab onShowFooter={toggleFooter} />; 
     }
 
-    // Componente customizado que combina o texto do footer e o botão de ocultar
     const FooterBarWithButton = ({ isMobile = false }) => (
         <div className="foo" style={{ 
             padding: isMobile ? '5px' : '0 20px',
@@ -174,7 +178,6 @@ function Footer() {
             <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--secondary-text-color)' }}>
                 {isMobile ? `© 2025 Moosica.` : `© 2025 Moosica. Todos os direitos reservados.`}
             </p>
-            {/* Botão de Ocultar posicionado à direita e embaixo */}
             <IconButton 
                 onClick={toggleFooter} 
                 aria-label="Ocultar Player" 
@@ -215,7 +218,6 @@ function Footer() {
                 backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player /> 
-                {/* Footer e Botão de Ocultar para Desktop */}
                 <FooterBarWithButton />
             </Box>
 
@@ -228,7 +230,6 @@ function Footer() {
                 backgroundColor: 'var(--footer-bg)', 
             }}>
                 <Player />
-                {/* Footer e Botão de Ocultar para Mobile */}
                 <FooterBarWithButton isMobile={true} />
             </Box>
 
@@ -253,14 +254,12 @@ function Footer() {
                 }}
             >
                 {mobileMenuItems.map((item) => {
-                    const isActive = location.pathname === item.to || 
-                                     (item.to !== '/' && location.pathname.startsWith(item.to));
-
                     return (
                         <MobileMenuItem 
                             key={item.label} 
                             item={item} 
-                            isActive={isActive} 
+                            isActive={location.pathname === item.to || 
+                                     (item.to !== '/' && location.pathname.startsWith(item.to))} 
                         />
                     );
                 })}

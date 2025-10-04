@@ -1,3 +1,5 @@
+// TelaMusica.jsx (Adaptado para Redux)
+
 import React, { useState } from 'react';
 import { 
     Box, 
@@ -12,52 +14,64 @@ import {
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
+// 1. Importações do Redux
+import { useSelector } from 'react-redux'; 
+
 import './css/TelaMusica.css';
-import { useMusicPlayer } from '../../context/MusicPlayerContext';
 import Comentarios from '../../components/Comentarios'; 
 
 function TelaMusica() {
-    const { currentSong } = useMusicPlayer(); 
+    // LER o estado da música atual do Redux
+    const { currentSong } = useSelector(state => state.player); 
 
-    // ADICIONADO: Um ID único para a música (essencial para comentários persistentes)
+    // O objeto da música, usando currentSong ou um placeholder
     const musicaAtual = currentSong || {
-        id: "default-song-placeholder", // ID único
-        titulo: "Nenhuma Música Tocando",
-        artista: "Artista Desconhecido",
-        imagem: "/assets/img/vacamario.jpg",
+        id: "default-song-placeholder", 
+        // Corrigindo para usar 'title' e 'artist' conforme o musicas.json
+        title: "Nenhuma Música Tocando", 
+        artist: "Artista Desconhecido",
+        cover: "/assets/img/vacamario.jpg", // 'cover' é o nome mais comum no seu JSON
+        // Descrição e Letra serão undefined, mas evitam crashes.
+        descricao: "Sem descrição.",
+        letra: "Sem letra.",
     };
+    
+    // Usando 'cover' (se for o campo de imagem do seu JSON)
+    const musicaImagem = musicaAtual.cover || musicaAtual.imagem; // Fallback para 'imagem' se houver
+    const musicaTitulo = musicaAtual.title || musicaAtual.titulo; 
+    const musicaArtista = musicaAtual.artist || musicaAtual.artista; 
+
 
     const [abaAtiva, setAbaAtiva] = useState('letra');
 
-    // --- NOVO: Lógica de Like/Dislike ---
+    // --- Lógica de Like/Dislike (Mantida como estado local) ---
     const [likes, setLikes] = useState(15);
     const [dislikes, setDislikes] = useState(3);
-    // userRating: 1 (Like), -1 (Dislike), 0 (Nenhum)
     const [userRating, setUserRating] = useState(0); 
 
     const handleLike = () => {
-        if (userRating === 1) { // Já deu like -> Desfazer
+        if (userRating === 1) { 
             setLikes(likes - 1);
             setUserRating(0);
-        } else if (userRating === -1) { // Deu dislike -> Trocar para like
+        } else if (userRating === -1) {
             setDislikes(dislikes - 1);
             setLikes(likes + 1);
             setUserRating(1);
-        } else { // Não avaliou -> Dar like
+        } else {
             setLikes(likes + 1);
             setUserRating(1);
         }
     };
 
     const handleDislike = () => {
-        if (userRating === -1) { // Já deu dislike -> Desfazer
+        if (userRating === -1) { 
             setDislikes(dislikes - 1);
             setUserRating(0);
-        } else if (userRating === 1) { // Deu like -> Trocar para dislike
+        } else if (userRating === 1) {
             setLikes(likes - 1);
             setDislikes(dislikes + 1);
             setUserRating(-1);
-        } else { // Não avaliou -> Dar dislike
+        } else {
             setDislikes(dislikes + 1);
             setUserRating(-1);
         }
@@ -69,27 +83,25 @@ function TelaMusica() {
             {/* Bloco Esquerdo: Capa da Música e Nome */}
             <Box className="player-info-block">
                 <Typography variant="h4" component="h1" gutterBottom className="musica-titulo">
-                    {musicaAtual.titulo}
+                    {musicaTitulo}
                 </Typography>
                 <Typography variant="h6" gutterBottom className="musica-artista">
-                    {musicaAtual.artista}
+                    {musicaArtista}
                 </Typography>
 
                 <CardMedia
                     component="img"
-                    image={musicaAtual.imagem}
-                    alt={`Capa do álbum de ${musicaAtual.titulo}`}
+                    image={musicaImagem}
+                    alt={`Capa do álbum de ${musicaTitulo}`}
                     className="album-art"
                 />
 
-                {/* NOVO: Botões de Like e Dislike */}
+                {/* Botões de Like e Dislike */}
                 <Stack direction="row" spacing={2} alignItems="center" className="like-dislike-buttons">
-                    {/* Botão de Like */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton 
                             onClick={handleLike} 
                             aria-label="like"
-                            // Cor condicional: laranja quando ativo, branco/padrão quando inativo
                             sx={{ color: userRating === 1 ? '#ff7533' : 'white', '&:hover': { color: '#ff7533' } }}
                         >
                             <ThumbUpIcon />
@@ -99,7 +111,6 @@ function TelaMusica() {
                         </Typography>
                     </Box>
 
-                    {/* Botão de Dislike */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton 
                             onClick={handleDislike} 
@@ -113,14 +124,11 @@ function TelaMusica() {
                         </Typography>
                     </Box>
                 </Stack>
-                {/* Fim dos Botões de Like e Dislike */}
-
             </Box>
 
-            {/* Bloco Direito: Opções (Artista, Descrição, Letra, Comentários) */}
+            {/* Bloco Direito: Opções */}
             <Box className="options-block">
-
-            <Stack direction="row" spacing={1} className="options-buttons">
+                <Stack direction="row" spacing={1} className="options-buttons">
                     <Button 
                         variant={abaAtiva === 'artista' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('artista')}
@@ -139,7 +147,6 @@ function TelaMusica() {
                     >
                         Letra
                     </Button>
-                    {/* NOVA ABA: Comentários */}
                     <Button 
                         variant={abaAtiva === 'comentarios' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('comentarios')}
@@ -150,11 +157,10 @@ function TelaMusica() {
 
                 {/* Conteúdo dinâmico das abas */}
                 <Box className="aba-content">
-                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaAtual.artista} aqui...</Typography>)}
-                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao}</Typography>)}
-                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra}</Typography>)}
+                    {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaArtista} aqui...</Typography>)}
+                    {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao || 'Descrição indisponível.'}</Typography>)}
+                    {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra || 'Letra indisponível.'}</Typography>)}
                     
-                    {/* NOVO CONTEÚDO: Componente de Comentários */}
                     {abaAtiva === 'comentarios' && (
                         <Comentarios musicaId={musicaAtual.id} />
                     )}
