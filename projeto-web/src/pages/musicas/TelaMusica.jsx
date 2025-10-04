@@ -139,7 +139,7 @@ function TelaMusica() {
                         variant={abaAtiva === 'descricao' ? 'contained' : 'outlined'} 
                         onClick={() => setAbaAtiva('descricao')}
                     >
-                    Descrição
+                        Descrição
                     </Button>
                     <Button 
                         variant={abaAtiva === 'letra' ? 'contained' : 'outlined'} 
@@ -162,7 +162,7 @@ function TelaMusica() {
                     {abaAtiva === 'letra' && (<Typography>{musicaAtual.letra || 'Letra indisponível.'}</Typography>)}
                     
                     {abaAtiva === 'comentarios' && (
-                        <Comentarios musicaId={musicaAtual.id} />
+                        <Comentarios musicaId={musicaId} />
                     )}
                 </Box>
             </Box>
