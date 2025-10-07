@@ -10,7 +10,6 @@ import Playlists from './pages/playlists/Playlists';
 import PlaylistDetalhe from './pages/playlists/PlaylistDetalhe';
 import Pesquisa from './pages/pesquisa/Pesquisa';
 import TelaMusica from './pages/musicas/TelaMusica.jsx';
-import UploadM from './pages/musicas/criarmusica.jsx';
 import Grupos from './pages/grupos/Grupos.jsx';
 import GrupoDetalhe from './pages/grupos/GrupoDetalhe.jsx';
 import AlbumDetail from './pages/albuns/AlbumDetail';
@@ -33,7 +32,6 @@ function App() {
 
             <Route path="/pesquisa" element={<Pesquisa />} />
             <Route path="/musica/:id" element={<TelaMusica />} />
-            <Route path="/uploadmusica" element={<UploadM />} />
             <Route path="/grupos" element={<Grupos />} />
             <Route path="/grupos/:id" element={<GrupoDetalhe />} />
             <Route path="/artista/:id" element={<Artist />} />

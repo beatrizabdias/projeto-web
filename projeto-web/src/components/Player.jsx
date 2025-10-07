@@ -123,7 +123,7 @@ function Player() {
     const progress = (currentTime / duration) * 100 || 0;
     const songName = currentSong
         ? `${currentSong.title} - ${currentSong.artist}`
-        : "Nenhuma Música Tocando";
+        : " ";
     const detailRoute = currentSong
         ? `${MUSIC_DETAIL_PATH_BASE}${currentSong.id}`
         : MUSIC_DETAIL_PATH_BASE;
