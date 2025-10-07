@@ -4,23 +4,19 @@ import { Box, Typography, IconButton, InputBase, Table, TableBody, TableCell, Ta
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause'; 
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'; // Ícone de arraste
-import StarIcon from '@mui/icons-material/Star';
-import PersonIcon from '@mui/icons-material/Person';
-import MusicNoteIcon from '@mui/icons-material/MusicNote'; 
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'; // Ícone de arraste (Drag Handle)
 
 // 1. Importações D&D e Redux
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'; 
 import { useSelector, useDispatch } from 'react-redux';
-// Assumindo que reorderPlaylist é a action de persistência real (você precisa criá-la no slice)
-import { setQueue, togglePlayPause, reorderQueue } from '../../store/playerSlice'; 
+import { setQueue, togglePlayPause, reorderQueue } from '../store/playerSlice'; 
 
 // Importa os arquivos JSON (assumindo que estas variáveis são arrays)
-import allMusics from '../musicas/musicas.json';
-import allPlaylists from '../musicas/playlists.json'; 
+import allMusics from '../pages/musicas/musicas.json';
+import allPlaylists from '../pages/musicas/playlists.json'; 
 
 
-// --- Constantes e Componentes Estilizados (MANTIDOS) ---
+// --- Constantes e Componentes Estilizados (Mantidos) ---
 const INACTIVE_ICON_COLOR = 'var(--secondary-text-color)';
 
 const PlaylistHeaderContainer = styled(Box)(({ theme }) => ({
@@ -29,9 +25,7 @@ const PlaylistHeaderContainer = styled(Box)(({ theme }) => ({
 }));
 
 const PlayButton = styled(IconButton)(({ theme }) => ({
-    width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--orange)', 
-    color: 'white', fontSize: '26px', boxShadow: '0 4px 15px rgba(255, 107, 0, 0.4)', 
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+    width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--orange)', color: 'white', fontSize: '26px', boxShadow: '0 4px 15px rgba(255, 107, 0, 0.4)', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     '&:hover': { transform: 'scale(1.1)', backgroundColor: 'var(--darker-orange)', boxShadow: '0 6px 20px rgba(255, 107, 0, 0.7)' },
 }));
 
@@ -56,7 +50,7 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
 
 function PlaylistDetalhe() {
     const { id } = useParams();
-    const playlistId = parseInt(id);
+    const playlistId = parseInt(id); 
 
     // Hooks do Redux
     const dispatch = useDispatch();
@@ -70,7 +64,6 @@ function PlaylistDetalhe() {
         initialSongs = allMusics.filter(music => music.playlistId === playlistId);
     }
     
-    // 2. Monta a playlist (Dados de cabeçalho)
     const playlistDetails = allPlaylists.find(pl => pl.id === playlistId); 
     const playlist = playlistDetails 
         ? { ...playlistDetails, songs: initialSongs, songCount: initialSongs.length }
@@ -78,10 +71,10 @@ function PlaylistDetalhe() {
         
     const [hoveredSongId, setHoveredSongId] = useState(null); 
     
-    // ESTADO LOCAL: Gerencia a ordem atual das músicas para o D&D
-    const [localSongs, setLocalSongs] = useState(initialSongs);
+    // CRÍTICO: Estado Local para a Ordem da Playlist (permite o D&D local)
+    const [localSongs, setLocalSongs] = useState(playlist ? playlist.songs : []);
 
-    // CRÍTICO: Sincroniza o estado local APENAS quando o ID da playlist muda
+    // Sincroniza o estado local APENAS quando a playlistId muda
     React.useEffect(() => {
         if (playlist) {
             setLocalSongs(playlist.songs);
@@ -100,7 +93,7 @@ function PlaylistDetalhe() {
         if (isThisPlaylistPlaying) {
             dispatch(togglePlayPause());
         } else {
-            // Usa a ordem local das músicas para iniciar a fila
+            // Usa a ordem LOCAL das músicas para iniciar a fila
             dispatch(setQueue({ songs: localSongs, startIndex: 0 }));
         }
     };
@@ -110,7 +103,7 @@ function PlaylistDetalhe() {
         if (currentSong?.id === song.id) {
             dispatch(togglePlayPause());
         } else {
-             // Seta a fila usando a ordem local, iniciando na música clicada
+             // Seta a fila usando a ordem LOCAL, iniciando na música clicada
              dispatch(setQueue({ songs: localSongs, startIndex: index }));
         }
     }
@@ -128,11 +121,11 @@ function PlaylistDetalhe() {
         // 1. Atualiza o estado local para o feedback visual imediato
         setLocalSongs(newSongs);
 
-        // 2. CRÍTICO: Atualiza a fila global do Redux com a nova ordem
-        // Isso garante que o skipNext/skipPrevious use a nova ordem.
-        dispatch(setQueue({ songs: newSongs, startIndex: newSongs.findIndex(s => s.id === currentSong?.id) }));
+        // 2. CRÍTICO: Atualiza a fila global do Redux (IMPORTANTE)
+        const currentSongIndex = newSongs.findIndex(s => s.id === currentSong?.id);
+        dispatch(setQueue({ songs: newSongs, startIndex: currentSongIndex }));
         
-        // Se você quisesse persistir no servidor, a chamada da API viria aqui.
+        // Aqui você faria a chamada API para salvar a nova ordem no backend.
     };
 
 
@@ -176,7 +169,7 @@ function PlaylistDetalhe() {
 
             {/* 3. LISTA DE MÚSICAS (Tabela com D&D) */}
             <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="playlist">
+                <Droppable droppableId="playlist-detail">
                     {(provided) => (
                         <TableContainer 
                             className="songs-list" 
@@ -195,7 +188,7 @@ function PlaylistDetalhe() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {localSongs.map((song, index) => {
+                                    {localSongs.map((song, index) => { // Renderiza o estado LOCAL
                                         const isCurrentRowPlaying = currentSong?.id === song.id && isPlaying;
                                         const isRowHovered = hoveredSongId === song.id;
 
@@ -233,6 +226,7 @@ function PlaylistDetalhe() {
                                                         {/* 2. Conteúdo e Outras Células */}
                                                         <TableCell sx={{ borderBottom: 'none' }}>
                                                             <Box className="song-info" sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                                                {/* Imagem de Capa */}
                                                                 <img src={song.cover} alt="Song Cover" style={{ width: '50px', height: '50px', borderRadius: '6px', objectFit: 'cover' }} />
                                                                 <Box>
                                                                     <Typography className="song-title" sx={{ fontWeight: 'bold', display: 'block', color: isCurrentRowPlaying ? 'var(--orange)' : 'var(--text-color)' }}>{song.title}</Typography>

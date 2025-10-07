@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Componentes Fixos
 import Header from './components/Header';
 import Footer from './components/Footer'; 
+import FilaPage from './components/FilaPage'; 
 
 // Páginas que mudam
 import Home from './pages/home/Home';
@@ -52,7 +53,7 @@ function App() {
             <Route path="/playlist/:id" element={<PlaylistDetalhe />} />
             <Route path="/artistDetail/:id" element={<Artist />} />
             <Route path="/artist/:id" element={<Artist />} />
-
+            <Route path="/fila" element={<FilaPage />} />
             <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
           </Routes>
         </main>

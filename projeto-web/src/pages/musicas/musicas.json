@@ -6,7 +6,7 @@
       "album": "Electric Thunder",
       "added": "01/2025",
       "duration": "3:15",
-      "cover": "/assets/img/rock_cover_1.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/fastrock.mp3",
       "playlistId": 1,
       "isLiked": true
@@ -18,7 +18,7 @@
       "album": "Electric Thunder",
       "added": "02/2025",
       "duration": "4:00",
-      "cover": "/assets/img/rock_cover_1.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/rockmotivational.mp3",
       "playlistId": 1,
       "isLiked": false
@@ -30,7 +30,7 @@
       "album": "Electric Thunder",
       "added": "03/2025",
       "duration": "3:45",
-      "cover": "/assets/img/rock_cover_1.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/rockthunder.mp3",
       "playlistId": 1,
       "isLiked": true
@@ -42,7 +42,7 @@
       "album": "Joyful Sounds",
       "added": "04/2025",
       "duration": "2:30",
-      "cover": "/assets/img/vibe_cover_2.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/happybirthday.mp3",
       "playlistId": 2,
       "isLiked": true
@@ -54,7 +54,7 @@
       "album": "Joyful Sounds",
       "added": "05/2025",
       "duration": "3:25",
-      "cover": "/assets/img/vibe_cover_2.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/runningnight.mp3",
       "playlistId": 2,
       "isLiked": false
@@ -66,7 +66,7 @@
       "album": "Joyful Sounds",
       "added": "06/2025",
       "duration": "4:10",
-      "cover": "/assets/img/vibe_cover_2.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/deepsnowcap.mp3",
       "playlistId": 2,
       "isLiked": true
@@ -78,7 +78,7 @@
       "album": "Calm",
       "added": "07/2025",
       "duration": "4:05",
-      "cover": "/assets/img/piano_cover_3.jpg",
+      "cover": "../../assets/img/vacamario.jpg",
       "caminho": "/assets/audio/ambientpiano.mp3",
       "playlistId": 3,
       "isLiked": true
