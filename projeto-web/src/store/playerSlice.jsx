@@ -10,13 +10,16 @@ import musicasData from '../pages/musicas/musicas.json';
 
 // Estado inicial do player
 const initialState = {
-    currentSong: musicasData[0] || null, 
+    // CORREÇÃO: Começa sem música.
+    currentSong: null, 
+    // CORREÇÃO: Começa sem tocar.
     isPlaying: false,
     currentTime: 0, 
     duration: 0,
     volume: 0.5,
-    queue: musicasData.slice(0, 5), // Exemplo: Inicializa a fila com algumas músicas
-    queueIndex: 0, 
+    // CORREÇÃO: A fila começa vazia.
+    queue: [], 
+    queueIndex: -1, // -1 indica que não há índice válido na fila
     musicas: musicasData,
 };
 

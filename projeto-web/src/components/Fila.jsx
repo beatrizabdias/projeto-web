@@ -1,3 +1,5 @@
+// QueueOverlay.jsx (Código CORRIGIDO)
+
 import React from 'react';
 import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, styled } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,13 +16,11 @@ const INACTIVE_COLOR = 'var(--secondary-text-color)';
 
 
 const QueueOverlayContainer = styled(Box)(({ theme }) => ({
-    // CRÍTICO: Removendo o position: absolute/fixed daqui e movendo para onde ele é usado.
-    // No entanto, para fins de demonstração, vou ajustá-lo para a posição absoluta correta:
-    
-    position: 'fixed', // Ancorado na viewport
-    top: '70px', // Abaixo da NavBar (assumindo 50px de NavBar + margem)
-    left: '100px', // CRÍTICO: Margem à esquerda (80px do SideBar + 20px de respiro)
-    height: 'calc(100vh - 150px)', // Ocupa o resto da altura da tela (100vh - Header - Footer)
+    // Estilos de posição fixa mantidos para o overlay
+    position: 'fixed', 
+    top: '70px', 
+    left: '100px', 
+    height: 'calc(100vh - 150px)', 
     width: '350px', 
     backgroundColor: 'var(--sidebar-bg)', 
     borderRadius: '8px', 
@@ -57,7 +57,8 @@ function QueueOverlay() {
 
 
     const renderQueueItem = (song, index) => {
-        const isCurrentlyPlaying = currentSong && song.id === song.id;
+        // CORREÇÃO: Usar currentSong?.id
+        const isCurrentlyPlaying = currentSong?.id === song.id; 
         
         return (
             <Draggable key={song.id} draggableId={String(song.id)} index={index}>
@@ -66,7 +67,7 @@ function QueueOverlay() {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         sx={{
-                            padding: '12px 15px', // Padding maior
+                            padding: '12px 15px', 
                             backgroundColor: isCurrentlyPlaying ? 'var(--card-bg)' : 'transparent',
                             borderLeft: isCurrentlyPlaying ? '4px solid var(--orange)' : '4px solid transparent',
                             cursor: 'pointer',
@@ -88,22 +89,23 @@ function QueueOverlay() {
 
                         {/* 3. Capa e Título (MAIOR) */}
                         <ListItemAvatar sx={{ minWidth: '50px', ml: 1 }}>
-                            {/* Ajustamos o width e height do Avatar */}
-                            <Avatar src={song.imagem} alt="Capa" variant="square" sx={{ width: 50, height: 50 }} /> 
+                            {/* CORRIGIDO: De song.imagem para song.cover */}
+                            <Avatar src={song.cover} alt="Capa" variant="square" sx={{ width: 50, height: 50 }} /> 
                         </ListItemAvatar>
                         
                         {/* 4. Título, Artista e Duração */}
                         <ListItemText
-                            // CRÍTICO: Usando song.titulo e song.artista do JSON
-                            primary={song.titulo} 
-                            secondary={song.artista + ' • ' + song.album} // Concatena artista e álbum no secondary
+                            // CORRIGIDO: De song.titulo para song.title
+                            primary={song.title} 
+                            // CORRIGIDO: De song.artista para song.artist
+                            secondary={song.artist + ' • ' + song.album} // Concatena artista e álbum no secondary
                             primaryTypographyProps={{ 
-                                fontWeight: 'bold', fontSize: '1rem', // Fonte maior
+                                fontWeight: 'bold', fontSize: '1rem', 
                                 color: isCurrentlyPlaying ? 'var(--orange)' : 'var(--text-color)',
                                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                             }}
                             secondaryTypographyProps={{ 
-                                color: INACTIVE_COLOR, fontSize: '0.8rem' // Fonte maior
+                                color: INACTIVE_COLOR, fontSize: '0.8rem' 
                             }}
                             sx={{ marginLeft: '15px' }}
                         />
@@ -111,7 +113,8 @@ function QueueOverlay() {
                         {/* 5. Duração e Botão Remover */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             <Typography sx={{ color: INACTIVE_COLOR, fontSize: '0.8rem' }}>
-                                {song.duracao}
+                                {/* CORRIGIDO: De song.duracao para song.duration */}
+                                {song.duration}
                             </Typography>
                             {/* Botão Remover */}
                             <IconButton size="small" onClick={(e) => { e.stopPropagation(); console.log('Remover'); }} sx={{ color: INACTIVE_COLOR, '&:hover': { color: 'red' } }}>

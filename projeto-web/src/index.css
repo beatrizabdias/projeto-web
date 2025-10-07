@@ -45,6 +45,53 @@ body.light-theme {
     --button-hover-bg: #ddd;
     --button-hover-color: #333;
 }
+/* Seu Arquivo de Estilos Principal (index.css, App.css, etc.) */
+/* 1. Definição da Variável CSS (Modo Escuro/Padrão) */
+:root {
+    --cow-opacity: 0.4; 
+}
+
+/* 2. Sobrescrita da Variável (Modo Claro) - MANTENHA ESTA REGRA */
+.light-mode {
+    --cow-opacity: 0.05; 
+}
+
+/* -------------------------------------------------------- */
+
+/* 3. Container Principal */
+.main-content-area {
+    position: relative; 
+    z-index: 1; 
+    background-color: var(--main-bg); 
+    overflow: hidden; 
+}
+
+/* 4. Overlay de Padrão de Vaca (Padrão/Escuro) */
+.main-content-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-image: url('/assets/img/cowpatterns.png');
+    background-repeat: repeat;
+    
+    /* A opacidade é dinâmica, lendo a variável */
+    opacity: var(--cow-opacity); 
+    
+    z-index: -1; 
+}
+
+/* 5. NOVO: FORÇA A OPACIDADE BAIXA QUANDO O MAIN ESTIVER NO MODO CLARO */
+/* Se a classe .light-mode for aplicada ao elemento pai ou ao próprio main-content-area */
+.light-mode .main-content-area::before, 
+.main-content-area.light-mode::before {
+    /* Força a baixa opacidade */
+    opacity: 0.05 !important; 
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
