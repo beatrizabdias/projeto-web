@@ -1,17 +1,12 @@
-// Footer.jsx (CORRIGIDO NOVAMENTE - Incluindo MobileMenuItem)
-
 import React, { useState } from 'react'; 
 import { Box, IconButton, Typography, styled } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom'; 
 
-// 1. Importações do Redux
 import { useSelector, useDispatch } from 'react-redux'; 
 import { togglePlayPause, skipNext } from '../store/playerSlice'; 
 
-// Componente Player existente
 import Player from './Player'; 
 
-// Ícones e Constantes (Mantidos)
 import HomeIcon from '@mui/icons-material/Home'; 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic'; 
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
@@ -24,11 +19,6 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 const ACTIVE_COLOR = 'var(--orange)';
 const INACTIVE_COLOR = 'var(--secondary-text-color)';
-
-
-// ------------------------------------------------------------------
-// COMPONENTE AUXILIAR: MobileMenuItem (REINCLUÍDO)
-// ------------------------------------------------------------------
 
 const MobileMenuItem = ({ item, isActive }) => (
     <Link to={item.to} style={{ textDecoration: 'none', flexGrow: 1 }}>
@@ -68,11 +58,6 @@ const MobileMenuItem = ({ item, isActive }) => (
     </Link>
 );
 
-
-// ------------------------------------------------------------------
-// 2. Componente Estilizado para o MiniPlayer (Mantido FORA da função)
-// ------------------------------------------------------------------
-
 const MiniPlayerTabContainer = styled(Box)(({ theme }) => ({
     position: 'fixed',
     bottom: 20, 
@@ -94,14 +79,7 @@ const MiniPlayerTabContainer = styled(Box)(({ theme }) => ({
     },
 }));
 
-
-// ------------------------------------------------------------------
-// COMPONENTE PRINCIPAL: FOOTER (Função MiniPlayerTab mantida DENTRO)
-// ------------------------------------------------------------------
-
 function Footer() {
-    // ... (restante do código da função Footer, incluindo MiniPlayerTab interno)
-
     const location = useLocation(); 
     const [isFooterVisible, setIsFooterVisible] = useState(true);
 
@@ -210,7 +188,6 @@ function Footer() {
                 zIndex: 1001,
             }}
         >
-            {/* Player e Copyright (Desktop) */}
             <Box sx={{ 
                 display: { xs: 'none', sm: 'flex' }, 
                 flexDirection: 'column',
@@ -221,7 +198,6 @@ function Footer() {
                 <FooterBarWithButton />
             </Box>
 
-            {/* Player e Footer Consolidado (Mobile) */}
             <Box sx={{ 
                 display: { xs: 'flex', sm: 'none' }, 
                 flexDirection: 'column', 
@@ -233,8 +209,6 @@ function Footer() {
                 <FooterBarWithButton isMobile={true} />
             </Box>
 
-
-            {/* MENU RODAPÉ MOBILE */}
             <Box
                 className="menu-rodape-mobile"
                 component="nav"

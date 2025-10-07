@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
-import ArtistMusicList from '../../components/SongListCover.jsx';
 import ArtistMaisTocadas from '../../components/SongList.jsx';
-// import { topSongs } from '../../data.js';
 import './css/SongDetail.css'
 import api from "../../services/api";
 import React, { useEffect, useState } from 'react';

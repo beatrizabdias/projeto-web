@@ -1,5 +1,3 @@
-// TelaMusica.jsx (Adaptado para Redux)
-
 import React, { useState } from 'react';
 import { 
     Box, 
@@ -14,37 +12,30 @@ import {
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
-// 1. Importações do Redux
 import { useSelector } from 'react-redux'; 
 
 import './css/TelaMusica.css';
 import Comentarios from '../../components/Comentarios'; 
 
 function TelaMusica() {
-    // LER o estado da música atual do Redux
     const { currentSong } = useSelector(state => state.player); 
 
-    // O objeto da música, usando currentSong ou um placeholder
     const musicaAtual = currentSong || {
         id: "default-song-placeholder", 
-        // Corrigindo para usar 'title' e 'artist' conforme o musicas.json
         title: "Nenhuma Música Tocando", 
         artist: "Artista Desconhecido",
-        cover: "/assets/img/vacamario.jpg", // 'cover' é o nome mais comum no seu JSON
-        // Descrição e Letra serão undefined, mas evitam crashes.
+        cover: "/assets/img/vacamario.jpg", 
         descricao: "Sem descrição.",
         letra: "Sem letra.",
     };
     
-    // Usando 'cover' (se for o campo de imagem do seu JSON)
-    const musicaImagem = musicaAtual.cover || musicaAtual.imagem; // Fallback para 'imagem' se houver
+    const musicaImagem = musicaAtual.cover || musicaAtual.imagem; 
     const musicaTitulo = musicaAtual.title || musicaAtual.titulo; 
     const musicaArtista = musicaAtual.artist || musicaAtual.artista; 
 
 
     const [abaAtiva, setAbaAtiva] = useState('letra');
 
-    // --- Lógica de Like/Dislike (Mantida como estado local) ---
     const [likes, setLikes] = useState(15);
     const [dislikes, setDislikes] = useState(3);
     const [userRating, setUserRating] = useState(0); 
@@ -76,11 +67,9 @@ function TelaMusica() {
             setUserRating(-1);
         }
     };
-    // ------------------------------------
 
     return (
         <Container maxWidth="lg" className="tela-musica-container">
-            {/* Bloco Esquerdo: Capa da Música e Nome */}
             <Box className="player-info-block">
                 <Typography variant="h4" component="h1" gutterBottom className="musica-titulo">
                     {musicaTitulo}
@@ -96,7 +85,6 @@ function TelaMusica() {
                     className="album-art"
                 />
 
-                {/* Botões de Like e Dislike */}
                 <Stack direction="row" spacing={2} alignItems="center" className="like-dislike-buttons">
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton 
@@ -126,7 +114,6 @@ function TelaMusica() {
                 </Stack>
             </Box>
 
-            {/* Bloco Direito: Opções */}
             <Box className="options-block">
                 <Stack direction="row" spacing={1} className="options-buttons">
                     <Button 
@@ -155,7 +142,6 @@ function TelaMusica() {
                     </Button>
                 </Stack>
 
-                {/* Conteúdo dinâmico das abas */}
                 <Box className="aba-content">
                     {abaAtiva === 'artista' && (<Typography>Conteúdo das Informações do {musicaArtista} aqui...</Typography>)}
                     {abaAtiva === 'descricao' && (<Typography>{musicaAtual.descricao || 'Descrição indisponível.'}</Typography>)}

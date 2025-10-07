@@ -1,11 +1,8 @@
-// src/pages/playlists/Playlists.jsx
-
 import React, { useEffect, useState } from 'react';
 import './Albuns.css'; 
 import { useParams } from 'react-router-dom';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
 import SongList from "../../components/SongList.jsx";
-// import { topAlbums } from '../../data.js';
 import '../musicas/css/SongDetail.css'
 import api from "../../services/api";
 

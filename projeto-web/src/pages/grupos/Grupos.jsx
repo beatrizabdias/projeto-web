@@ -9,20 +9,18 @@ import {
     Container, 
     styled, 
     Divider,
-    Stack // <-- CRÍTICO: Stack estava faltando aqui
-} from '@mui/material'; // <-- O Stack deve vir daqui
+    Stack
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
-// --- Dados Mock de Exemplo ---
+
 const mockGrupos = [
     { id: 1, name: "Teste", currentSong: "Musica 1", members: "igor, ana e mais 5", status: "Ao vivo", cover: "/assets/img/vacateste.jpg" },
     { id: 2, name: "Grupo legal 123", currentSong: "Musica 1", members: "ana, beatriz e mais 12", status: "Ao vivo", cover: "/assets/img/vacateste.jpg" },
     { id: 3, name: "Grupo legal", currentSong: "Música 2", members: "maria, beatriz e mais 4", status: "Ao vivo", cover: "/assets/img/vacateste.jpg" },
 ];
-
-// --- Componentes Estilizados ---
 
 const GruposContainer = styled(Box)(({ theme }) => ({
     display: 'grid',
@@ -40,7 +38,6 @@ const GrupoCard = styled(Box)(({ theme, isNew = false }) => ({
     position: 'relative',
     height: isNew ? 'auto' : '100%',
     
-    // Novo Grupo (Estilo 'dashed')
     ...(isNew && {
         display: 'flex',
         flexDirection: 'column',
@@ -57,7 +54,6 @@ const GrupoCard = styled(Box)(({ theme, isNew = false }) => ({
         },
     }),
     
-    // Grupo Normal Hover
     ...(!isNew && {
         '&:hover': {
             transform: 'translateY(-5px)',
@@ -66,7 +62,6 @@ const GrupoCard = styled(Box)(({ theme, isNew = false }) => ({
     }),
 }));
 
-// --- Sub-componente: Card de Grupo ---
 const GrupoItem = ({ grupo }) => (
     <Link to={`/grupos/${grupo.id}`} style={{ textDecoration: 'none' }}>
         <GrupoCard>
@@ -101,14 +96,10 @@ const GrupoItem = ({ grupo }) => (
 
 
 function Grupos() {
-    // Estado para controlar a exibição do formulário
     const [isFormVisible, setIsFormVisible] = useState(false);
 
     return (
         <main className="content-area">
-            {/* --------------------------- */}
-            {/* SEÇÃO PRINCIPAL DE GRUPOS */}
-            {/* --------------------------- */}
             <Box sx={{ display: isFormVisible ? 'none' : 'block' }}>
 
                 <Box className="meus-grupos">
@@ -116,14 +107,12 @@ function Grupos() {
                         Meus Grupos
                     </Typography>
                     <GruposContainer>
-                        {/* Cartão de Criar Novo Grupo */}
                         <GrupoCard isNew onClick={() => setIsFormVisible(true)}>
                             <AddCircleIcon className="icone-add" sx={{ fontSize: '40px', color: 'var(--orange)', marginBottom: '10px' }} />
                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold' }}>Criar novo grupo</Typography>
                         </GrupoCard>
 
-                        {/* Mapeamento dos Meus Grupos (Mock) */}
-                        {mockGrupos.slice(0, 1).map((grupo) => ( // Exemplo: Apenas o primeiro é "Meu Grupo"
+                        {mockGrupos.slice(0, 1).map((grupo) => (
                             <GrupoItem key={grupo.id} grupo={grupo} />
                         ))}
                     </GruposContainer>
@@ -136,7 +125,6 @@ function Grupos() {
                         Grupos em Destaque
                     </Typography>
                     <GruposContainer>
-                        {/* Mapeamento de Grupos em Destaque */}
                         {mockGrupos.map((grupo) => (
                             <GrupoItem key={grupo.id} grupo={grupo} />
                         ))}
@@ -145,9 +133,6 @@ function Grupos() {
             </Box>
 
 
-            {/* --------------------------- */}
-            {/* FORMULÁRIO DE CRIAÇÃO DE GRUPO */}
-            {/* --------------------------- */}
             <Box className="form-grupo" sx={{ display: isFormVisible ? 'block' : 'none', maxWidth: '500px', margin: '0 auto', padding: '20px', background: 'var(--card-bg)', borderRadius: '12px' }}>
                 <Typography variant="h5" component="h2" sx={{ marginBottom: '20px' }}>
                     Criar novo grupo

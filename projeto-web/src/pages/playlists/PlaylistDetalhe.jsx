@@ -1,24 +1,16 @@
-// src/pages/playlists/PlaylistDetalhe.jsx
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, IconButton, InputBase, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause'; 
+import PauseIcon from '@mui/icons-material/Pause';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'; 
-
-// 1. Importações D&D e Redux
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'; 
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useSelector, useDispatch } from 'react-redux';
-import { setQueue, togglePlayPause, reorderQueue } from '../../store/playerSlice'; 
-
-// Importa os arquivos JSON (assumindo que estão nos caminhos corretos)
+import { setQueue, togglePlayPause, reorderQueue } from '../../store/playerSlice';
 import allMusics from '../musicas/musicas.json';
-import allPlaylists from '../musicas/playlists.json'; 
+import allPlaylists from '../musicas/playlists.json';
 
-
-// --- Constantes e Componentes Estilizados (Mantidos) ---
 const INACTIVE_ICON_COLOR = 'var(--secondary-text-color)';
 
 const PlaylistHeaderContainer = styled(Box)(({ theme }) => ({
@@ -37,7 +29,7 @@ const ActionIcon = styled(IconButton)(({ theme }) => ({
 }));
 
 const SearchSongsContainer = styled(Box)(({ theme }) => ({
-    display: 'flex', alignItems: 'center', width: '300px', height: '38px', backgroundColor: 'var(--input-bg)', 
+    display: 'flex', alignItems: 'center', width: '300px', height: '38px', backgroundColor: 'var(--input-bg)',
     borderRadius: '20px', padding: '0 5px 0 10px', transition: 'box-shadow 0.3s ease', marginLeft: 'auto',
     '&:focus-within': { boxShadow: `0 0 0 1px var(--secondary-text-color)` },
     '& .MuiSvgIcon-root': { color: 'var(--secondary-text-color)', fontSize: '20px', marginRight: '10px', marginLeft: '5px' }
@@ -49,74 +41,54 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
     '& ::placeholder': { color: INACTIVE_ICON_COLOR, opacity: 0.8 },
 }));
 
-
 function PlaylistDetalhe() {
-    // CORREÇÃO 1: O ID é lido da URL como STRING
     const { id } = useParams();
-
-    // Hooks do Redux
     const dispatch = useDispatch();
-    const { currentSong, isPlaying } = useSelector(state => state.player); 
+    const { currentSong, isPlaying } = useSelector(state => state.player);
+    const playlistDetails = allPlaylists.find(pl => String(pl.id) === id);
 
-    // CORREÇÃO 2: Busca a playlist comparando STRING com STRING
-    // Se os IDs no seu JSON forem NUMBERS, use String(pl.id) === id
-    const playlistDetails = allPlaylists.find(pl => String(pl.id) === id); 
-
-    // 3. Lógica de Filtragem de Músicas usando o ID da URL (STRING)
     let initialSongs = [];
     if (id === "0") {
-        // Exemplo: ID "0" para "Músicas Curtidas"
         initialSongs = allMusics.filter(music => music.isLiked === true);
     } else {
-        // Converte music.playlistId para String ANTES de comparar com o id da URL
         initialSongs = allMusics.filter(music => String(music.playlistId) === id);
     }
     
-    // Constrói o objeto principal
-    const playlist = playlistDetails 
+    const playlist = playlistDetails
         ? { ...playlistDetails, songs: initialSongs, songCount: initialSongs.length }
         : null;
         
-    const [hoveredSongId, setHoveredSongId] = useState(null); 
-    
-    // Estado Local para a Ordem da Playlist
+    const [hoveredSongId, setHoveredSongId] = useState(null);
     const [localSongs, setLocalSongs] = useState(playlist ? playlist.songs : []);
 
-    // Sincroniza o estado local APENAS quando o ID da playlist muda
     React.useEffect(() => {
         if (playlist) {
             setLocalSongs(playlist.songs);
         }
-    }, [id]); // Dependência alterada de playlistId para id
-
+    }, [id]);
 
     if (!playlist) {
         return <main className="content-area" style={{paddingTop: '50px'}}><Typography variant="h4" color="error">Playlist Não Encontrada! (ID: {id})</Typography></main>;
     }
     
-    const isThisPlaylistPlaying = isPlaying && localSongs.some(song => song.id === currentSong?.id); 
+    const isThisPlaylistPlaying = isPlaying && localSongs.some(song => song.id === currentSong?.id);
     
-    // FUNÇÃO PARA TOCAR A PLAYLIST
     const handlePlaylistPlay = () => {
         if (isThisPlaylistPlaying) {
             dispatch(togglePlayPause());
         } else {
-            // Usa a ordem LOCAL das músicas para iniciar a fila
             dispatch(setQueue({ songs: localSongs, startIndex: 0 }));
         }
     };
     
-    // FUNÇÃO PARA TOCAR MÚSICA INDIVIDUAL
     const handleSongClick = (song, index) => {
         if (currentSong?.id === song.id) {
             dispatch(togglePlayPause());
         } else {
-             // Seta a fila usando a ordem LOCAL, iniciando na música clicada
              dispatch(setQueue({ songs: localSongs, startIndex: index }));
         }
     }
 
-    // Lógica de Drag and Drop
     const onDragEnd = (result) => {
         if (!result.destination) return;
         
@@ -126,21 +98,15 @@ function PlaylistDetalhe() {
         const [movedItem] = newSongs.splice(source.index, 1);
         newSongs.splice(destination.index, 0, movedItem);
         
-        // 1. Atualiza o estado local para o feedback visual imediato
         setLocalSongs(newSongs);
 
-        // 2. Atualiza a fila global do Redux (IMPORTANTE)
         const currentSongIndex = newSongs.findIndex(s => s.id === currentSong?.id);
         dispatch(setQueue({ songs: newSongs, startIndex: currentSongIndex }));
-        
-        // ... (Chamada API para salvar) ...
     };
-
 
     return (
         <main className="content-area playlist-page">
             
-            {/* 1. CABEÇALHO DA PLAYLIST */}
             <PlaylistHeaderContainer>
                 <img src={playlist.img} alt="Playlist Cover" style={{ width: '250px', height: '250px', borderRadius: '12px', boxShadow: '0 10px 30px var(--shadow-color-dark)', objectFit: 'cover' }}/>
                 <Box className="header-info">
@@ -148,25 +114,24 @@ function PlaylistDetalhe() {
                     <Typography variant="h3" component="h1" sx={{ color: 'var(--text-color)', fontWeight: 'bold', margin: '10px 0' }}>{playlist.name}</Typography>
                     <Typography className="playlist-description" sx={{ color: 'var(--secondary-text-color)', maxWidth: '600px' }}>{playlist.description}</Typography>
                     <Typography variant="body2" className="playlist-stats" sx={{ color: 'var(--secondary-text-color)', marginTop: '10px' }}>
-                        Criada por <Link to={`/perfil/${playlist.creator}`} style={{ color: 'var(--text-color)', fontWeight: 'bold', textDecoration: 'none' }}>{playlist.creator}</Link> 
-                        • <span>{playlist.songCount} músicas</span> 
+                        Criada por <Link to={`/perfil/${playlist.creator}`} style={{ color: 'var(--text-color)', fontWeight: 'bold', textDecoration: 'none' }}>{playlist.creator}</Link>
+                        • <span>{playlist.songCount} músicas</span>
                         • <span>{playlist.duration}</span>
                     </Typography>
                 </Box>
             </PlaylistHeaderContainer>
 
-            {/* 2. BARRA DE AÇÕES (Design Minimalista) */}
             <Box className="actions-bar" sx={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '30px', padding: '0 20px' }}>
                 
-                <PlayButton 
+                <PlayButton
                     aria-label={isThisPlaylistPlaying ? "Pausar Playlist" : "Tocar Playlist"}
                     onClick={handlePlaylistPlay}
-                    disabled={localSongs.length === 0} 
+                    disabled={localSongs.length === 0}
                 >
                     {isThisPlaylistPlaying ? <PauseIcon sx={{ fontSize: '32px' }} /> : <PlayArrowIcon sx={{ fontSize: '32px' }} />}
                 </PlayButton>
                 
-                <ActionIcon aria-label="Shuffle"><i className="fas fa-random" style={{ fontSize: '20px' }} /></ActionIcon> 
+                <ActionIcon aria-label="Shuffle"><i className="fas fa-random" style={{ fontSize: '20px' }} /></ActionIcon>
                 <ActionIcon aria-label="More Options"><i className="fas fa-ellipsis-h" style={{ fontSize: '20px' }} /></ActionIcon>
 
                 <SearchSongsContainer>
@@ -175,12 +140,11 @@ function PlaylistDetalhe() {
                 </SearchSongsContainer>
             </Box>
 
-            {/* 3. LISTA DE MÚSICAS (Tabela com D&D) */}
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="playlist-detail">
                     {(provided) => (
-                        <TableContainer 
-                            className="songs-list" 
+                        <TableContainer
+                            className="songs-list"
                             sx={{ background: 'transparent' }}
                             ref={provided.innerRef}
                             {...provided.droppableProps}
@@ -196,31 +160,30 @@ function PlaylistDetalhe() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {localSongs.map((song, index) => { // Renderiza o estado LOCAL
+                                    {localSongs.map((song, index) => {
                                         const isCurrentRowPlaying = currentSong?.id === song.id && isPlaying;
                                         const isRowHovered = hoveredSongId === song.id;
 
                                         return (
                                             <Draggable key={song.id} draggableId={String(song.id)} index={index}>
                                                 {(draggableProvided, draggableSnapshot) => (
-                                                    <TableRow 
+                                                    <TableRow
                                                         ref={draggableProvided.innerRef}
                                                         {...draggableProvided.draggableProps}
                                                         
                                                         className="songs-list-row"
-                                                        onClick={() => handleSongClick(song, index)} 
+                                                        onClick={() => handleSongClick(song, index)}
                                                         onMouseEnter={() => setHoveredSongId(song.id)}
                                                         onMouseLeave={() => setHoveredSongId(null)}
-                                                        sx={{ 
-                                                            cursor: 'default', 
-                                                            transition: 'background-color 0.2s ease', 
-                                                            borderRadius: '8px', 
-                                                            marginBottom: '5px', 
+                                                        sx={{
+                                                            cursor: 'default',
+                                                            transition: 'background-color 0.2s ease',
+                                                            borderRadius: '8px',
+                                                            marginBottom: '5px',
                                                             backgroundColor: draggableSnapshot.isDragging ? 'var(--input-bg)' : (isCurrentRowPlaying ? 'var(--input-bg)' : 'transparent'),
-                                                            '&:hover': { backgroundColor: 'var(--card-bg)' } 
+                                                            '&:hover': { backgroundColor: 'var(--card-bg)' }
                                                         }}
                                                     >
-                                                        {/* 1. CÉLULA DRAG HANDLE / ÍCONE */}
                                                         <TableCell sx={{ color: 'var(--text-color)', borderBottom: 'none', width: '40px', padding: '15px' }}>
                                                             <Box {...draggableProvided.dragHandleProps} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '18px', cursor: 'grab' }}>
                                                                 {isRowHovered ? (
@@ -231,10 +194,8 @@ function PlaylistDetalhe() {
                                                             </Box>
                                                         </TableCell>
                                                         
-                                                        {/* 2. Conteúdo e Outras Células */}
                                                         <TableCell sx={{ borderBottom: 'none' }}>
                                                             <Box className="song-info" sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                                                {/* Imagem de Capa */}
                                                                 <img src={song.cover} alt="Song Cover" style={{ width: '50px', height: '50px', borderRadius: '6px', objectFit: 'cover' }} />
                                                                 <Box>
                                                                     <Typography className="song-title" sx={{ fontWeight: 'bold', display: 'block', color: isCurrentRowPlaying ? 'var(--orange)' : 'var(--text-color)' }}>{song.title}</Typography>

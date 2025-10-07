@@ -5,30 +5,25 @@ import AlbumCard from '../../components/AlbumCard';
 import PlaylistCard from '../../components/PlaylistCard';
 import ArtistCircle from '../../components/ArtistCircle';
 import Navigation from '../../components/Navigation';
-// import { topSongs, topAlbums, topArtists, topPlaylists, sectionsData, navItemsData } from '../../data';
 import './Home.css';
 import { sectionsData, navItemsData } from '../../data';
 import api from '../../services/api.js';
 
 function Home() {
-  // Estado para controlar o filtro selecionado. Começa com "Tudo".
   const [selectedFilter, setSelectedFilter] = useState('Tudo');
 
-  // Mapeamento entre os valores de filtro e os tipos de seção
   const filterMap = {
-    'Tudo': null, // Exibe todas as seções
+    'Tudo': null,
     'Músicas': 'song',
     'Artistas': 'artist',
     'Playlists': 'playlist',
     'Álbuns': 'album',
   };
 
-  // Lógica de filtragem: cria uma nova lista apenas com as seções que devem ser exibidas.
   const filteredSections = sectionsData.filter(section => {
     if (selectedFilter === 'Tudo') {
-      return true; // Se for "Tudo", retorna todas as seções
+      return true;
     }
-    // Caso contrário, retorna apenas as seções cujo tipo corresponde ao filtro
     return section.type === filterMap[selectedFilter];
   });
 
@@ -37,14 +32,12 @@ function Home() {
   const [artists, setArtists] = useState([]);
   const [playlists, setPlaylists] = useState([]);
 
-  // Buscar álbuns
   useEffect(() => {
     api.get("/topAlbums")
       .then((res) => setAlbums(res.data))
       .catch((err) => console.error("Erro ao buscar álbuns:", err));
   }, []);
 
-  // Buscar artistas para a seção "Parecidos"
   useEffect(() => {
     api.get("/topArtists")
       .then((res) => setArtists(res.data))
@@ -67,18 +60,15 @@ function Home() {
     <main>
       <h1>Página Inicial</h1>
 
-      {/* O componente de Navegação controla o estado do filtro */}
       <Navigation 
         navItemsData={navItemsData}
         selectedItem={selectedFilter}
         setSelectedItem={setSelectedFilter} 
       />
 
-      {/* Mapeamos a lista JÁ FILTRADA para renderizar o conteúdo */}
       {filteredSections.map((section) => (
         <Section key={section.title} title={section.title}>
           
-          {/* Renderização condicional para cada tipo de card */}
           {section.type === 'song' && songs.map((song, index) => (
             <SongCard
               key={index}

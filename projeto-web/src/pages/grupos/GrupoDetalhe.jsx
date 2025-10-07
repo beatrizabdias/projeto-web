@@ -5,9 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import PetsIcon from '@mui/icons-material/Pets'; 
 import PersonIcon from '@mui/icons-material/Person';
-import MusicNoteIcon from '@mui/icons-material/MusicNote'; // Ícone de música
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 
-// --- Dados Mock de Exemplo (Mantido) ---
 const mockGrupoDetalhe = {
     id: 1,
     owner: 'maria',
@@ -19,7 +18,6 @@ const mockGrupoDetalhe = {
     ]
 };
 
-// --- Componentes Estilizados (Mantido) ---
 const LeaveButton = styled(Button)(({ theme }) => ({
     backgroundColor: 'var(--card-bg)',
     color: 'var(--text-color)',
@@ -57,23 +55,18 @@ function GrupoDetalhe() {
     return (
         <main className="content-area">
             
-            {/* Cabeçalho da Página: Botão Sair */}
             <Box className="header" sx={{ textAlign: 'right', marginBottom: '20px' }}>
                 <LeaveButton variant="contained">Sair do Grupo</LeaveButton>
             </Box>
 
-            {/* CRÍTICO: Conteúdo Principal - LAYOUT RESPONSIVO */}
             <Box className="main-content" sx={{ 
                 display: 'flex', 
                 gap: '20px',
-                // ESTILO MOBILE: Stack vertical (coluna) em telas menores que 'sm' (600px)
                 flexDirection: { xs: 'column', sm: 'row' } 
             }}>
                 
-                {/* Painel Esquerdo: Busca e Fila */}
                 <Box className="left-panel" sx={{ background: 'var(--card-bg)', padding: '20px', borderRadius: '8px', flex: 2, display: 'flex', flexDirection: 'column' }}>
                     
-                    {/* Barra de Busca e Adicionar (CONTROLES INTERNOS) */}
                     <Box className="search-bar" sx={{ 
                         display: 'flex', 
                         alignItems: 'center', 
@@ -84,21 +77,17 @@ function GrupoDetalhe() {
                         borderRadius: '12px',
                         border: '1px solid var(--border-color)',
                         
-                        // CRÍTICO: Layout Mobile da Barra (Label em cima, Input em baixo)
                         flexDirection: { xs: 'column', sm: 'row' },
                         alignItems: { xs: 'flex-start', sm: 'center' },
                         padding: { xs: '10px', sm: '10px 15px' },
                     }}>
                         
-                        {/* 1. Label de Adicionar Música */}
                         <Typography className="search-add" sx={{ 
                             color: 'var(--orange)', fontWeight: 'bold', 
                             paddingRight: '15px', 
                             whiteSpace: 'nowrap',
                             
-                            // Estilo Desktop: Divisória vertical
                             borderRight: { xs: 'none', sm: '1px solid var(--border-color)' }, 
-                            // Estilo Mobile: Divisória horizontal (e ocupa 100%)
                             width: { xs: '100%', sm: 'auto' },
                             textAlign: { xs: 'center', sm: 'left' },
                             padding: { xs: '0 0 10px 0', sm: '0 15px 0 0' },
@@ -107,11 +96,10 @@ function GrupoDetalhe() {
                             Adicionar Música
                         </Typography>
                         
-                        {/* 2. Wrapper do Campo de Busca */}
                         <Box sx={{ 
                             display: 'flex', alignItems: 'center', flexGrow: 1, 
                             padding: { xs: '0', sm: '0 10px' },
-                            width: '100%', // Ocupa 100% da largura do pai (necessário no mobile)
+                            width: '100%',
                         }}>
                             <SearchIcon sx={{ color: 'var(--secondary-text-color)', fontSize: '24px', cursor: 'pointer', mr: 1 }} />
                             <StyledInput placeholder="Pesquisar" fullWidth disableUnderline />
@@ -120,7 +108,6 @@ function GrupoDetalhe() {
 
                     <Typography variant="h6" className="section-title" sx={{ marginBottom: '15px', color: 'var(--text-color)' }}>Fila</Typography>
                     
-                    {/* Lista de Músicas na Fila */}
                     <List className="queue-list" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '10px', p: 0 }}>
                         {grupo.queue.map((item, index) => (
                             <QueueItemBox key={item.id}>
@@ -141,17 +128,14 @@ function GrupoDetalhe() {
                     </List>
                 </Box>
 
-                {/* Painel Direito: Participantes e Configurações */}
                 <Box className="right-panel" sx={{ background: 'var(--card-bg)', padding: '20px', borderRadius: '8px', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     
-                    {/* Dono do Grupo */}
                     <Box className="panel-section owner" sx={{ width: '100%', marginBottom: '20px' }}>
                         <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Dono(a)</Typography>
                         <Box className="owner-info" sx={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-color)' }}>
                             
-                            {/* ÍCONE DE VACA LARANJA (PetsIcon ou outro) */}
                             <PetsIcon sx={{ 
-                                color: 'var(--orange)', // Cor laranja do seu tema
+                                color: 'var(--orange)',
                                 fontSize: '20px' 
                             }} />
                             
@@ -159,36 +143,31 @@ function GrupoDetalhe() {
                         </Box>
                     </Box>
 
-                     {/* Participantes */}
-                <Box className="panel-section participants" sx={{ width: '100%', marginBottom: '20px' }}>
-                    <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Participantes</Typography>
-                    <List className="participants-list" sx={{ p: 0 }}>
-                        {grupo.participants.map((p, index) => {
-                            // CRÍTICO: Verifica se o participante é o usuário atual (você)
-                            const isCurrentUser = p.toLowerCase() === 'você';
-                            const textColor = isCurrentUser ? 'var(--orange)' : 'var(--text-color)';
+                    <Box className="panel-section participants" sx={{ width: '100%', marginBottom: '20px' }}>
+                        <Typography variant="subtitle1" className="section-subtitle" sx={{ marginBottom: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '5px' }}>Participantes</Typography>
+                        <List className="participants-list" sx={{ p: 0 }}>
+                            {grupo.participants.map((p, index) => {
+                                const isCurrentUser = p.toLowerCase() === 'você';
+                                const textColor = isCurrentUser ? 'var(--orange)' : 'var(--text-color)';
 
-                            return (
-                                <ListItem key={index} sx={{ p: 0, mb: 0.5, color: textColor }}>
-                                    {/* Ícone de pessoa (participante) */}
-                                    <PersonIcon sx={{ color: isCurrentUser ? 'var(--orange)' : 'var(--secondary-text-color)', fontSize: '15px', mr: 1 }} />
-                                    
-                                    {/* Nome do Participante */}
-                                    <ListItemText 
-                                        primary={p} 
-                                        primaryTypographyProps={{ 
-                                            fontSize: '15px',
-                                            fontWeight: isCurrentUser ? 'bold' : 'normal',
-                                            color: textColor
-                                        }} 
-                                    />
-                                </ListItem>
-                            );
-                        })}
-                        </List>
-                    </Box>
+                                return (
+                                    <ListItem key={index} sx={{ p: 0, mb: 0.5, color: textColor }}>
+                                        <PersonIcon sx={{ color: isCurrentUser ? 'var(--orange)' : 'var(--secondary-text-color)', fontSize: '15px', mr: 1 }} />
+                                        
+                                        <ListItemText 
+                                            primary={p} 
+                                            primaryTypographyProps={{ 
+                                                fontSize: '15px',
+                                                fontWeight: isCurrentUser ? 'bold' : 'normal',
+                                                color: textColor
+                                            }} 
+                                        />
+                                    </ListItem>
+                                );
+                            })}
+                        </List>
+                    </Box>
                     
-                    {/* Botão de Configurações (Apenas para o Dono) */}
                     {isOwner && (
                         <Button variant="contained" className="settings-button" sx={{ 
                             backgroundColor: 'var(--orange)', color: 'var(--text-color)', 

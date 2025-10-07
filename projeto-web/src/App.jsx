@@ -1,17 +1,10 @@
-// src/App.jsx
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// ❌ REMOVER: import { MusicPlayerProvider } from './context/MusicPlayerContext';
-// O Provider do Redux (Provider) já foi configurado no main.jsx.
 
-// Componentes Fixos
 import Header from './components/Header';
 import Footer from './components/Footer'; 
 import FilaPage from './components/FilaPage'; 
-
-// Páginas que mudam
 import Home from './pages/home/Home';
 import Playlists from './pages/playlists/Playlists';
 import PlaylistDetalhe from './pages/playlists/PlaylistDetalhe';
@@ -29,7 +22,6 @@ import Perfil from './pages/perfil/Perfil.jsx'
 function App() {
   return (
     <Router>
-      {/* ❌ REMOVER: MusicPlayerProvider (O Redux agora gerencia o estado global) */}
       
         <Header />
         
@@ -59,7 +51,6 @@ function App() {
         </main>
         <Footer />
         
-      {/* ❌ REMOVER: Fechamento do MusicPlayerProvider */}
     </Router>
   );
 }
