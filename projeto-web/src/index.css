@@ -45,20 +45,15 @@ body.light-theme {
     --button-hover-bg: #ddd;
     --button-hover-color: #333;
 }
-/* Seu Arquivo de Estilos Principal (index.css, App.css, etc.) */
-/* 1. Definição da Variável CSS (Modo Escuro/Padrão) */
 :root {
-    --cow-opacity: 0.4; 
+    --cow-opacity: 0.5; 
 }
 
-/* 2. Sobrescrita da Variável (Modo Claro) - MANTENHA ESTA REGRA */
 .light-mode {
     --cow-opacity: 0.05; 
 }
 
-/* -------------------------------------------------------- */
 
-/* 3. Container Principal */
 .main-content-area {
     position: relative; 
     z-index: 1; 
