@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Typography, Avatar, Button } from '@mui/material';
 
-export default function ProfileHeader({ user }) {
-    
+export default function ProfileHeader({ user, onEditClick }) {
     
     const DYNAMIC_TEXT_COLOR = 'var(--secondary-text-color)'; 
-    const ORANGE_COLOR = 'var(--orange)';                     
-    const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
+    const ORANGE_COLOR = 'var(--orange)';                     
+    const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
 
      const safeUser = {
         username: 'Carregando...',
@@ -47,24 +46,27 @@ export default function ProfileHeader({ user }) {
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
                         Seguindo {safeUser.following.length} artista(s)
                     </Typography>
-               
-                    <Button 
-                        variant="outlined" 
-                        size="medium" 
-                        sx={{ 
-                            ml: { sm: 2 }, 
-                            mt: { xs: 1, sm: 0 }, 
-                            borderRadius: 20,
-                            color: ORANGE_COLOR,
-                            borderColor: ORANGE_COLOR,
-                            '&:hover': {
-                                backgroundColor: BUTTON_HOVER_BG, 
+                
+                    {onEditClick && (
+                        <Button 
+                            onClick={onEditClick} 
+                            variant="outlined" 
+                            size="medium" 
+                            sx={{ 
+                                ml: { sm: 2 }, 
+                                mt: { xs: 1, sm: 0 }, 
+                                borderRadius: 20,
+                                color: ORANGE_COLOR,
                                 borderColor: ORANGE_COLOR,
-                            }
-                        }}
-                    >
-                        Editar
-                    </Button>
+                                '&:hover': {
+                                    backgroundColor: BUTTON_HOVER_BG, 
+                                    borderColor: ORANGE_COLOR,
+                                }
+                            }}
+                        >
+                            Editar
+                        </Button>
+                    )}
                 </Box>
             </Box>
         </Box>

@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { Box, Divider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
+// 1. IMPORTAR: Importe o hook de navegação do React Router
+import { useNavigate } from 'react-router-dom'; 
+
 import { fetchPlaylistsByUserId } from '../../redux/playlistsSlice';
 import { fetchArtistsByIds, fetchSongsByIds } from '../../redux/catalogoSlice'; 
 import { fetchUsersByIds } from '../../redux/loginSlice'; 
@@ -13,7 +16,9 @@ import SongList from '../../components/SongList';
 
 export default function Perfil() {
     const dispatch = useDispatch();
-  
+    // 2. INICIALIZAR: Inicialize o useNavigate
+    const navigate = useNavigate(); 
+ 
     const { user } = useSelector(state => state.auth);
     const { items: friendDetails } = useSelector(state => state.auth.friends);
     const { items: userPlaylists } = useSelector(state => state.playlists.userPlaylists);
@@ -25,6 +30,12 @@ export default function Perfil() {
         fetchedPlaylists: userPlaylists,
         fetchUsersByIds : friendDetails 
     });
+
+    // 3. HANDLER: Defina a função que será chamada no clique do botão
+    const handleEditProfile = () => {
+        // Redireciona o usuário para a rota de edição de perfil
+        navigate('/perfil/editar'); 
+    };
 
     useEffect(() => {
         if (user) {
@@ -58,7 +69,11 @@ export default function Perfil() {
     return (
         <main>
             <Box sx={{ p: { xs: 2, md: 4, lg: 6 }, pb: 15 }}>
-                <ProfileHeader user={profileUserData} />
+                <ProfileHeader 
+                    user={profileUserData} 
+                    // 4. PASSAR PROP: Passe a função de navegação para o componente filho
+                    onEditClick={handleEditProfile} 
+                />
                 <Divider sx={{ my: 4 }} />
                 <SongList 
                     tituloDaSecao={"Suas Músicas Mais Mugidas"} 

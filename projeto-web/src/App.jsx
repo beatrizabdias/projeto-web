@@ -17,6 +17,7 @@ import SongDetail from './pages/musicas/SongDetail.jsx'
 import Perfil from './pages/perfil/Perfil.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import MainLayout from './components/MainLayout'
+import ProfileEdition from './components/ProfileEdition'; 
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
           <Route path="/artistDetail/:id" element={<ProtectedRoute><Artist /></ProtectedRoute>} />
           <Route path="/artist/:id" element={<ProtectedRoute><Artist /></ProtectedRoute>} />
           <Route path="/fila" element={<ProtectedRoute><FilaPage /></ProtectedRoute>} />
+           <Route path="/perfil/editar" element={<ProfileEdition />} /> 
+
         </Route>
         <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
       </Routes>
