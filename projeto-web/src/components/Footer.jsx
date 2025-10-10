@@ -194,7 +194,6 @@ function Footer() {
                 flexDirection: 'column',
                 width: '100%', 
                 backgroundColor: 'var(--footer-bg)',
-                // Para mobile, adicionamos o padding aqui
                 paddingBottom: { xs: '60px', sm: '0' }, 
             }}>
                 <Player />

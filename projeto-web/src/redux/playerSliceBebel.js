@@ -14,12 +14,29 @@ export const playerSlice = createSlice({
     name: 'player',
     initialState,
     reducers: {
-        setCurrentSong: (state, action) => {
+        // Renomeamos 'setCurrentSong' para algo mais específico, 
+        // já que ela reinicia a fila com uma única música.
+        startWithSong: (state, action) => {
             state.queue = [action.payload];
             state.currentIndex = 0;
             state.currentSong = action.payload;
             state.isPlaying = true;
             state.currentTime = 0;
+        },
+
+        // Esta é a ação que o seu componente Song.jsx usa.
+        // Ela toca uma música sem mexer na fila atual.
+        playSong: (state, action) => {
+            state.currentSong = action.payload;
+            state.isPlaying = true;
+            // Se a música não estiver na fila, adicione-a.
+            const songExists = state.queue.find(song => song.id === action.payload.id);
+            if (!songExists) {
+                state.queue.push(action.payload);
+                state.currentIndex = state.queue.length - 1;
+            } else {
+                state.currentIndex = state.queue.findIndex(song => song.id === action.payload.id);
+            }
         },
 
         setQueue: (state, action) => {
@@ -33,16 +50,17 @@ export const playerSlice = createSlice({
             }
         },
 
+        // MANTIVEMOS APENAS UMA VERSÃO DESTA FUNÇÃO
         togglePlayPause: (state) => {
-            if (state.currentSong) state.isPlaying = !state.isPlaying;
+            if (state.currentSong) {
+                state.isPlaying = !state.isPlaying;
+            }
         },
+        
         setDuration: (state, action) => {
             state.duration = action.payload;
         },
         updateCurrentTime: (state, action) => {
-            state.currentTime = action.payload;
-        },
-        seekTo: (state, action) => {
             state.currentTime = action.payload;
         },
         setVolume: (state, action) => {
@@ -68,29 +86,20 @@ export const playerSlice = createSlice({
                 state.currentTime = 0;
             }
         },
-        addSingleSongToQueue: (state, action) => {
-             const song = action.payload;
-             state.queue.push(song);
-             if (!state.currentSong) {
-                  state.queueIndex = state.queue.length - 1;
-                  state.currentSong = song;
-                  state.isPlaying = true;
-             }
-        },
-        reorderQueue: (state, action) => {
-            const { sourceIndex, destinationIndex } = action.payload;
-            const [movedItem] = state.queue.splice(sourceIndex, 1);
-            state.queue.splice(destinationIndex, 0, movedItem);
-        },
+        // REMOVEMOS os reducers duplicados que você colou no final.
     },
 });
 
+// CORREÇÃO FINAL: Adicionamos `playSong` e `startWithSong` à lista de exportação
+// e removemos `setCurrentSong` que foi renomeado.
 export const {
-    setCurrentSong,
+    startWithSong,
+    playSong, // <--- ADICIONADO AQUI!
     setQueue,  
     togglePlayPause,
     setDuration,
     updateCurrentTime,
+    setVolume,
     skipNext,
     skipPrevious,
 } = playerSlice.actions;

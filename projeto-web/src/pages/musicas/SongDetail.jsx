@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongById, fetchAlbumsByArtist } from '../../redux/catalogoSlice';
-import { setCurrentSong } from '../../redux/playerSliceBebel.js';
+import { playSong } from '../../redux/playerSliceBebel.js';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
 import SongList from '../../components/SongList.jsx';
 import Section from '../../components/Section.jsx';
@@ -32,7 +32,7 @@ export default function SongDetail({ songID }) {
 
   const handlePlaySong = () => {
     if (song) {
-      dispatch(setCurrentSong(song));
+      dispatch(playSong(song));
     }
   };
 
@@ -60,7 +60,7 @@ export default function SongDetail({ songID }) {
       <div className="song-list-container"> 
         <SongList 
           tracksArr={[song]} 
-          onTrackClick={(clickedSong) => dispatch(setCurrentSong(clickedSong))}
+          onTrackClick={(clickedSong) => dispatch(playSong(clickedSong))}
         />
       </div>
 

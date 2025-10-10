@@ -7,35 +7,50 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShareIcon from '@mui/icons-material/Share';
 import AlbumIcon from '@mui/icons-material/Album';
 import QueueIcon from '@mui/icons-material/Queue';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleLikeSongAsync } from '../redux/loginSlice';
+import { playSong, togglePlayPause } from '../redux/playerSliceBebel'; 
 
 const COR_LARANJA = 'var(--orange)'; 
 
 export default function Song({ song }) {
-    const { title, duration = "3:20", artist, artistId, id: songId } = song;
+    const { title, duration = "3:20", artist, artistId, albumId, id: songId } = song;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { user } = useSelector(state => state.auth);
     const isLiked = user?.likedSongs?.includes(songId);
 
+    const { currentSong, isPlaying } = useSelector(state => state.player);
+    const isThisSongCurrentlySelected = currentSong?.id === songId;
+    const isThisSongPlaying = isThisSongCurrentlySelected && isPlaying;
+
     const [anchorEl, setAnchorEl] = useState(null);
     const aberto = Boolean(anchorEl);
 
     const handleLikeClick = (e) => {
-         console.log("USUÁRIO ATUAL NO REDUX:", user);
-        if (user) {
-            dispatch(toggleLikeSongAsync({
-                userId: user.id,
-                songId: songId,
-                currentLikedSongs: user.likedSongs || [],
-            }));
+    e.stopPropagation(); 
+    if (user) {
+        dispatch(toggleLikeSongAsync({
+            userId: user.id,
+            songId: songId,
+            currentLikedSongs: user.likedSongs || [], 
+        }));
+    } else {
+        navigate('/login');
+    }
+}
+
+    const handlePlayPauseClick = (e) => {
+        e.stopPropagation();
+        if (isThisSongCurrentlySelected) {
+            dispatch(togglePlayPause());
         } else {
-            console.log("Faça login para curtir músicas!");
-            navigate('/login');
+            dispatch(playSong(song));
         }
     };
 
@@ -43,11 +58,10 @@ export default function Song({ song }) {
         event.stopPropagation(); 
         setAnchorEl(event.currentTarget);
     };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-
+    
     const menuOptions = [
         { icon: <AddIcon fontSize="small" />, label: 'Adicionar à playlist', action: () => console.log(`Adicionar ${title}`) },
         { icon: <PersonIcon fontSize="small" />, label: 'Ir para o artista', action: () => navigate(`/artista/${artistId}`) },
@@ -62,9 +76,23 @@ export default function Song({ song }) {
         <>
             <div className="song flex">
                 <div className="song-detail flex">
-                    <i className="play-icon fa-solid fa-play"></i>
-                    <div className="song-info flex">
-                        <span className="song-title">{title}</span>
+                    
+                    <div onClick={handlePlayPauseClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                         {isThisSongPlaying ? (
+                            <PauseIcon 
+                            onMouseEnter={(e) => (e.target.style.color = COR_LARANJA)}
+                            onMouseLeave={(e) => (e.target.style.color = 'white')}/>
+                        ) : (
+                            <PlayArrowIcon 
+                            onMouseEnter={(e) => (e.target.style.color = COR_LARANJA)}
+                            onMouseLeave={(e) => (e.target.style.color = 'white')} />
+                        )}
+                    </div>
+
+                    <div className="song-info flex" style={{ marginLeft: '15px' }}>
+                        <span 
+                            className="song-title"
+                         >{title}</span>
                         <span className="song-artist">{artist}</span>
                     </div>
                 </div>
@@ -84,7 +112,7 @@ export default function Song({ song }) {
                     ></i>
                 </div>
             </div>
-            
+
             <Menu
                 id="song-options-menu"
                 anchorEl={anchorEl}
