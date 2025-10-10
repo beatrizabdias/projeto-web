@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Typography, Avatar, Button } from '@mui/material';
+import { Box, Typography, Avatar, Button, IconButton } from '@mui/material';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
-export default function ProfileHeader({ user, onEditClick }) {
+export default function ProfileHeader({ user, onEditClick, onImageEditClick }) {
     
     const DYNAMIC_TEXT_COLOR = 'var(--secondary-text-color)'; 
     const ORANGE_COLOR = 'var(--orange)';                     
@@ -26,10 +27,34 @@ export default function ProfileHeader({ user, onEditClick }) {
                 textAlign: { xs: 'center', sm: 'left' }
             }}
         >
-            <Avatar 
-                src={safeUser.img || "https://placehold.co/250?text=Icone+Vaqueiro"} 
-                sx={{ width: 150, height: 150, bgcolor: 'secondary.main', boxShadow: 8 }}
-            />
+            <Box sx={{ position: 'relative', width: 150, height: 150 }}>
+                <Avatar 
+                    src={safeUser.img || "https://placehold.co/250?text=Icone+Vaqueiro"} 
+                    sx={{ width: 150, height: 150, bgcolor: 'secondary.main', boxShadow: 8 }}
+                />
+                {onImageEditClick && (
+                    <IconButton 
+                        color="primary" 
+                        aria-label="upload picture" 
+                        component="span" 
+                        onClick={onImageEditClick}
+                        sx={{ 
+                            position: 'absolute', 
+                            bottom: 0, 
+                            right: 0, 
+                            bgcolor: ORANGE_COLOR, 
+                            color: 'white', 
+                            '&:hover': {
+                                bgcolor: ORANGE_COLOR,
+                                opacity: 0.9,
+                            }
+                        }}
+                    >
+                        <PhotoCameraIcon />
+                    </IconButton>
+                )}
+            </Box>
+
             <Box>
                 <Typography variant="h2" component="h1" fontWeight={700} sx={{ mb: 1 }}>
                     {safeUser.username}

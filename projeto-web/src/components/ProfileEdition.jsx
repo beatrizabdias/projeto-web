@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, TextField, Button, Divider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ export default function ProfileEdition() {
         friends: 1, 
         following: [1, 2, 3], 
         username: "Bebel",
+        img: "https://placehold.co/250?text=Icone+Vaqueiro" 
     };
     const user = mockUser; 
     
@@ -23,6 +24,9 @@ export default function ProfileEdition() {
         name: '', 
         email: '',
     });
+
+    const [newProfileImage, setNewProfileImage] = useState(null);
+    const fileInputRef = useRef(null); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,10 +36,28 @@ export default function ProfileEdition() {
         }));
     };
 
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (upload) => {
+                setNewProfileImage(upload.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleImageUploadClick = () => {
+        fileInputRef.current.click();
+    };
+
     const handleSave = (e) => {
         e.preventDefault();
         console.log("Dados a serem salvos:", formData);
-        // Implementar a lógica de dispatch para salvar
+        console.log("Nova imagem selecionada (URL base64):", newProfileImage);
+        
+        // TODO: Implementar a lógica de upload da imagem e atualização do perfil
+        
         navigate('/perfil'); 
     };
 
@@ -47,7 +69,6 @@ export default function ProfileEdition() {
         return <main><h1>Carregando dados para edição...</h1></main>;
     }
     
-    // Variáveis de Estilo
     const ORANGE_COLOR = 'var(--orange)'; 
     const RED_COLOR_BORDER = '#f44336'; 
     const INPUT_BG = 'var(--input-bg)';
@@ -99,6 +120,7 @@ export default function ProfileEdition() {
         username: user.name || user.username,
         playlists: user.playlists || 0,  
         friends: user.friends || 0,
+        img: newProfileImage || user.img 
     };
 
     return (
@@ -108,15 +130,23 @@ export default function ProfileEdition() {
                 <ProfileHeader 
                     user={profileUserData} 
                     onEditClick={null} 
+                    onImageEditClick={handleImageUploadClick} 
                 />
                 
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
+                    style={{ display: 'none' }}
+                />
+
                 <Divider sx={{ my: 4 }} />
 
                 <Box component="form" onSubmit={handleSave} sx={{ maxWidth: 600 }}>
                     
                     <TextField
                         fullWidth
-                        // ALTERADO: Rótulo agora é apenas "Nome"
                         label="Nome" 
                         name="name"
                         value={formData.name}
@@ -138,7 +168,6 @@ export default function ProfileEdition() {
                         variant="filled"
                         type="email"
                         required
-                        // Campo de email está editável
                         sx={inputFieldStyle}
                         InputLabelProps={{ shrink: true }} 
                     />
@@ -158,7 +187,7 @@ export default function ProfileEdition() {
                             variant="contained"
                             sx={saveButtonStyle}
                         >
-                            Salvar
+                            Salvar Alterações
                         </Button>
                         
                     </Box>
