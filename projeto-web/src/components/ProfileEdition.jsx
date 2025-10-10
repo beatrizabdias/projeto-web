@@ -19,7 +19,6 @@ export default function ProfileEdition() {
     };
     const user = mockUser; 
     
-    // Estado inicial vazio
     const [formData, setFormData] = useState({
         name: '', 
         email: '',
@@ -36,6 +35,7 @@ export default function ProfileEdition() {
     const handleSave = (e) => {
         e.preventDefault();
         console.log("Dados a serem salvos:", formData);
+        // Implementar a lógica de dispatch para salvar
         navigate('/perfil'); 
     };
 
@@ -116,7 +116,8 @@ export default function ProfileEdition() {
                     
                     <TextField
                         fullWidth
-                        label="Nome Completo"
+                        // ALTERADO: Rótulo agora é apenas "Nome"
+                        label="Nome" 
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
@@ -124,7 +125,6 @@ export default function ProfileEdition() {
                         variant="filled"
                         required
                         sx={inputFieldStyle}
-                        // NOVO: Força o rótulo a subir (shrink)
                         InputLabelProps={{ shrink: true }} 
                     />
 
@@ -138,9 +138,8 @@ export default function ProfileEdition() {
                         variant="filled"
                         type="email"
                         required
-                        disabled 
+                        // Campo de email está editável
                         sx={inputFieldStyle}
-                        // NOVO: Força o rótulo a subir (shrink)
                         InputLabelProps={{ shrink: true }} 
                     />
 
@@ -159,7 +158,7 @@ export default function ProfileEdition() {
                             variant="contained"
                             sx={saveButtonStyle}
                         >
-                            Salvar 
+                            Salvar
                         </Button>
                         
                     </Box>
