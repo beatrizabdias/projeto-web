@@ -393,111 +393,119 @@
       "title": "Today’s Top Hits",
       "artist": "Spotify",
       "id": "playlist-01",
-      "user-id": 1
+      "userId": 1
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Viral Hits",
       "artist": "Spotify",
       "id": "playlist-02",
-      "user-id": 2
+      "userId": 2
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Pop Up",
       "artist": "Spotify",
       "id": "playlist-03",
-      "user-id": 3
+      "userId": 3
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Esquenta Sertanejo",
       "artist": "Spotify",
       "id": "playlist-04",
-      "user-id": 4
+      "userId": 4
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Pagodeira",
       "artist": "Spotify",
       "id": "playlist-05",
-      "user-id": 1
+      "userId": 1
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Funk Hits",
       "artist": "Spotify",
       "id": "playlist-06",
-      "user-id": 2
+      "userId": 2
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Rock Classics",
       "artist": "Spotify",
       "id": "playlist-07",
-      "user-id": 3
+      "userId": 3
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Peaceful Piano",
       "artist": "Spotify",
       "id": "playlist-08",
-      "user-id": 4
+      "userId": 4
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "R&B Vibes",
       "artist": "Spotify",
       "id": "playlist-09",
-      "user-id": 1
+      "userId": 1
     },
     {
       "cover": "https://placehold.co/600x600",
       "title": "Latin Party",
       "artist": "Spotify",
       "id": "playlist-10",
-      "user-id": 2
+      "userId": 2
     }
   ],
   "sectionsData": [
     {
       "title": "Top Hits do Rebanho",
       "type": "song",
-      "path": "/songDetail"
+      "path": "/songDetail",
+      "id": "b043"
     },
     {
       "title": "Artistas mais ouvidos",
       "type": "artist",
-      "path": "/artistDetail"
+      "path": "/artistDetail",
+      "id": "b8f6"
     },
     {
       "title": "Para você",
-      "type": "artist"
+      "type": "artist",
+      "id": "d340"
     },
     {
       "title": "Acús-ticos do Campo",
       "type": "song",
-      "path": "/songDetail"
+      "path": "/songDetail",
+      "id": "d00f"
     },
     {
       "title": "Pista de Dança Malhada",
       "type": "album",
-      "path": "/albumDetail"
+      "path": "/albumDetail",
+      "id": "1078"
     },
     {
       "title": "Sofrência Bovina",
       "type": "playlist",
-      "path": "/playlistDetail"
+      "path": "/playlistDetail",
+      "id": "9e4d"
     },
     {
       "title": "Pop Leite",
       "type": "playlist",
-      "path": "/playlistDetail"
+      "path": "/playlistDetail",
+      "id": "0ab5"
     },
     {
       "title": "Rock Berrante",
       "type": "album",
-      "path": "/albumDetail"
+      "path": "/albumDetail",
+      "id": "5bc2"
     }
   ],
   "users": [
@@ -522,7 +530,8 @@
         "song-11",
         "song-04",
         "song-09",
-        "song-07"
+        "song-07",
+        "song-15"
       ],
       "following": [
         "artist-11",
@@ -542,7 +551,9 @@
         "4"
       ],
       "likedSongs": [],
-      "following": []
+      "following": [
+        "artist-05"
+      ]
     },
     {
       "id": "3",
@@ -570,7 +581,9 @@
         "3"
       ],
       "likedSongs": [],
-      "following": []
+      "following": [
+        "artist-02"
+      ]
     },
     {
       "id": "e297",

@@ -4,7 +4,7 @@ const initialState = {
     "default-song-placeholder": {
         likes: 15,
         dislikes: 3,
-        userRating: 0, // 1: Like, -1: Dislike, 0: Nenhum
+        userRating: 0,
     }
 };
 
@@ -13,7 +13,7 @@ export const votesSlice = createSlice({
   initialState,
   reducers: {
     toggleVote: (state, action) => {
-      const { musicaId, voteType } = action.payload; // voteType será 'like' ou 'dislike'
+      const { musicaId, voteType } = action.payload; 
       
       if (!state[musicaId]) {
         state[musicaId] = { likes: 0, dislikes: 0, userRating: 0 };

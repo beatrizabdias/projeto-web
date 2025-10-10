@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
+import axios from 'axios';
 
 export const toggleLikeSongAsync = createAsyncThunk(
   'auth/toggleLikeSong',
@@ -41,21 +42,21 @@ export const toggleFollowArtistAsync = createAsyncThunk(
 
 export const fetchUsersByIds = createAsyncThunk(
   'auth/fetchUsersByIds',
-  async (userIds, { rejectWithValue }) => {
+  async (ids, { rejectWithValue }) => {
     try {
-      const ids = Array.isArray(userIds) ? userIds : [];
-      if (ids.length === 0) return [];
+      const userPromises = ids.map(id =>
+        axios.get(`http://localhost:3001/users/${id}`)
+      );
 
-      const normalizedIds = ids
-        .map((id) => Number(id))
-        .filter((n) => Number.isFinite(n));
+      const responses = await Promise.all(userPromises);
 
-      if (normalizedIds.length === 0) return [];
+      const users = responses.map(response => response.data);
       
-      const { data } = await api.get('/users', { params: { id: normalizedIds } });
-      return data;
+      return users;
+
     } catch (error) {
-      return rejectWithValue(error?.response?.data ?? 'Erro ao buscar amigos');
+      console.error("Erro ao buscar usuários um por um:", error);
+      return rejectWithValue('Falha ao buscar os detalhes dos amigos.');
     }
   }
 );

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
+import { logout } from './loginSlice';
 
 export const fetchArtists = createAsyncThunk('catalog/fetchArtists', async () => {
   const response = await api.get('/topArtists');
@@ -175,6 +176,10 @@ const catalogSlice = createSlice({
         state.likedSongsDetails.status = 'failed';
         state.likedSongsDetails.error = action.error.message;
       })
+      .addCase(logout, (state) => {
+        state.followedArtists = initialState.followedArtists;
+        state.likedSongsDetails = initialState.likedSongsDetails;
+      });
   },
 })
 

@@ -77,7 +77,6 @@ export default function Perfil() {
                 <Divider sx={{ my: 4 }} />
                 <SongList 
                     tituloDaSecao={"Suas Músicas Mais Mugidas"} 
-                    tracksArr={likedSongsDetails}
                 />
                 <Divider sx={{ my: 4 }} />
                 <Section key={"Suas Playlists"} title={"Suas Playlists"}>
@@ -104,7 +103,7 @@ export default function Perfil() {
                 </Section>
 
                 <Divider sx={{ my: 4 }} />
-
+    
                 <Section key={"Artistas Seguidos"} title={"Artistas Seguidos"}>
                     {followedArtists.map((artist) => (
                         <ArtistCircle
@@ -114,7 +113,7 @@ export default function Perfil() {
                             name={artist.name}
                         />
                     ))} 
-                </Section> 
+                </Section>
                 
                 <div className="margin-bottom"></div>
             </Box>
