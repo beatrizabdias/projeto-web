@@ -188,25 +188,22 @@ function Footer() {
                 zIndex: 1001,
             }}
         >
-            <Box sx={{ 
-                display: { xs: 'none', sm: 'flex' }, 
-                flexDirection: 'column',
-                width: '100%', 
-                backgroundColor: 'var(--footer-bg)', 
-            }}>
-                <Player /> 
-                <FooterBarWithButton />
-            </Box>
 
             <Box sx={{ 
-                display: { xs: 'flex', sm: 'none' }, 
-                flexDirection: 'column', 
-                width: '100%',
-                paddingBottom: '60px', 
-                backgroundColor: 'var(--footer-bg)', 
+                display: 'flex', 
+                flexDirection: 'column',
+                width: '100%', 
+                backgroundColor: 'var(--footer-bg)',
+                // Para mobile, adicionamos o padding aqui
+                paddingBottom: { xs: '60px', sm: '0' }, 
             }}>
                 <Player />
-                <FooterBarWithButton isMobile={true} />
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <FooterBarWithButton />
+                </Box>
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                    <FooterBarWithButton isMobile={true} />
+                </Box>
             </Box>
 
             <Box

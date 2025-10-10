@@ -6,7 +6,7 @@ import { fetchArtistsByIds, fetchSongsByIds } from '../../redux/catalogoSlice';
 import { fetchUsersByIds } from '../../redux/loginSlice'; 
 
 import Section from '../../components/Section.jsx'; 
-import AlbumCard from '../../components/AlbumCard.jsx'; 
+import PlaylistCard from '../../components/PlaylistCard.jsx'; 
 import ArtistCircle from '../../components/ArtistCircle.jsx'; 
 import ProfileHeader from '../../components/ProfileHeader'; 
 import SongList from '../../components/SongList'; 
@@ -14,10 +14,17 @@ import SongList from '../../components/SongList';
 export default function Perfil() {
     const dispatch = useDispatch();
   
-    const { user, friends: { items: friendDetails } } = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.auth);
+    const { items: friendDetails } = useSelector(state => state.auth.friends);
     const { items: userPlaylists } = useSelector(state => state.playlists.userPlaylists);
     const { items: followedArtists } = useSelector(state => state.catalog.followedArtists);
     const { items: likedSongsDetails } = useSelector(state => state.catalog.likedSongsDetails);
+
+    console.log("DADOS PARA O PERFIL:", {
+        userObject: user,
+        fetchedPlaylists: userPlaylists,
+        fetchUsersByIds : friendDetails 
+    });
 
     useEffect(() => {
         if (user) {
@@ -58,14 +65,14 @@ export default function Perfil() {
                     tracksArr={likedSongsDetails}
                 />
                 <Divider sx={{ my: 4 }} />
-                <Section key={"Suas Playlists"} title={"Suas Playlists"} cardType="album">
+                <Section key={"Suas Playlists"} title={"Suas Playlists"}>
                     {userPlaylists.map((playlist) => (
-                        <AlbumCard
+                        <PlaylistCard
                             key={playlist.id}
                             id={playlist.id}
                             cover={playlist.cover}
-                            title={playlist.name}
-                            artist={user.name} 
+                            title={playlist.title}
+                            artist={user.name}
                         />
                     ))}
                 </Section>

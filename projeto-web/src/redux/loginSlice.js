@@ -38,17 +38,28 @@ export const toggleFollowArtistAsync = createAsyncThunk(
   }
 );
 
+
 export const fetchUsersByIds = createAsyncThunk(
   'auth/fetchUsersByIds',
-  async (userIds) => {
-    if (!userIds || userIds.length === 0) return [];
-  
-    const queryParams = userIds.map(id => `id=${id}`).join('&');
-    
-    const response = await api.get(`/users?${queryParams}`);
-    return response.data;
+  async (userIds, { rejectWithValue }) => {
+    try {
+      const ids = Array.isArray(userIds) ? userIds : [];
+      if (ids.length === 0) return [];
+
+      const normalizedIds = ids
+        .map((id) => Number(id))
+        .filter((n) => Number.isFinite(n));
+
+      if (normalizedIds.length === 0) return [];
+      
+      const { data } = await api.get('/users', { params: { id: normalizedIds } });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data ?? 'Erro ao buscar amigos');
+    }
   }
 );
+
 
 const initialState = {
   user: null,

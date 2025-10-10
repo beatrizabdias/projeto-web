@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { logout } from '../redux/loginSlice'; 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 function UserProfileIcon() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const { user } = useSelector(state => state.auth);
 
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
@@ -61,6 +63,7 @@ function UserProfileIcon() {
                     'aria-labelledby': 'profile-button', 
                 }}
             >
+                <MenuItem>Olá, {user.name}! </MenuItem>
                 <MenuItem onClick={handleProfileClick}>Ver Perfil</MenuItem>
                 <MenuItem onClick={handleLogout}>Sair</MenuItem>
             </Menu>

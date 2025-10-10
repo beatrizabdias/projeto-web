@@ -12,32 +12,44 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(''); 
+        e.preventDefault();
+        setError('');
 
-    try {
-      const response = await fetch(`http://localhost:3001/users?email=${email}&password=${password}`);
-      const data = await response.json();
+        try {
+            const response = await fetch(`http://localhost:3001/users?email=${email}&password=${password}`);
+            const data = await response.json();
 
-      if (data.length > 0) {
-        const user = data[0];
-        dispatch(
-          loginSuccess({
-            user: { id: user.id, name: user.name, email: user.email }, 
-            token: 'fake-jwt-token-for-simulation', 
-          })
-        );
+            if (data.length > 0) {
+                const userFromDb = data[0]; 
 
-        navigate('/'); 
+                
+                const userDataForRedux = {
+                  id: userFromDb.id,
+                  name: userFromDb.name,
+                  email: userFromDb.email,
+                  likedSongs: userFromDb.likedSongs || [],
+                  following: userFromDb.following || [],
+                  friends: (userFromDb.friends || []).map((id) => Number(id)).filter(Number.isFinite),
+                };
 
-      } else {
-        setError('Email ou senha inválidos.');
-      }
-    } catch (err) {
-      setError('Ocorreu um erro ao tentar fazer login. Tente novamente.');
-      console.error(err);
-    }
-  };
+
+                dispatch(
+                  loginSuccess({
+                    user: userDataForRedux,
+                    token: 'fake-jwt-token-for-simulation',
+                  })
+                );
+
+                navigate('/');
+
+            } else {
+                setError('Email ou senha inválidos.');
+            }
+        } catch (err) {
+            setError('Ocorreu um erro ao tentar fazer login. Tente novamente.');
+            console.error(err);
+        }
+    };
 
   return (
         <div className="container">

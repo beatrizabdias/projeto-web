@@ -8,7 +8,7 @@ const PlaylistCard = ({ id, cover, title, artist }) => {
       <img src={cover} alt={title} className="card-image" />
       <div className="card-info">
         <h4 className="card-title">{title}</h4>
-        <p className="card-artist">{artist}</p>
+        <p className="card-artist">Feito por {artist}</p>
       </div>
       <button className="play-button">
         <FaPlay />

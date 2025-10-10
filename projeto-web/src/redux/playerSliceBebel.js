@@ -42,7 +42,12 @@ export const playerSlice = createSlice({
         updateCurrentTime: (state, action) => {
             state.currentTime = action.payload;
         },
-
+        seekTo: (state, action) => {
+            state.currentTime = action.payload;
+        },
+        setVolume: (state, action) => {
+            state.volume = action.payload;
+        },
         skipNext: (state) => {
             const nextIndex = state.currentIndex + 1;
             if (nextIndex < state.queue.length) {
@@ -63,12 +68,26 @@ export const playerSlice = createSlice({
                 state.currentTime = 0;
             }
         },
+        addSingleSongToQueue: (state, action) => {
+             const song = action.payload;
+             state.queue.push(song);
+             if (!state.currentSong) {
+                  state.queueIndex = state.queue.length - 1;
+                  state.currentSong = song;
+                  state.isPlaying = true;
+             }
+        },
+        reorderQueue: (state, action) => {
+            const { sourceIndex, destinationIndex } = action.payload;
+            const [movedItem] = state.queue.splice(sourceIndex, 1);
+            state.queue.splice(destinationIndex, 0, movedItem);
+        },
     },
 });
 
 export const {
     setCurrentSong,
-    setQueue,
+    setQueue,  
     togglePlayPause,
     setDuration,
     updateCurrentTime,

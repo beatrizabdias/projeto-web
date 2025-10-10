@@ -16,8 +16,6 @@ const COR_LARANJA = 'var(--orange)';
 
 export default function Song({ song }) {
     const { title, duration = "3:20", artist, artistId, id: songId } = song;
-    console.log(`Renderizando a música: "${song.title}", com o ID:`, song.id);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

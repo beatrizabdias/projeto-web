@@ -30,13 +30,15 @@ export const fetchAlbumsByArtist = createAsyncThunk(
 );
 export const fetchArtistsByIds = createAsyncThunk(
   'catalog/fetchArtistsByIds',
-  async (artistIds) => { 
-    if (!artistIds || artistIds.length === 0) return []; 
- 
-    const queryParams = artistIds.map(id => `id=${id}`).join('&');
+  async (artistIds) => {
+    if (!artistIds || artistIds.length === 0) return [];
     
-    const response = await api.get(`/topArtists?${queryParams}`);
-    return response.data; 
+    const response = await api.get('/topArtists');
+    const allArtists = response.data;
+    
+    const filteredArtists = allArtists.filter(artist => artistIds.includes(String(artist.id)));
+    
+    return filteredArtists;
   }
 );
 

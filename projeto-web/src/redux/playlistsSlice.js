@@ -4,8 +4,18 @@ import api from '../services/api';
 export const fetchPlaylistsByUserId = createAsyncThunk(
   'playlists/fetchByUserId',
   async (userId) => {
-    const response = await api.get(`/playlists?userId=${userId}`);
-    return response.data;
+    try {
+      const response = await api.get('/topPlaylists');
+      const allPlaylists = response.data;
+
+      const userPlaylists = allPlaylists.filter(playlist => String(playlist.userId) === String(userId));
+  
+      return userPlaylists;
+    } catch(error) {
+      console.error("ERRO ao buscar playlists:", error);
+      console.groupEnd();
+      return [];
+    }
   }
 );
 

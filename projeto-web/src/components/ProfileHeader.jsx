@@ -8,6 +8,14 @@ export default function ProfileHeader({ user }) {
     const ORANGE_COLOR = 'var(--orange)';                     
     const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
 
+     const safeUser = {
+        username: 'Carregando...',
+        playlists: 0,
+        friends: 0,
+        following: [],
+        ...user
+    };
+
     return (
         <Box 
             sx={{ 
@@ -20,24 +28,24 @@ export default function ProfileHeader({ user }) {
             }}
         >
             <Avatar 
-                src="https://placehold.co/250?text=Icone+Vaqueiro" 
+                src={safeUser.img || "https://placehold.co/250?text=Icone+Vaqueiro"} 
                 sx={{ width: 150, height: 150, bgcolor: 'secondary.main', boxShadow: 8 }}
             />
             <Box>
                 <Typography variant="h2" component="h1" fontWeight={700} sx={{ mb: 1 }}>
-                    {user.username}
+                    {safeUser.username}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: { xs: 'center', sm: 'flex-start' }, flexWrap: 'wrap' }}>
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
-                        {user.playlists} Playlists 
+                        {safeUser.playlists} Playlists 
                     </Typography>
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>•</Typography>
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
-                        {user.friends} Peões Amigos
+                        {safeUser.friends} Peões Amigos
                     </Typography>
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>•</Typography>
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
-                        Seguindo {user.following.length} artista(s)
+                        Seguindo {safeUser.following.length} artista(s)
                     </Typography>
                
                     <Button 
