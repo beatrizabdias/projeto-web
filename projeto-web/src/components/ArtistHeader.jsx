@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
- 
+
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toggleFollowArtistAsync } from '../redux/loginSlice';
+
 const LIMITE_CARACTERES = 280; 
 const monthlyListeners = (Math.random() * 10 + 1).toFixed(1);
 
 export default function ArtistHeader({ artist = {} }) {
-    const { name, about, image } = artist;
+    const { name, about, image, id: artistId } = artist;
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { user } = useSelector(state => state.auth);
+    const isFollowing = user?.following?.includes(artistId);
 
     const [isExpanded, setIsExpanded] = useState(false);
-    const [estaSeguindo, setEstaSeguindo] = useState(false);
+
 
     const isLongText = about && about.length > LIMITE_CARACTERES;
 
@@ -18,18 +26,24 @@ export default function ArtistHeader({ artist = {} }) {
         e.preventDefault(); 
         setIsExpanded(!isExpanded);
     };
-    
+ 
     const handleFollowClick = () => {
-        setEstaSeguindo(!estaSeguindo);
+        if (user && artistId) {
+            dispatch(toggleFollowArtistAsync({
+                userId: user.id,
+                artistId: artistId,
+                currentFollowing: user.following || [],
+            }));
+        } else {
+            navigate('/login');
+        }
     };
 
     const displayedText = isExpanded || !isLongText 
         ? about 
         : about.substring(0, LIMITE_CARACTERES) + '...';
-
-    const textoBotao = estaSeguindo ? 'Seguindo' : 'Seguir';
-    const classeCondicional = estaSeguindo ? 'following' : '';
-
+    const textoBotao = isFollowing ? 'Seguindo' : 'Seguir';
+    const classeCondicional = isFollowing ? 'following' : '';
 
     return (
         <>
@@ -38,7 +52,6 @@ export default function ArtistHeader({ artist = {} }) {
                     <h1 className="name-artist">{name}</h1>
                     <p className="artist-description">
                         {displayedText} 
-                        
                         {isLongText && (
                             <a href="#" onClick={handleToggleExpand}>
                                 <strong>

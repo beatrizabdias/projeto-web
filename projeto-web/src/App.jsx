@@ -1,54 +1,49 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-
-import Header from './components/Header';
-import Footer from './components/Footer'; 
-import FilaPage from './components/FilaPage'; 
-import Home from './pages/home/Home';
-import Playlists from './pages/playlists/Playlists';
-import PlaylistDetalhe from './pages/playlists/PlaylistDetalhe';
-import Pesquisa from './pages/pesquisa/Pesquisa';
-import TelaMusica from './pages/musicas/TelaMusica.jsx';
-import Grupos from './pages/grupos/Grupos.jsx';
-import GrupoDetalhe from './pages/grupos/GrupoDetalhe.jsx';
-import AlbumDetail from './pages/albuns/AlbumDetail';
-import Artist from './pages/artists/Artist'; 
-import SongDetail from './pages/musicas/SongDetail.jsx';
+import FilaPage from './components/FilaPage'
+import Home from './pages/home/Home'
+import Playlists from './pages/playlists/Playlists'
+import PlaylistDetalhe from './pages/playlists/PlaylistDetalhe'
+import Pesquisa from './pages/pesquisa/Pesquisa'
+import Login from './pages/login/Login'
+import Cadastro from './pages/cadastro/Cadastro'
+import TelaMusica from './pages/musicas/TelaMusica.jsx'
+import Grupos from './pages/grupos/Grupos.jsx'
+import GrupoDetalhe from './pages/grupos/GrupoDetalhe.jsx'
+import AlbumDetail from './pages/albuns/AlbumDetail'
+import Artist from './pages/artists/Artist'
+import SongDetail from './pages/musicas/SongDetail.jsx'
 import Perfil from './pages/perfil/Perfil.jsx'
-
+import ProtectedRoute from './components/ProtectedRoute'
+import MainLayout from './components/MainLayout'
 
 function App() {
   return (
     <Router>
-      
-        <Header />
-        
-        <main className="main-content-area">
-          <Routes>        
-            <Route path="/" element={<Home />} />
-            <Route path="/playlists" element={<Playlists />} />
-            <Route path="/playlists/:id" element={<PlaylistDetalhe />} /> 
-
-            <Route path="/pesquisa" element={<Pesquisa />} />
-            <Route path="/musica/:id" element={<TelaMusica />} />
-            <Route path="/grupos" element={<Grupos />} />
-            <Route path="/grupos/:id" element={<GrupoDetalhe />} />
-            <Route path="/artista/:id" element={<Artist />} />
-            <Route path="/perfil" element={<Perfil />} />
-
-            <Route path="/song/:id" element={<SongDetail />} />
-            <Route path="/albumDetail/:id" element={<AlbumDetail />} />
-            <Route path="/album/:id" element={<AlbumDetail />} />
-            <Route path="/playlist/:id" element={<PlaylistDetalhe />} />
-            <Route path="/artistDetail/:id" element={<Artist />} />
-            <Route path="/artist/:id" element={<Artist />} />
-            <Route path="/fila" element={<FilaPage />} />
-            <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
-          </Routes>
-        </main>
-        <Footer />
-        
+      <Routes>    
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/playlists" element={<ProtectedRoute><Playlists /></ProtectedRoute>} />
+          <Route path="/playlists/:id" element={<ProtectedRoute><PlaylistDetalhe /></ProtectedRoute>} /> 
+          <Route path="/pesquisa" element={<ProtectedRoute><Pesquisa /></ProtectedRoute>} />
+          <Route path="/musica/:id" element={<ProtectedRoute><TelaMusica /></ProtectedRoute>} />
+          <Route path="/grupos" element={<ProtectedRoute><Grupos /></ProtectedRoute>} />
+          <Route path="/grupos/:id" element={<ProtectedRoute><GrupoDetalhe /></ProtectedRoute>} />
+          <Route path="/artista/:id" element={<ProtectedRoute><Artist /></ProtectedRoute>} />
+          <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+          <Route path="/song/:id" element={<ProtectedRoute><SongDetail /></ProtectedRoute>} />
+          <Route path="/albumDetail/:id" element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
+          <Route path="/album/:id" element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
+          <Route path="/playlist/:id" element={<ProtectedRoute><PlaylistDetalhe /></ProtectedRoute>} />
+          <Route path="/artistDetail/:id" element={<ProtectedRoute><Artist /></ProtectedRoute>} />
+          <Route path="/artist/:id" element={<ProtectedRoute><Artist /></ProtectedRoute>} />
+          <Route path="/fila" element={<ProtectedRoute><FilaPage /></ProtectedRoute>} />
+        </Route>
+        <Route path="*" element={<main><h1>Página Não Encontrada (404)</h1></main>} />
+      </Routes>
     </Router>
   );
 }

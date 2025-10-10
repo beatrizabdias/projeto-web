@@ -306,6 +306,7 @@ body.light-theme {
 
 /* FOOTER */
 .player {
+    position: relative; 
     display: flex;
     flex-direction: column; 
     justify-content: center;

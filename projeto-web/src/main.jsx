@@ -1,17 +1,29 @@
-// main.jsx (Código REVISADO para usar Redux)
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
 
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.jsx';
-import './index.css';
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+import { loginSuccess } from './redux/loginSlice'
 
-// 1. Importar o Provider e o Store
-import { Provider } from 'react-redux';
-import { store } from './store/store'; // IMPORTANTE: Ajuste o caminho se seu store.js estiver em outro lugar!
+
+try {
+  const userString = localStorage.getItem('user')
+  const token = localStorage.getItem('token')
+
+  if (userString && token) {
+    const user = JSON.parse(userString);
+    store.dispatch(loginSuccess({ user, token }))
+  }
+} catch (error) {
+  console.error("Não foi possível carregar o estado do usuário.", error)
+  localStorage.clear()
+}
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* 2. Envolver o App com o Provider */}
     <Provider store={store}>
       <App />
     </Provider>

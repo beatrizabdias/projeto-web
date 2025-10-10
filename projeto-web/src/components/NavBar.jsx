@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Box, styled, IconButton } from '@mui/material'; 
-import PersonIcon from '@mui/icons-material/Person'; 
-import { Link } from 'react-router-dom';
 import Search from './Search'; 
+import UserProfileIcon from './UserProfileIcon';
 
-// Define o container do Switch de Tema (Estilizado via styled(Box))
 const ThemeSwitchContainer = styled(Box)(({ theme }) => ({
-    // ... (Estilos do ThemeSwitchContainer permanecem os mesmos)
     width: '60px',
     height: '30px',
     backgroundColor: 'var(--card-bg)',
@@ -70,7 +67,6 @@ function NavBar() {
                 position: 'relative',
                 padding: '0 20px',
             }}>
-                {/* Logo (Esquerda) */}
                 <Box sx={{ position: 'absolute', left: '2%', display: 'flex', alignItems: 'center' }}>
                     <a href="/">
                         <img 
@@ -83,10 +79,8 @@ function NavBar() {
                     </a>
                 </Box>
 
-                {/* Componente de Pesquisa (Centralizado) */}
                 <Search /> 
 
-                {/* --- CONTAINER DIREITO (Perfil e Tema) --- */}
                 <Box sx={{ 
                     position: 'absolute', 
                     right: '2%', 
@@ -95,24 +89,8 @@ function NavBar() {
                     gap: '15px' 
                 }}>
                     
-                    {/* 1. Ícone de Perfil (AUMENTADO) */}
-                    <Link to="/perfil" style={{ textDecoration: 'none' }}>
-                        <IconButton
-                            aria-label="Perfil do Usuário"
-                            sx={{
-                                backgroundColor: 'var(--darker-orange)', 
-                                color: 'var(--text-color)', 
-                                padding: '4px', 
-                                borderRadius: '50%', 
-                                '&:hover': {                                    backgroundColor: 'var(--orange)', 
-                                }
-                            }}
-                        >
-                            <PersonIcon sx={{ fontSize: '28px' }} /> 
-                        </IconButton>
-                    </Link>
+                    <UserProfileIcon />
 
-                    {/* 2. Botão de Tema */}
                     <ThemeSwitchContainer 
                         className={themeClass} 
                         id="theme-toggle" 
@@ -125,7 +103,6 @@ function NavBar() {
                     </ThemeSwitchContainer>
 
                 </Box>
-                {/* --- FIM CONTAINER DIREITO --- */}
 
             </Toolbar>
         </AppBar>

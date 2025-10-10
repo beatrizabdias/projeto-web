@@ -6,8 +6,21 @@ import PlaylistCard from '../../components/PlaylistCard';
 import ArtistCircle from '../../components/ArtistCircle';
 import Navigation from '../../components/Navigation';
 import './Home.css';
-import { sectionsData, navItemsData } from '../../data';
 import api from '../../services/api.js';
+
+const sectionsData = [
+    { "title": "Top Hits do Rebanho", "type": "song", "path":"/songDetail" },
+    { "title": "Artistas mais ouvidos", "type": "artist", "path":"/artistDetail" },
+    { "title": "Para você", "type": "artist" },
+    { "title": "Acús-ticos do Campo", "type": "song", "path":"/songDetail" },
+    { "title": "Pista de Dança Malhada", "type": "album", "path":"/albumDetail" },
+    { "title": "Sofrência Bovina", "type": "playlist", "path":"/playlistDetail" },
+    { "title": "Pop Leite", "type": "playlist", "path":"/playlistDetail" },
+    { "title": "Rock Berrante", "type": "album", "path":"/albumDetail" },
+]
+
+const navItemsData = ["Tudo", "Playlists", "Músicas", "Álbuns", "Artistas"];
+
 
 function Home() {
   const [selectedFilter, setSelectedFilter] = useState('Tudo');
@@ -58,7 +71,7 @@ function Home() {
 
   return (
     <main>
-      <h1>Página Inicial</h1>
+      <h1 className='pagina-inicial'>Página Inicial</h1>
 
       <Navigation 
         navItemsData={navItemsData}

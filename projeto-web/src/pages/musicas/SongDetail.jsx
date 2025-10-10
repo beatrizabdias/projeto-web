@@ -1,46 +1,88 @@
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSongById, fetchAlbumsByArtist } from '../../redux/catalogoSlice';
+import { setCurrentSong } from '../../redux/playerSliceBebel.js';
 import AlbumHeader from '../../components/AlbumHeader.jsx';
-import ArtistMaisTocadas from '../../components/SongList.jsx';
-import './css/SongDetail.css'
-import api from "../../services/api";
-import React, { useEffect, useState } from 'react';
+import SongList from '../../components/SongList.jsx';
+import Section from '../../components/Section.jsx';
+import AlbumCard from '../../components/AlbumCard.jsx';
+import ReleaseInfo from '../../components/ReleaseInfo.jsx';
+import './css/SongDetail.css';
 
-export default function SongDetail( {songID} ) {
-    const { id: routeId } = useParams();
-    const effectiveId = songID || routeId;
+export default function SongDetail({ songID }) {
+  const { id: routeId } = useParams();
+  const effectiveId = songID || routeId;
+  const dispatch = useDispatch();
 
-    const [song, setSong] = useState(null);
-    
-        useEffect(() => {
-          api.get(`/topSongs/${effectiveId}`)
-            .then((res) => setSong(res.data))
-            .catch((err) => console.error("Erro ao buscar música:", err));
-        }, []);
+  const { details: song, status: songStatus } = useSelector((state) => state.catalog.selectedSong);
+  const { items: artistAlbums, status: artistAlbumsStatus } = useSelector((state) => state.catalog.albumsByArtist);
 
-    if (!song) {
-    return (
-      <main>
-        <h1>Música não encontrada</h1>
-      </main>
-    );
+  useEffect(() => {
+    if (effectiveId) {
+      dispatch(fetchSongById(effectiveId));
+    }
+  }, [effectiveId, dispatch]);
+
+  useEffect(() => {
+    if (song) {
+      dispatch(fetchAlbumsByArtist(song.artist));
+    }
+  }, [song, dispatch]); 
+
+  const handlePlaySong = () => {
+    if (song) {
+      dispatch(setCurrentSong(song));
+    }
+  };
+
+  if (songStatus === 'loading') {
+    return <main><h1>Carregando...</h1></main>;
+  }
+
+  if (songStatus === 'failed' || !song) {
+    return <main><h1>Música não encontrada</h1></main>;
   }
     
-    return (
-        <main>
-            <AlbumHeader 
-                cover={song.cover} 
-                type={'Single'} 
-                title={song.title} 
-                artist={song.artist} 
-                year={"2025"} 
-                duration={"1 música, 3min 20s"} 
-            /> 
-            
-            <section className="p-4"> 
-                <ArtistMaisTocadas 
-                    tracksArr={[song]} 
-                />
-            </section>
-        </main>
-    )
+  return (
+    <main>
+      <AlbumHeader 
+        cover={song.cover} 
+        type={'Single'} 
+        title={song.title} 
+        artist={song.artist} 
+        artistId={song.artistId}
+        year={new Date(song.releaseDate).getFullYear() || "2025"}
+        duration={"1 música, " + song.duration}
+        onPlay={handlePlaySong} 
+      /> 
+   
+      <div className="song-list-container"> 
+        <SongList 
+          tracksArr={[song]} 
+          onTrackClick={(clickedSong) => dispatch(setCurrentSong(clickedSong))}
+        />
+      </div>
+
+      <ReleaseInfo
+      releaseDate={song.releaseDate} 
+      recordLabel={song.recordLabel} 
+      />
+
+      <Section title={`Mais de ${song.artist}`}>
+        {artistAlbumsStatus === 'loading' && <p>Carregando álbuns...</p>}
+        {artistAlbums.map((album) => (
+          <AlbumCard
+            key={album.id}
+            id={album.id}
+            cover={album.cover}
+            title={album.title}
+            artist={album.artist}
+          />
+        ))}
+      </Section>
+      
+      <div className="margin-bottom"></div>
+    </main>
+  );
 }

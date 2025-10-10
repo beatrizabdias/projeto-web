@@ -1,5 +1,7 @@
-import React from 'react';
-import Song from './Song';
+import React from 'react'
+import Song from './Song'
+import { useDispatch } from 'react-redux'
+import { setCurrentSong } from '../redux/playerSliceBebel'
 
 const tracksData = [
     { rank: 1, coverUrl: 'https://placehold.co/250?text=song+cover.png', title: 'Título da Música 1', artist: 'Artista Famoso', album: 'Álbum X', duration: '3:49' },
@@ -10,20 +12,32 @@ const tracksData = [
 ];
 
 export default function SongList( {tituloDaSecao = '', tracksArr = tracksData} ) {
+    const dispatch = useDispatch()
+
+    const handlePlaySong = (songData) => {
+        dispatch(setCurrentSong(songData))
+    }
+
     return (
         <div className="mais-tocadas">
             <h3>{tituloDaSecao}</h3>
             
             {tracksArr.map((song) => (
-                <Song 
-                    key={song.rank}
-                    rank={song.rank}
-                    coverUrl={song.coverUrl}
-                    title={song.title}
-                    artist={song.artist}
-                    album={song.album}
-                    duration={song.duration}
-                />
+                <div 
+                    key={song.id || song.rank}
+                    className="song-wrapper" 
+                    onClick={() => handlePlaySong(song)}
+                >
+                    <Song 
+                        rank={song.rank}
+                        song={song} 
+                        coverUrl={song.coverUrl || song.cover}
+                        title={song.title}
+                        artist={song.artist}
+                        album={song.album}
+                        duration={song.duration}
+                    />
+                </div>
             ))}
         </div>
     );

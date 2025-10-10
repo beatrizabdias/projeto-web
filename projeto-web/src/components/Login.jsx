@@ -17,7 +17,7 @@ export default function Login() {
             </div>
 
             <div className="footer">
-                <span className="lighter-text">Não tem uma conta?</span>
+                <span className="lighter-text-login">Não tem uma conta?</span>
                 <a href="cadastro.html">Inscrever-se</a>
             </div>
         </div>

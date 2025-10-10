@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Typography, Avatar, Button } from '@mui/material';
 
 export default function ProfileHeader({ user }) {
+    
+    
     const DYNAMIC_TEXT_COLOR = 'var(--secondary-text-color)'; 
     const ORANGE_COLOR = 'var(--orange)';                     
     const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
@@ -19,35 +21,24 @@ export default function ProfileHeader({ user }) {
         >
             <Avatar 
                 src="https://placehold.co/250?text=Icone+Vaqueiro" 
-                sx={{ 
-                    width: 150, 
-                    height: 150, 
-                    bgcolor: 'secondary.main',
-                    boxShadow: 8 
-                }}
+                sx={{ width: 150, height: 150, bgcolor: 'secondary.main', boxShadow: 8 }}
             />
             <Box>
                 <Typography variant="h2" component="h1" fontWeight={700} sx={{ mb: 1 }}>
                     {user.username}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: { xs: 'center', sm: 'flex-start' }, flexWrap: 'wrap' }}>
-                    
-                    <Typography 
-                        variant="body1" 
-                        sx={{ color: DYNAMIC_TEXT_COLOR }} 
-                    >
+                    <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
                         {user.playlists} Playlists 
                     </Typography>
-                    
                     <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>•</Typography>
-                    
-                    <Typography 
-                        variant="body1" 
-                        sx={{ color: DYNAMIC_TEXT_COLOR }}
-                    >
+                    <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
                         {user.friends} Peões Amigos
                     </Typography>
-                    
+                    <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>•</Typography>
+                    <Typography variant="body1" sx={{ color: DYNAMIC_TEXT_COLOR }}>
+                        Seguindo {user.following.length} artista(s)
+                    </Typography>
                
                     <Button 
                         variant="outlined" 
@@ -56,10 +47,8 @@ export default function ProfileHeader({ user }) {
                             ml: { sm: 2 }, 
                             mt: { xs: 1, sm: 0 }, 
                             borderRadius: 20,
-                          
                             color: ORANGE_COLOR,
                             borderColor: ORANGE_COLOR,
-                
                             '&:hover': {
                                 backgroundColor: BUTTON_HOVER_BG, 
                                 borderColor: ORANGE_COLOR,
