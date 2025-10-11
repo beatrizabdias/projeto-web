@@ -543,16 +543,14 @@
       "id": "2",
       "name": "Bia",
       "email": "bia@email.com",
-      "password": "bia",
-      "playlists": [],
+      "likedSongs": [],
+      "following": [
+        "artist-05"
+      ],
       "friends": [
         "1",
         "3",
         "4"
-      ],
-      "likedSongs": [],
-      "following": [
-        "artist-05"
       ]
     },
     {
