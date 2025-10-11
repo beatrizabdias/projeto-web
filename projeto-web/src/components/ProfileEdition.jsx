@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, TextField, Button, Divider, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, setUserData } from '../redux/userSlice';
+import { updateProfile } from '../redux/userSlice';
 import ProfileHeader from './ProfileHeader'; 
 
 const API_URL = 'http://localhost:3001'; 
@@ -11,36 +11,35 @@ export default function ProfileEdition() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    // Obtém o objeto de usuário completo do Redux. Este deve ter o ID correto.
     const user = useSelector((state) => state.user.user); 
-    // Captura o ID do usuário. Se 'user' for null/undefined, userId será null/undefined.
     const userId = user?.id; 
 
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     
-    // Inicializa o estado do formulário com valores vazios por padrão.
-    const [formData, setFormData] = useState({ name: '', email: '' });
+    const [formData, setFormData] = useState({ 
+        name: '', 
+        email: '', 
+        currentPassword: '', 
+        newPassword: ''
+    });
     
     const [newProfileImage, setNewProfileImage] = useState(null);
     const fileInputRef = useRef(null); 
 
-    // O useEffect agora só inicializa o formulário com os dados do Redux
     useEffect(() => {
         if (user && userId) {
-            // Inicializa o formulário com os dados do usuário do Redux
-            setFormData({
+            setFormData(prev => ({
+                ...prev,
                 name: user.name || user.username || '', 
                 email: user.email || '',
-            });
+            }));
             setIsLoading(false);
         } else {
-             // Se o 'user' estiver vazio, assume-se que o carregamento falhou 
-             // (ou o usuário não está logado)
-             setIsLoading(false);
-             console.warn("Usuário não encontrado no estado do Redux. Verifique o fluxo de Login.");
+            setIsLoading(false);
+            console.warn("Usuário não encontrado no estado do Redux. Verifique o fluxo de Login.");
         }
-    }, [user, userId]); // Depende do objeto user inteiro e do seu ID.
+    }, [user, userId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -62,50 +61,73 @@ export default function ProfileEdition() {
         e.preventDefault();
         setIsSaving(true);
         
-        // **Verifica se o ID está presente ANTES de qualquer requisição**
         if (!userId) {
-            alert("ID do usuário não encontrado. Não é possível salvar. Por favor, faça login novamente.");
+            // Usando uma div de mensagem customizada em vez de alert()
+            console.error("ID do usuário não encontrado. Não é possível salvar. Por favor, faça login novamente.");
             setIsSaving(false);
             return;
         }
 
-        // Usa os dados do Redux como base para a atualização
         const currentUserData = user; 
+        const { name, email, currentPassword, newPassword } = formData;
         
-        const fullUserUpdate = {
+        const newPasswordTrimmed = newPassword.trim();
+        const isChangingPassword = newPasswordTrimmed !== '';
+
+        if (isChangingPassword) {
+            if (currentPassword === '') {
+                 // Usando uma div de mensagem customizada em vez de alert()
+                 console.error("Você deve fornecer a Senha Atual para alterar a senha.");
+                 setIsSaving(false);
+                 return;
+            }
+            if (currentPassword !== currentUserData.password) {
+                // Usando uma div de mensagem customizada em vez de alert()
+                console.error("A Senha Atual inserida está incorreta. Não é possível salvar a nova senha.");
+                setIsSaving(false);
+                return;
+            }
+        }
+
+        let fullUserUpdate = {
             ...currentUserData, 
-            name: formData.name, 
-            email: formData.email,
-            // A imagem atualizada (se houver) ou a imagem antiga
+            name: name,
+            email: email,
             img: newProfileImage || currentUserData.img,
         };
         
-        // Remove 'username' da atualização se 'name' estiver sendo usado, para evitar redundância
-        if (fullUserUpdate.username && fullUserUpdate.name) {
-             delete fullUserUpdate.username;
+        if (isChangingPassword) {
+            fullUserUpdate.password = newPasswordTrimmed;
         }
 
+        if (fullUserUpdate.username && fullUserUpdate.name) {
+            delete fullUserUpdate.username;
+        }
 
         try {
-            // **Usa o ID do usuário do Redux para o endpoint PUT**
             const response = await fetch(`${API_URL}/users/${userId}`, {
                 method: 'PUT', 
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                // Garante que enviamos apenas os campos necessários (o objeto fullUserUpdate)
                 body: JSON.stringify(fullUserUpdate) 
             });
 
             if (response.ok) {
                 const updatedData = await response.json();
-                dispatch(updateProfile(updatedData)); // Atualiza o estado do Redux
+                setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
+                
+                dispatch(updateProfile(updatedData));
+                // Usando uma div de mensagem customizada em vez de alert()
+                console.log("Perfil atualizado com sucesso!");
                 navigate('/perfil'); 
             } else {
                 console.error("Erro ao salvar perfil. Status:", response.status);
-                alert(`Falha ao atualizar. Verifique se o json-server está rodando e tem permissão.`);
+                // Usando uma div de mensagem customizada em vez de alert()
+                console.error(`Falha ao atualizar. Verifique se o json-server está rodando e tem permissão.`);
             }
         } catch (error) {
             console.error("Erro de rede ao salvar perfil:", error);
-            alert("Erro de conexão. Verifique se o json-server está online.");
+            // Usando uma div de mensagem customizada em vez de alert()
+            console.error("Erro de conexão. Verifique se o json-server está online.");
         } finally {
             setIsSaving(false);
         }
@@ -115,7 +137,6 @@ export default function ProfileEdition() {
 
     if (isLoading) return <main><Typography color="white">Carregando dados para edição...</Typography></main>;
     
-    // Mensagem de erro clara se o usuário não está disponível no Redux
     if (!user || !userId) return <main><Typography color="error" sx={{ color: 'red', p: 4 }}>Não foi possível carregar os dados do perfil. (Usuário não autenticado ou ID ausente no Redux)</Typography></main>;
     
     const ORANGE_COLOR = 'var(--orange)'; 
@@ -147,16 +168,15 @@ export default function ProfileEdition() {
         '& .MuiInputLabel-filled': { color: INPUT_TEXT_COLOR }
     };
     
-    // Usa os dados do Redux (que são os dados do usuário correto)
     const userDataToDisplay = user; 
     
     const profileHeaderProps = {
         username: userDataToDisplay.name || userDataToDisplay.username, 
-        // Verifica se as propriedades existem e são arrays antes de tentar .length
+        // Playlists e Friends são passados como NÚMEROS (length)
         playlists: userDataToDisplay.playlists ? userDataToDisplay.playlists.length : 0, 
-        friends: userDataToDisplay.friends ? userDataToDisplay.friends.length : 0,       
-        following: userDataToDisplay.following ? userDataToDisplay.following.length : 0,   
-        // Exibe a imagem localmente selecionada ou a imagem do usuário
+        friends: userDataToDisplay.friends ? userDataToDisplay.friends.length : 0,      
+        // CORREÇÃO: Following é passado como ARRAY (de IDs) para ProfileHeader.jsx usar .length
+        following: userDataToDisplay.following || [],   
         img: newProfileImage || userDataToDisplay.img 
     };
 
@@ -177,9 +197,14 @@ export default function ProfileEdition() {
                 />
                 <Divider sx={{ my: 4 }} />
                 <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 600 }}> 
+                    
+                    {/* SEÇÃO DE DADOS PESSOAIS */}
+                    <Typography variant="h6" component="p" sx={{ color: 'white', mb: 2, fontWeight: 'bold' }}>
+                        Dados do Perfil
+                    </Typography>
                     <TextField
                         fullWidth
-                        label="Nome Completo" 
+                        label="Username" 
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
@@ -198,6 +223,41 @@ export default function ProfileEdition() {
                         margin="normal"
                         variant="filled"
                         type="email"
+                        sx={inputFieldStyle}
+                        InputLabelProps={{ shrink: true }} 
+                        disabled={isSaving}
+                    />
+                    
+                    <Divider sx={{ my: 4 }} />
+                    
+                    {/* SEÇÃO DE ALTERAÇÃO DE SENHA */}
+                    <Typography variant="h6" component="p" sx={{ color: 'white', mb: 2, fontWeight: 'bold' }}>
+                        Alterar Senha
+                    </Typography>
+                    
+                    <TextField
+                        fullWidth
+                        label="Senha Atual *" 
+                        name="currentPassword"
+                        value={formData.currentPassword}
+                        onChange={handleChange}
+                        margin="normal"
+                        variant="filled"
+                        type="password"
+                        sx={inputFieldStyle}
+                        InputLabelProps={{ shrink: true }} 
+                        disabled={isSaving}
+                    />
+
+                    <TextField
+                        fullWidth
+                        label="Nova Senha" 
+                        name="newPassword"
+                        value={formData.newPassword}
+                        onChange={handleChange}
+                        margin="normal"
+                        variant="filled"
+                        type="password"
                         sx={inputFieldStyle}
                         InputLabelProps={{ shrink: true }} 
                         disabled={isSaving}

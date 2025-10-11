@@ -557,17 +557,15 @@
     },
     {
       "id": "3",
-      "name": "Igor",
-      "email": "igor@email.com",
-      "password": "igor",
-      "playlists": [],
+      "name": "IgorGodoy",
+      "email": "igorgodoy@email.com",
+      "likedSongs": [],
+      "following": [],
       "friends": [
         "1",
         "2",
         "4"
-      ],
-      "likedSongs": [],
-      "following": []
+      ]
     },
     {
       "id": "4",
