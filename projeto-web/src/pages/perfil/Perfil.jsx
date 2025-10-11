@@ -14,14 +14,13 @@ import ArtistCircle from '../../components/ArtistCircle.jsx';
 import ProfileHeader from '../../components/ProfileHeader'; 
 import SongList from '../../components/SongList'; 
 
-const CURRENT_USER_ID = '1';
 const API_URL = 'http://localhost:3001'; 
 
 export default function Perfil() {
     const dispatch = useDispatch();
     const navigate = useNavigate(); 
     
-    const user = useSelector(state => state.user.user);
+    const loggedInUser = useSelector(state => state.user.user);
     
     const [isLoading, setIsLoading] = useState(true);
 
@@ -35,10 +34,11 @@ export default function Perfil() {
     };
 
     useEffect(() => {
-        const fetchAndSetUser = async () => {
+        const fetchAndSetUser = async (userId) => {
             try {
-                const response = await fetch(`${API_URL}/users/${CURRENT_USER_ID}`);
+                const response = await fetch(`${API_URL}/users/${userId}`);
                 if (!response.ok) throw new Error('Falha ao carregar dados do usuário.');
+                
                 const userData = await response.json();
                 
                 dispatch(setUserData(userData)); 
@@ -50,52 +50,48 @@ export default function Perfil() {
             }
         };
 
-        if (user) {
+        if (loggedInUser) {
             setIsLoading(false); 
+        } else if (loggedInUser?.id) {
+            fetchAndSetUser(loggedInUser.id); 
         } else {
-            fetchAndSetUser();
+            setIsLoading(false);
         }
-    }, [user, dispatch]);
+    }, [loggedInUser, dispatch]);
 
     useEffect(() => {
-        if (user && user.id) {
-            dispatch(fetchPlaylistsByUserId(user.id));
+        if (loggedInUser && loggedInUser.id) {
+            dispatch(fetchPlaylistsByUserId(loggedInUser.id));
 
-            if (user.following?.length > 0) {
-                dispatch(fetchArtistsByIds(user.following));
+            if (loggedInUser.following?.length > 0) {
+                dispatch(fetchArtistsByIds(loggedInUser.following));
             }
             
-            if (user.likedSongs?.length > 0) {
-                dispatch(fetchSongsByIds(user.likedSongs));
+            if (loggedInUser.likedSongs?.length > 0) {
+                dispatch(fetchSongsByIds(loggedInUser.likedSongs));
             }
             
-            if (user.friends?.length > 0) {
-                dispatch(fetchUsersByIds(user.friends));
+            if (loggedInUser.friends?.length > 0) {
+                dispatch(fetchUsersByIds(loggedInUser.friends));
             }
         }
-    }, [user, dispatch]);
+    }, [loggedInUser, dispatch]);
 
     if (isLoading) {
         return <main><h1>Carregando perfil...</h1></main>;
     }
 
-    if (!user) {
+    if (!loggedInUser) {
         return <main><Typography color="red">Não foi possível carregar os dados do perfil.</Typography></main>;
     }
 
-    // ADICIONE ESTE LOG DE DEBUG
-    console.log("Perfil Page - User do Redux:", user);
-
     const profileUserData = {
-        ...user,
-        username: user.name || user.username,
+        ...loggedInUser,
+        username: loggedInUser.name || loggedInUser.username,
         playlists: userPlaylists.length,  
-        friends: user.friends?.length || 0,
-        following: user.following || [] // ESTE DEVE TER O ARRAY DE IDs CORRETO
+        friends: loggedInUser.friends?.length || 0,
+        following: loggedInUser.following || []
     };
-
-    // ADICIONE ESTE LOG DE DEBUG
-    console.log("Perfil Page - Prop Enviada:", profileUserData);
 
     return (
         <main>
@@ -116,7 +112,7 @@ export default function Perfil() {
                             id={playlist.id}
                             cover={playlist.cover}
                             title={playlist.title}
-                            artist={user.name}
+                            artist={loggedInUser.name}
                         />
                     ))}
                 </Section>
