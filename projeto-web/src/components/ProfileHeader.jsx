@@ -8,13 +8,16 @@ export default function ProfileHeader({ user, onEditClick, onImageEditClick }) {
     const ORANGE_COLOR = 'var(--orange)';                     
     const BUTTON_HOVER_BG = 'var(--button-hover-bg)';         
 
-     const safeUser = {
+    const safeUser = {
         username: 'Carregando...',
         playlists: 0,
         friends: 0,
         following: [],
         ...user
     };
+    
+    // ADICIONE ESTE LOG DE DEBUG
+    console.log("ProfileHeader - SafeUser Recebido:", safeUser);
 
     return (
         <Box 

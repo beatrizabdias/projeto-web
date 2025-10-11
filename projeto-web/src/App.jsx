@@ -17,7 +17,7 @@ import SongDetail from './pages/musicas/SongDetail.jsx'
 import Perfil from './pages/perfil/Perfil.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import MainLayout from './components/MainLayout'
-import ProfileEdition from './components/ProfileEdition'; 
+import ProfileEdition from './components/ProfileEdition.jsx'; 
 
 function App() {
   return (

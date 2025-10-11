@@ -464,55 +464,87 @@
       "title": "Top Hits do Rebanho",
       "type": "song",
       "path": "/songDetail",
+<<<<<<< Updated upstream
       "id": "b043"
+=======
+      "id": "c10c"
+>>>>>>> Stashed changes
     },
     {
       "title": "Artistas mais ouvidos",
       "type": "artist",
       "path": "/artistDetail",
+<<<<<<< Updated upstream
       "id": "b8f6"
+=======
+      "id": "6bec"
+>>>>>>> Stashed changes
     },
     {
       "title": "Para você",
       "type": "artist",
+<<<<<<< Updated upstream
       "id": "d340"
+=======
+      "id": "3dd1"
+>>>>>>> Stashed changes
     },
     {
       "title": "Acús-ticos do Campo",
       "type": "song",
       "path": "/songDetail",
+<<<<<<< Updated upstream
       "id": "d00f"
+=======
+      "id": "1fc6"
+>>>>>>> Stashed changes
     },
     {
       "title": "Pista de Dança Malhada",
       "type": "album",
       "path": "/albumDetail",
+<<<<<<< Updated upstream
       "id": "1078"
+=======
+      "id": "4559"
+>>>>>>> Stashed changes
     },
     {
       "title": "Sofrência Bovina",
       "type": "playlist",
       "path": "/playlistDetail",
+<<<<<<< Updated upstream
       "id": "9e4d"
+=======
+      "id": "c978"
+>>>>>>> Stashed changes
     },
     {
       "title": "Pop Leite",
       "type": "playlist",
       "path": "/playlistDetail",
+<<<<<<< Updated upstream
       "id": "0ab5"
+=======
+      "id": "3b32"
+>>>>>>> Stashed changes
     },
     {
       "title": "Rock Berrante",
       "type": "album",
       "path": "/albumDetail",
+<<<<<<< Updated upstream
       "id": "5bc2"
+=======
+      "id": "fdd1"
+>>>>>>> Stashed changes
     }
   ],
   "users": [
     {
       "id": "1",
-      "name": "Bebel",
-      "email": "bebel@email.com",
+      "name": "anabel",
+      "email": "anabel@email.com",
       "password": "bebel",
       "playlists": [],
       "friends": [

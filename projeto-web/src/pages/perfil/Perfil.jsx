@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Box, Divider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Divider, Typography } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-// 1. IMPORTAR: Importe o hook de navegação do React Router
 import { useNavigate } from 'react-router-dom'; 
 
+import { setUserData } from '../../redux/userSlice'; 
 import { fetchPlaylistsByUserId } from '../../redux/playlistsSlice';
 import { fetchArtistsByIds, fetchSongsByIds } from '../../redux/catalogoSlice'; 
 import { fetchUsersByIds } from '../../redux/loginSlice'; 
@@ -14,37 +14,57 @@ import ArtistCircle from '../../components/ArtistCircle.jsx';
 import ProfileHeader from '../../components/ProfileHeader'; 
 import SongList from '../../components/SongList'; 
 
+const CURRENT_USER_ID = '1';
+const API_URL = 'http://localhost:3001'; 
+
 export default function Perfil() {
     const dispatch = useDispatch();
-    // 2. INICIALIZAR: Inicialize o useNavigate
     const navigate = useNavigate(); 
- 
-    const { user } = useSelector(state => state.auth);
+    
+    const user = useSelector(state => state.user.user);
+    
+    const [isLoading, setIsLoading] = useState(true);
+
     const { items: friendDetails } = useSelector(state => state.auth.friends);
     const { items: userPlaylists } = useSelector(state => state.playlists.userPlaylists);
     const { items: followedArtists } = useSelector(state => state.catalog.followedArtists);
     const { items: likedSongsDetails } = useSelector(state => state.catalog.likedSongsDetails);
 
-    console.log("DADOS PARA O PERFIL:", {
-        userObject: user,
-        fetchedPlaylists: userPlaylists,
-        fetchUsersByIds : friendDetails 
-    });
-
-    // 3. HANDLER: Defina a função que será chamada no clique do botão
     const handleEditProfile = () => {
-        // Redireciona o usuário para a rota de edição de perfil
         navigate('/perfil/editar'); 
     };
 
     useEffect(() => {
+        const fetchAndSetUser = async () => {
+            try {
+                const response = await fetch(`${API_URL}/users/${CURRENT_USER_ID}`);
+                if (!response.ok) throw new Error('Falha ao carregar dados do usuário.');
+                const userData = await response.json();
+                
+                dispatch(setUserData(userData)); 
+                
+            } catch (error) {
+                console.error("Erro ao buscar usuário na Perfil Page:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         if (user) {
+            setIsLoading(false); 
+        } else {
+            fetchAndSetUser();
+        }
+    }, [user, dispatch]);
+
+    useEffect(() => {
+        if (user && user.id) {
             dispatch(fetchPlaylistsByUserId(user.id));
 
             if (user.following?.length > 0) {
                 dispatch(fetchArtistsByIds(user.following));
             }
-        
+            
             if (user.likedSongs?.length > 0) {
                 dispatch(fetchSongsByIds(user.likedSongs));
             }
@@ -55,23 +75,33 @@ export default function Perfil() {
         }
     }, [user, dispatch]);
 
-    if (!user) {
+    if (isLoading) {
         return <main><h1>Carregando perfil...</h1></main>;
     }
+
+    if (!user) {
+        return <main><Typography color="red">Não foi possível carregar os dados do perfil.</Typography></main>;
+    }
+
+    // ADICIONE ESTE LOG DE DEBUG
+    console.log("Perfil Page - User do Redux:", user);
 
     const profileUserData = {
         ...user,
         username: user.name || user.username,
-        playlists: userPlaylists.length,  
-        friends: user.friends?.length || 0 
+        playlists: userPlaylists.length,  
+        friends: user.friends?.length || 0,
+        following: user.following || [] // ESTE DEVE TER O ARRAY DE IDs CORRETO
     };
+
+    // ADICIONE ESTE LOG DE DEBUG
+    console.log("Perfil Page - Prop Enviada:", profileUserData);
 
     return (
         <main>
             <Box sx={{ p: { xs: 2, md: 4, lg: 6 }, pb: 15 }}>
                 <ProfileHeader 
                     user={profileUserData} 
-                    // 4. PASSAR PROP: Passe a função de navegação para o componente filho
                     onEditClick={handleEditProfile} 
                 />
                 <Divider sx={{ my: 4 }} />
